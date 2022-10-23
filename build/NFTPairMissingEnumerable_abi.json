@@ -1,0 +1,160 @@
+[
+    {
+        "members": [
+            {
+                "name": "low",
+                "offset": 0,
+                "type": "felt"
+            },
+            {
+                "name": "high",
+                "offset": 1,
+                "type": "felt"
+            }
+        ],
+        "name": "Uint256",
+        "size": 2,
+        "type": "struct"
+    },
+    {
+        "data": [
+            {
+                "name": "previousOwner",
+                "type": "felt"
+            },
+            {
+                "name": "newOwner",
+                "type": "felt"
+            }
+        ],
+        "keys": [],
+        "name": "OwnershipTransferred",
+        "type": "event"
+    },
+    {
+        "data": [],
+        "keys": [],
+        "name": "SwapNFTInPair",
+        "type": "event"
+    },
+    {
+        "data": [],
+        "keys": [],
+        "name": "SwpaNFTOutPair",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "newSpotPrice",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "SpotPriceUpdate",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "newDelta",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "DeltaUpdate",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "name": "factoryAddr",
+                "type": "felt"
+            },
+            {
+                "name": "bondingCurveAddr",
+                "type": "felt"
+            },
+            {
+                "name": "_poolType",
+                "type": "felt"
+            },
+            {
+                "name": "_nftAddress",
+                "type": "felt"
+            },
+            {
+                "name": "_spotPrice",
+                "type": "Uint256"
+            },
+            {
+                "name": "_delta",
+                "type": "Uint256"
+            },
+            {
+                "name": "_fee",
+                "type": "felt"
+            },
+            {
+                "name": "owner",
+                "type": "felt"
+            },
+            {
+                "name": "_assetRecipient",
+                "type": "felt"
+            }
+        ],
+        "name": "initializer",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "operator",
+                "type": "felt"
+            },
+            {
+                "name": "from_",
+                "type": "felt"
+            },
+            {
+                "name": "tokenId",
+                "type": "Uint256"
+            },
+            {
+                "name": "data_len",
+                "type": "felt"
+            },
+            {
+                "name": "data",
+                "type": "felt*"
+            }
+        ],
+        "name": "onERC721Received",
+        "outputs": [
+            {
+                "name": "selector",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAllHeldIds",
+        "outputs": [
+            {
+                "name": "ids_len",
+                "type": "felt"
+            },
+            {
+                "name": "ids",
+                "type": "Uint256*"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]

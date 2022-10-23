@@ -1,0 +1,113 @@
+[
+    {
+        "members": [
+            {
+                "name": "low",
+                "offset": 0,
+                "type": "felt"
+            },
+            {
+                "name": "high",
+                "offset": 1,
+                "type": "felt"
+            }
+        ],
+        "name": "Uint256",
+        "size": 2,
+        "type": "struct"
+    },
+    {
+        "data": [
+            {
+                "name": "contractAddress",
+                "type": "felt"
+            }
+        ],
+        "keys": [],
+        "name": "NewPair",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "name": "_enumerableETHTemplate",
+                "type": "felt"
+            },
+            {
+                "name": "_missingEnumerableETHTemplate",
+                "type": "felt"
+            },
+            {
+                "name": "_protocolFeeMultiplier",
+                "type": "Uint256"
+            }
+        ],
+        "name": "constructor",
+        "outputs": [],
+        "type": "constructor"
+    },
+    {
+        "inputs": [
+            {
+                "name": "_nftAddress",
+                "type": "felt"
+            },
+            {
+                "name": "_bondingCurve",
+                "type": "felt"
+            },
+            {
+                "name": "_assetRecipient",
+                "type": "felt"
+            },
+            {
+                "name": "_poolType",
+                "type": "felt"
+            },
+            {
+                "name": "_delta",
+                "type": "felt"
+            },
+            {
+                "name": "_fee",
+                "type": "felt"
+            },
+            {
+                "name": "_spotPrice",
+                "type": "felt"
+            },
+            {
+                "name": "_initialNFTIDs_len",
+                "type": "felt"
+            },
+            {
+                "name": "_initialNFTIDs",
+                "type": "Uint256*"
+            },
+            {
+                "name": "_wethAddress",
+                "type": "felt"
+            }
+        ],
+        "name": "createPairETH",
+        "outputs": [
+            {
+                "name": "pairAddress",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getProtocolFeeMultiplier",
+        "outputs": [
+            {
+                "name": "protocolFeeMultiplier",
+                "type": "Uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]

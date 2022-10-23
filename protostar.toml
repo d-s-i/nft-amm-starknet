@@ -1,0 +1,19 @@
+["protostar.config"]
+protostar_version = "0.5.0"
+
+["protostar.project"]
+libs_path = "lib"
+
+["protostar.contracts"]
+FixedPointMathLib = ["contracts/bonding_curves/FixedPointMathLib.cairo"]
+NFTPair = ["contracts/NFTPair.cairo"]
+NFTPairEnumerable = ["contracts/NFTPairEnumerable.cairo"]
+NFTPairEnumerableETH = ["contracts/NFTPairEnumerableETH.cairo"]
+NFTPairERC20 = ["contracts/NFTPairERC20.cairo"]
+NFTPairETH = ["contracts/NFTPairETH.cairo"]
+NFTPairFactory = ["contracts/NFTPairFactory.cairo"]
+NFTPairMissingEnumerable = ["contracts/NFTPairMissingEnumerable.cairo"]
+NFTPairMissingEnumerableETH = ["contracts/NFTPairMissingEnumerableETH.cairo"]
+Account = ["contracts/tests/Account.cairo"]
+ERC20 = ["contracts/tests/ERC20.cairo"]
+storage_contract = ["contracts/tests/storage_contract.cairo"]
