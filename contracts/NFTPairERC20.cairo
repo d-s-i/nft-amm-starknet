@@ -1,7 +1,7 @@
 %lang starknet
 
 from starkware.cairo.common.cairo_builtins import (HashBuiltin)
-from starkware.starknet.common.syscalls import (get_caller_address)
+from starkware.starknet.common.syscalls import (get_caller_address, get_contract_address)
 from starkware.cairo.common.uint256 import (
     Uint256, 
     uint256_sub,
@@ -29,8 +29,8 @@ namespace NFTPairERC20 {
         bondingCurveAddr: felt,
         _poolType: felt,
         _nftAddress: felt,
-        _spotPrice: felt,
-        _delta: felt,
+        _spotPrice: Uint256,
+        _delta: Uint256,
         _fee: felt,
         owner: felt,
         _assetRecipient: felt,
@@ -125,6 +125,32 @@ namespace NFTPairERC20 {
                     _factory,
                     protocolFeeUint
                 );
+            }
+        }
+
+        return ();
+    }
+
+    // protocolFee paid directly from the sender
+    func _payProtocolFeeFromPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        _factory: felt,
+        protocolFee: Uint256
+    ) {
+        let (protocolFeeExist) = uint256_lt(Uint256(low=0, high=0), protocolFee);
+        if(protocolFeeExist == TRUE) {
+            let (token) = tokenAddress.read();
+            let (caller) = get_caller_address();
+            let (thisAddress) = get_contract_address();
+            let (pairTokenBalance) = IERC20.balanceOf(thisAddress);
+
+            let (protocolFeeGtBalance) = uint256_lt(pairTokenBalance, protocolFee);
+            if(protocolFeeGtBalance == TRUE) {
+                let (balanceExist) = uint256_lt(Uint256(low=0, high=0), pairTokenBalance);
+                if(balanceExist == TRUE) {
+                    IERC20.transferFrom(token, caller, _factory, pairTokenBalance); // transfer pairBalance
+                }
+            } else {
+                IERC20.transferFrom(token, caller, _factory, protocolFee); // transfer protocolFee
             }
         }
 

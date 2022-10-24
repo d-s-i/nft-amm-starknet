@@ -24,7 +24,7 @@ func validateDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
 ) -> (success: felt) {
     let (WAD) = FixedPointMathLib.WAD();
     let (greaterThanWAD) = uint256_lt(WAD, delta);
-    return (greaterThanWAD);
+    return (success=greaterThanWAD);
 }
 
 func validateSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
@@ -32,7 +32,7 @@ func validateSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
 ) -> (success: felt) {
     let (minPriceUint) = FeltUint.feltToUint256(MIN_PRICE);
     let (isPositive) = uint256_le(minPriceUint, newSpotPrice);
-    return (isPositive);
+    return (success=isPositive);
 }
 
 func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(

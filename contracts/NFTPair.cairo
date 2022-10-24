@@ -489,6 +489,7 @@ namespace NFTPair {
             with_attr error_message("NFTPair::initializer - Trade pools can't set asset recipient") {
                 assert _assetRecipient = 0;
             }
+            fee.write(_fee);
             tempvar range_check_ptr = range_check_ptr;
             tempvar syscall_ptr = syscall_ptr;
             tempvar pedersen_ptr = pedersen_ptr;

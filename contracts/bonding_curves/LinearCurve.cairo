@@ -21,14 +21,14 @@ from contracts.constants.library import (MAX_UINT_128)
 
 func validateDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     delta: Uint256
-) {
-    return (TRUE);
+) -> (success: felt) {
+    return (success=TRUE);
 }
 
 func validateSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     delta: Uint256
-) {
-    return (TRUE);
+) -> (success: felt) {
+    return (success=TRUE);
 }
 
 func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(

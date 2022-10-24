@@ -1189,6 +1189,10 @@
                 "type": "const",
                 "value": 4294967295
             },
+            "contracts.constants.library.MAX_UINT_128": {
+                "type": "const",
+                "value": 340282366920938463463374607431768211455
+            },
             "contracts.constants.library.ON_ERC1155_BATCH_RECEIVED_SELECTOR": {
                 "type": "const",
                 "value": 3155786881
@@ -1196,10 +1200,6 @@
             "contracts.constants.library.ON_ERC1155_RECEIVED_SELECTOR": {
                 "type": "const",
                 "value": 4063915617
-            },
-            "contracts.constants.library.PairVariant": {
-                "destination": "contracts.constants.structs.PairVariant",
-                "type": "alias"
             },
             "contracts.constants.library.UINT8_MAX": {
                 "type": "const",

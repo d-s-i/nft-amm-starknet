@@ -19,14 +19,14 @@ from contracts.libraries.felt_uint import (FeltUint)
 
 func validateDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     delta: Uint256
-) {
-    return (TRUE);
+) -> (success: felt) {
+    return (success=TRUE);
 }
 
 func validateSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     delta: Uint256
-) {
-    return (TRUE);
+) -> (success: felt) {
+    return (success=TRUE);
 }
 
 func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
@@ -49,7 +49,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     // We only calculate changes for buying 1 or more NFTs
     let (isNoItem) = uint256_eq(numItems, Uint256(low=0, high=0));
     if(isNoItem == TRUE) {
-        return _returnError(error.INVALID_NUMITEMS);
+        return _returnInputError(error.INVALID_NUMITEMS);
     }
 
     // get the pair's virtual nft and eth/erc20 reserves
@@ -59,7 +59,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     // If numItems is too large, we will get divide by zero error
     let (moreItemsThanBalance) = uint256_lt(tokenBalance, numItems);
     if(moreItemsThanBalance == TRUE) {
-        return _returnError(error.INVALID_NUMITEMS);
+        return _returnInputError(error.INVALID_NUMITEMS);
     }
 
     // calculate the amount to send in
@@ -101,14 +101,14 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     protocolFee: Uint256
 ) {
 
-    // alloc_locals;
+    alloc_locals;
     let (error) = CurveErrorCodes.ERROR(); 
     let (WAD) = FixedPointMathLib.WAD();
     
     // We only calculate changes for buying 1 or more NFTs
     let (isNoItem) = uint256_eq(numItems, Uint256(low=0, high=0));
     if(isNoItem == TRUE) {
-        return _returnError(error.INVALID_NUMITEMS);
+        return _returnOutputError(error.INVALID_NUMITEMS);
     }
 
     // get the pair's virtual nft and eth/erc20 balance
@@ -170,13 +170,31 @@ func _calcOutputValueWithoutFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, 
     return (inputValueWithoutFee=inputValueWithoutFee);
 }
 
-func _returnError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+func _returnInputError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     error: felt
 ) -> (
     error: felt,
     newSpotPrice: Uint256,
     newDelta: Uint256,
     inputAmount: Uint256,
+    protocolFee: Uint256
+) {
+    return (
+        error, 
+        Uint256(low=0, high=0), 
+        Uint256(low=0, high=0), 
+        Uint256(low=0, high=0), 
+        Uint256(low=0, high=0)
+    );
+}
+
+func _returnOutputError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    error: felt
+) -> (
+    error: felt,
+    newSpotPrice: Uint256,
+    newDelta: Uint256,
+    outputAmount: Uint256,
     protocolFee: Uint256
 ) {
     return (
