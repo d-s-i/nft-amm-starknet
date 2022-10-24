@@ -1,5 +1,5 @@
 ["protostar.config"]
-protostar_version = "0.5.0"
+protostar_version = "0.6.0"
 
 ["protostar.project"]
 libs_path = "lib"
@@ -10,6 +10,7 @@ CurveErrorCodes = ["contracts/bonding_curves/CurveErrorCodes.cairo"]
 ExponentialCurve = ["contracts/bonding_curves/ExponentialCurve.cairo"]
 LinearCurve = ["contracts/bonding_curves/LinearCurve.cairo"]
 XykCurve = ["contracts/bonding_curves/XykCurve.cairo"]
+
 NFTPair = ["contracts/NFTPair.cairo"]
 NFTPairEnumerable = ["contracts/NFTPairEnumerable.cairo"]
 NFTPairERC20 = ["contracts/NFTPairERC20.cairo"]

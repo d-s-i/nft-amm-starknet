@@ -423,7 +423,7 @@ namespace NFTPair {
         return (_poolType=_poolType);
     }
 
-    func getNFtAddress{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_nftAddress: felt) {
+    func getNFTAddress{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_nftAddress: felt) {
         let (_nftAddress) = nftAddress.read();
         return (_nftAddress=_nftAddress);
     }

@@ -7,6 +7,7 @@ from starkware.cairo.common.uint256 import (
     uint256_sub, 
     uint256_add
 )
+from starkware.cairo.common.alloc import (alloc)
 from starkware.starknet.common.syscalls import (get_contract_address)
 from starkware.cairo.common.bool import (TRUE)
 
@@ -84,6 +85,44 @@ namespace NFTPairEnumerable {
             startIndex + 1,
             nftIds_len,
             nftIds + 1
+        );
+    }
+
+    func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (tokenIds_len: felt, tokenIds: Uint256) {
+        let (_nftAddress) = NFTPair.getNFTAddress();
+        let (thisAddress) = get_contract_address();
+        let (balance) = IERC721Enumerable.balanceOf(_nftAddress, thisAddress);
+        
+        with_attr error_message("NFTPairEnumerable::getAllHeldIds - Contract balance above maximum") {
+            assert balance.high = 0;
+        }
+
+        let (tokenIds: Uint256*) = alloc();
+
+        _getAllIdsLoop(0, balance.low, _nftAddress, thisAddress, tokenIds);
+
+        return (balance.low, tokenIds);
+    }
+
+    func _getAllIdsLoop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        index: felt,
+        end: felt,
+        nftAddress: felt,
+        ownerAddress: felt,
+        tokenIds: Uint256*
+    ) -> (tokenIds_len: felt, tokenIds: Uint256) {
+        if(index == end) {
+            return (tokenIds_len=end, tokenIds=tokenIds);
+        }
+
+        let (id) = IERC721Enumerable.tokenOfOwnerByIndex(nftAddress, ownerAddress, index);
+        assert [tokenIds] = id;
+
+        return _getAllIdsLoop(
+            index + 1,
+            end,
+            nftAddress,
+            tokenIds + 1
         );
     }
 
@@ -177,21 +216,21 @@ namespace NFTPairEnumerable {
         error: felt,
         newSpotPrice: Uint256,
         newDelta: Uint256,
-        inputAmount: Uint256,
+        outputAmount: Uint256,
         protocolFee: felt
     ) {
         let (
             error,
             newSpotPrice,
             newDelta,
-            inputAmount,
+            outputAmount,
             protocolFee
         ) = NFTPair.getSellNFTQuote(numNFTs);
         return (
             error=error,
             newSpotPrice=newSpotPrice,
             newDelta=newDelta,
-            inputAmount=inputAmount,
+            outputAmount=outputAmount,
             protocolFee=protocolFee
         );
     }

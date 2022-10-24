@@ -63,7 +63,7 @@ func onERC721Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_chec
     data_len: felt,
     data: felt*
 ) -> (selector: felt) {
-    let (_nftAddress) = NFTPair.getNFtAddress();
+    let (_nftAddress) = NFTPair.getNFTAddress();
     let (caller) = get_caller_address();
 
     with_attr error_message("NFTPairMissingEnumerable::onERC721Received - Can only receive NFTs from pooled collection") {

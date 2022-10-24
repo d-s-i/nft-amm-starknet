@@ -13,6 +13,9 @@ namespace IERC721Enumerable {
     func tokenByIndex(index: Uint256) -> (tokenId: Uint256) {
     }
 
+    func balanceOf(owner: felt) -> (balance: Uint256) {
+    }
+
     func tokenOfOwnerByIndex(owner: felt, index: Uint256) -> (tokenId: Uint256) {
     }
 }

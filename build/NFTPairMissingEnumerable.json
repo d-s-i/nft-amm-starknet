@@ -8367,19 +8367,19 @@
                 ],
                 "type": "reference"
             },
-            "contracts.NFTPair.NFTPair.getNFtAddress": {
+            "contracts.NFTPair.NFTPair.getNFTAddress": {
                 "decorators": [],
                 "pc": 750,
                 "type": "function"
             },
-            "contracts.NFTPair.NFTPair.getNFtAddress.Args": {
-                "full_name": "contracts.NFTPair.NFTPair.getNFtAddress.Args",
+            "contracts.NFTPair.NFTPair.getNFTAddress.Args": {
+                "full_name": "contracts.NFTPair.NFTPair.getNFTAddress.Args",
                 "members": {},
                 "size": 0,
                 "type": "struct"
             },
-            "contracts.NFTPair.NFTPair.getNFtAddress.ImplicitArgs": {
-                "full_name": "contracts.NFTPair.NFTPair.getNFtAddress.ImplicitArgs",
+            "contracts.NFTPair.NFTPair.getNFTAddress.ImplicitArgs": {
+                "full_name": "contracts.NFTPair.NFTPair.getNFTAddress.ImplicitArgs",
                 "members": {
                     "pedersen_ptr": {
                         "cairo_type": "starkware.cairo.common.cairo_builtins.HashBuiltin*",
@@ -8397,17 +8397,17 @@
                 "size": 3,
                 "type": "struct"
             },
-            "contracts.NFTPair.NFTPair.getNFtAddress.Return": {
+            "contracts.NFTPair.NFTPair.getNFTAddress.Return": {
                 "cairo_type": "(_nftAddress: felt)",
                 "type": "type_definition"
             },
-            "contracts.NFTPair.NFTPair.getNFtAddress.SIZEOF_LOCALS": {
+            "contracts.NFTPair.NFTPair.getNFTAddress.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 0
             },
-            "contracts.NFTPair.NFTPair.getNFtAddress._nftAddress": {
+            "contracts.NFTPair.NFTPair.getNFTAddress._nftAddress": {
                 "cairo_type": "felt",
-                "full_name": "contracts.NFTPair.NFTPair.getNFtAddress._nftAddress",
+                "full_name": "contracts.NFTPair.NFTPair.getNFTAddress._nftAddress",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -8420,9 +8420,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.NFTPair.NFTPair.getNFtAddress.pedersen_ptr": {
+            "contracts.NFTPair.NFTPair.getNFTAddress.pedersen_ptr": {
                 "cairo_type": "starkware.cairo.common.cairo_builtins.HashBuiltin*",
-                "full_name": "contracts.NFTPair.NFTPair.getNFtAddress.pedersen_ptr",
+                "full_name": "contracts.NFTPair.NFTPair.getNFTAddress.pedersen_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -8443,9 +8443,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.NFTPair.NFTPair.getNFtAddress.range_check_ptr": {
+            "contracts.NFTPair.NFTPair.getNFTAddress.range_check_ptr": {
                 "cairo_type": "felt",
-                "full_name": "contracts.NFTPair.NFTPair.getNFtAddress.range_check_ptr",
+                "full_name": "contracts.NFTPair.NFTPair.getNFTAddress.range_check_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -8466,9 +8466,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.NFTPair.NFTPair.getNFtAddress.syscall_ptr": {
+            "contracts.NFTPair.NFTPair.getNFTAddress.syscall_ptr": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.NFTPair.NFTPair.getNFtAddress.syscall_ptr",
+                "full_name": "contracts.NFTPair.NFTPair.getNFTAddress.syscall_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
