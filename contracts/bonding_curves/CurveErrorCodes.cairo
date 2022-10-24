@@ -11,9 +11,9 @@ namespace CurveErrorCodes {
 
     func ERROR{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (error: Error) {
         let error = Error(
-            OK=1, 
-            INVALID_NUMITEMS=2,
-            SPOT_PRICE_OVERFLOW=3
+            OK=0, 
+            INVALID_NUMITEMS=1,
+            SPOT_PRICE_OVERFLOW=2
         );
 
         return (error=error);

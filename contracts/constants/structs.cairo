@@ -1,11 +1,5 @@
 %lang starknet
 
-struct PoolType {
-    TOKEN: felt,
-    NFT: felt,
-    TRADE: felt,
-}
-
 struct PairVariant {
     ENUMERABLE_ETH: felt,
     MISSING_ENUMERABLE_ETH: felt,

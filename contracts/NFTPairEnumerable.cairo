@@ -10,8 +10,8 @@ from starkware.cairo.common.uint256 import (
 from starkware.starknet.common.syscalls import (get_contract_address)
 from starkware.cairo.common.bool import (TRUE)
 
-from contracts.interfaces.IERC721 import (IERC721)
-from contracts.interfaces.IERC721Enumerable import (IERC721Enumerable)
+from contracts.interfaces.tokens.IERC721 import (IERC721)
+from contracts.interfaces.tokens.IERC721Enumerable import (IERC721Enumerable)
 
 from contracts.NFTPair import (NFTPair)
 

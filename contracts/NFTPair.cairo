@@ -17,12 +17,12 @@ from contracts.libraries.ERC1155Holder import (ERC1155Holder)
 
 from contracts.libraries.felt_uint import (FeltUint)
 
-from contracts.interfaces.ICurve import (ICurve)
+from contracts.interfaces.bonding_curves.ICurve import (ICurve)
 from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
-from contracts.interfaces.IERC721 import (IERC721)
+from contracts.interfaces.tokens.IERC721 import (IERC721)
 from contracts.interfaces.INFTRouter import (INFTRouter)
 
-from contracts.constants.structs import (PoolType)
+from contracts.constants.PoolType import (PoolTypes)
 
 const MAX_FEE = 9*10**17;
 
@@ -74,6 +74,14 @@ func SwapNFTInPair() {
 
 @event
 func SwpaNFTOutPair() {
+}
+
+@event
+func TokenDeposit(amount: Uint256) {
+}
+
+@event
+func TokenWithdrawal(amount: Uint256) {
 }
 
 @event
@@ -133,14 +141,13 @@ namespace NFTPair {
 
         ReentrancyGuard._start();
 
+        let (poolTypes) = PoolTypes.value();
         let (_factory) = factory.read();
         let (_bondingCurve) = bondingCurve.read();
         let (_nftAddress) = nftAddress.read();
         let (_poolType) = poolType.read();
 
-        // _poolType == EnumPoolType.TOKEN not working
-        // check if type == TOKEN to avoid two nested IF
-        if(_poolType == 1) {
+        if(_poolType == poolTypes.TOKEN) {
             with_attr error_message("NFTPair::swapTokenForAnyNFTs - Wrong Pool type") {
                 assert 1 = 2;
             }
@@ -192,12 +199,13 @@ namespace NFTPair {
         alloc_locals;
         ReentrancyGuard._start();
 
+        let (poolTypes) = PoolTypes.value();
         let (_factory) = factory.read();
         let (_bondingCurve) = bondingCurve.read();
         let (_poolType) = poolType.read();
         let (_nftAddress) = nftAddress.read();
 
-        if(_poolType == 1) {
+        if(_poolType == poolTypes.TOKEN) {
             with_attr error_message("Wrong Pool type") {
                 assert 1 = 2;
             }
@@ -258,12 +266,15 @@ namespace NFTPair {
         routerCaller: felt
     ) {
         alloc_locals;
+
         ReentrancyGuard._start();
+
+        let (poolTypes) = PoolTypes.value();
         let (_factory) = factory.read();
         let (_bondingCurve) = bondingCurve.read();
         let (_poolType) = poolType.read();
 
-        if(_poolType == 1) {
+        if(_poolType == poolTypes.NFT) {
             with_attr error_message("Wrong Pool type") {
                 assert 1 = 2;
             }
@@ -371,16 +382,18 @@ namespace NFTPair {
     }
 
     func getAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (recipient: felt) {
+        let (poolTypes) = PoolTypes.value();
+
         let (_poolType) = poolType.read();
-        if(_poolType == 3) {
-            let (contractAddress) = get_contract_address();
-            return (recipient=contractAddress);
+        if(_poolType == poolTypes.TRADE) {
+            let (thisAddress) = get_contract_address();
+            return (recipient=thisAddress);
         }
 
         let (_assetRecipient) = assetRecipient.read();
         if(_assetRecipient == 0) {
-            let (contractAddress) = get_contract_address();
-            return (recipient=contractAddress);
+            let (thisAddress) = get_contract_address();
+            return (recipient=thisAddress);
         }
         return (recipient=_assetRecipient);
     }
@@ -388,6 +401,11 @@ namespace NFTPair {
     func getPairVariant{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_pairVariant: felt) {
         let (_pairVariant) = pairVariant.read();
         return (_pairVariant=_pairVariant);
+    }
+
+    func getPoolType{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_poolType: felt) {
+        let (_poolType) = poolType.read();
+        return (_poolType=_poolType);
     }
 
     func getNFtAddress{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_nftAddress: felt) {
@@ -459,7 +477,8 @@ namespace NFTPair {
         _assetRecipient: felt
     ) {
         alloc_locals;
-        if(_poolType == 1) {
+        let (poolTypes) = PoolTypes.value();
+        if(_poolType == poolTypes.TOKEN) {
             with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
                 assert _fee = 0;
             }
@@ -472,7 +491,7 @@ namespace NFTPair {
             tempvar syscall_ptr = syscall_ptr;
             tempvar pedersen_ptr = pedersen_ptr;
         }
-        if(_poolType == 2) {
+        if(_poolType == poolTypes.NFT) {
             with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
                 assert _fee = 0;
             }
@@ -484,7 +503,7 @@ namespace NFTPair {
             tempvar syscall_ptr = syscall_ptr;
             tempvar pedersen_ptr = pedersen_ptr;
         }
-        if(_poolType == 3) {
+        if(_poolType == poolTypes.TRADE) {
             assert_lt(_fee, MAX_FEE);
             with_attr error_message("NFTPair::initializer - Trade pools can't set asset recipient") {
                 assert _assetRecipient = 0;
@@ -529,13 +548,7 @@ namespace NFTPair {
             protocolFeeMultiplier
         );
 
-        if(error == TRUE) {
-            with_attr error_message(
-                "NFTPair::_calculateBuyInfoAndUpdatePoolParams - There was an error with the bonding curve"
-            ) {
-                assert 1 = 2;
-            }
-        }
+        _revertIfError(error);
 
         let (input_is_lower) = uint256_le(inputAmount, maxExpectedTokenInput);
         assert_not_zero(input_is_lower);
@@ -583,7 +596,7 @@ namespace NFTPair {
             protocolFeeMultiplier
         );
 
-        // check for error
+        _revertIfError(error);
 
         with_attr error_message("NFTPair::_calculateSellInfoAndUpdatePoolParams - Out too little tokens") {
             let (isLower) = uint256_lt(minExpectedTokenOutput, outputAmount);
@@ -713,4 +726,28 @@ namespace NFTPair {
         }
         return ();
     } 
+
+    func _revertIfError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(error: felt) {
+        let (isError) = uint256_lt(Uint256(low=0, high=0), error);
+        if(isError == TRUE) {
+            with_attr error_message(
+                "NFTPair::_calculateBuyInfoAndUpdatePoolParams - There was an error with the bonding curve (code: {error})"
+            ) {
+                assert 1 = 2;
+            }
+        }
+        return ();
+    }
+
+    func _assertOnlyOwner{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+        Ownable.assert_only_owner();
+        return ();
+    }
+
+    func _emitTokenWithdrawal{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        amount: Uint256
+    ) {
+        TokenWithdrawal.emit(amount);
+        return ();
+    }
 }

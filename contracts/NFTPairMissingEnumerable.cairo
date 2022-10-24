@@ -14,7 +14,7 @@ from starkware.cairo.common.bool import (TRUE, FALSE)
 
 from contracts.constants.library import (IERC721_RECEIVER_ID)
 
-from contracts.interfaces.IERC721 import (IERC721)
+from contracts.interfaces.tokens.IERC721 import (IERC721)
 
 from contracts.NFTPair import (NFTPair)
 from contracts.libraries.felt_uint import (FeltUint)

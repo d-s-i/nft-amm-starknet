@@ -974,11 +974,11 @@
                 "type": "alias"
             },
             "__main__.ICurve": {
-                "destination": "contracts.interfaces.ICurve.ICurve",
+                "destination": "contracts.interfaces.bonding_curves.ICurve.ICurve",
                 "type": "alias"
             },
             "__main__.IERC165": {
-                "destination": "contracts.interfaces.IERC165.IERC165",
+                "destination": "contracts.interfaces.utils.IERC165.IERC165",
                 "type": "alias"
             },
             "__main__.IERC721_ENUMERABLE_ID": {
@@ -986,7 +986,7 @@
                 "type": "alias"
             },
             "__main__.INFTPairEnumerableETH": {
-                "destination": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH",
+                "destination": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH",
                 "type": "alias"
             },
             "__main__.MAX_PROTOCOL_FEE": {
@@ -1221,10 +1221,6 @@
             },
             "__main__.NewPair.memcpy": {
                 "destination": "starkware.cairo.common.memcpy.memcpy",
-                "type": "alias"
-            },
-            "__main__.PoolType": {
-                "destination": "contracts.constants.structs.PoolType",
                 "type": "alias"
             },
             "__main__.TRUE": {
@@ -5871,462 +5867,107 @@
                 "type": "const",
                 "value": 255
             },
-            "contracts.constants.structs.PairVariant": {
-                "full_name": "contracts.constants.structs.PairVariant",
-                "members": {
-                    "ENUMERABLE_ERC20": {
-                        "cairo_type": "felt",
-                        "offset": 2
-                    },
-                    "ENUMERABLE_ETH": {
-                        "cairo_type": "felt",
-                        "offset": 0
-                    },
-                    "MISSING_ENUMERABLE_ERC20": {
-                        "cairo_type": "felt",
-                        "offset": 3
-                    },
-                    "MISSING_ENUMERABLE_ETH": {
-                        "cairo_type": "felt",
-                        "offset": 1
-                    }
-                },
-                "size": 4,
-                "type": "struct"
-            },
-            "contracts.constants.structs.PoolType": {
-                "full_name": "contracts.constants.structs.PoolType",
-                "members": {
-                    "NFT": {
-                        "cairo_type": "felt",
-                        "offset": 1
-                    },
-                    "TOKEN": {
-                        "cairo_type": "felt",
-                        "offset": 0
-                    },
-                    "TRADE": {
-                        "cairo_type": "felt",
-                        "offset": 2
-                    }
-                },
-                "size": 3,
-                "type": "struct"
-            },
-            "contracts.interfaces.ICurve.ICurve": {
+            "contracts.interfaces.bonding_curves.ICurve.ICurve": {
                 "type": "namespace"
             },
-            "contracts.interfaces.ICurve.ICurve.Args": {
-                "full_name": "contracts.interfaces.ICurve.ICurve.Args",
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.Args": {
+                "full_name": "contracts.interfaces.bonding_curves.ICurve.ICurve.Args",
                 "members": {},
                 "size": 0,
                 "type": "struct"
             },
-            "contracts.interfaces.ICurve.ICurve.GETBUYINFO_SELECTOR": {
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.GETBUYINFO_SELECTOR": {
                 "type": "const",
                 "value": 994548630199644749390494048935326489817531459529141567328875822514979916358
             },
-            "contracts.interfaces.ICurve.ICurve.GETSELLINFO_SELECTOR": {
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.GETSELLINFO_SELECTOR": {
                 "type": "const",
                 "value": 796815161464229361162553527558938353018440153259304389504168937227881842461
             },
-            "contracts.interfaces.ICurve.ICurve.ImplicitArgs": {
-                "full_name": "contracts.interfaces.ICurve.ICurve.ImplicitArgs",
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.ImplicitArgs": {
+                "full_name": "contracts.interfaces.bonding_curves.ICurve.ICurve.ImplicitArgs",
                 "members": {},
                 "size": 0,
                 "type": "struct"
             },
-            "contracts.interfaces.ICurve.ICurve.Return": {
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.Return": {
                 "cairo_type": "()",
                 "type": "type_definition"
             },
-            "contracts.interfaces.ICurve.ICurve.SIZEOF_LOCALS": {
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 0
             },
-            "contracts.interfaces.ICurve.ICurve.VALIDATEDELTA_SELECTOR": {
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.VALIDATEDELTA_SELECTOR": {
                 "type": "const",
                 "value": 1787532890773630513990191229516300167206967799685276803668932255724288465172
             },
-            "contracts.interfaces.ICurve.ICurve.VALIDATESPOTPRICE_SELECTOR": {
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.VALIDATESPOTPRICE_SELECTOR": {
                 "type": "const",
                 "value": 25750284609739029075906217259784548878769640223820801717171807005529907232
             },
-            "contracts.interfaces.ICurve.ICurve.alloc": {
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.alloc": {
                 "destination": "starkware.cairo.common.alloc.alloc",
                 "type": "alias"
             },
-            "contracts.interfaces.ICurve.ICurve.call_contract": {
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.call_contract": {
                 "destination": "starkware.starknet.common.syscalls.call_contract",
                 "type": "alias"
             },
-            "contracts.interfaces.ICurve.ICurve.library_call": {
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.library_call": {
                 "destination": "starkware.starknet.common.syscalls.library_call",
                 "type": "alias"
             },
-            "contracts.interfaces.ICurve.ICurve.memcpy": {
+            "contracts.interfaces.bonding_curves.ICurve.ICurve.memcpy": {
                 "destination": "starkware.cairo.common.memcpy.memcpy",
                 "type": "alias"
             },
-            "contracts.interfaces.ICurve.Uint256": {
+            "contracts.interfaces.bonding_curves.ICurve.Uint256": {
                 "destination": "starkware.cairo.common.uint256.Uint256",
                 "type": "alias"
             },
-            "contracts.interfaces.IERC165.IERC165": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH": {
                 "type": "namespace"
             },
-            "contracts.interfaces.IERC165.IERC165.Args": {
-                "full_name": "contracts.interfaces.IERC165.IERC165.Args",
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.Args": {
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.Args",
                 "members": {},
                 "size": 0,
                 "type": "struct"
             },
-            "contracts.interfaces.IERC165.IERC165.ImplicitArgs": {
-                "full_name": "contracts.interfaces.IERC165.IERC165.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.interfaces.IERC165.IERC165.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.interfaces.IERC165.IERC165.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.interfaces.IERC165.IERC165.SUPPORTSINTERFACE_SELECTOR": {
-                "type": "const",
-                "value": 1184015894760294494673613438913361435336722154500302038630992932234692784845
-            },
-            "contracts.interfaces.IERC165.IERC165.alloc": {
-                "destination": "starkware.cairo.common.alloc.alloc",
-                "type": "alias"
-            },
-            "contracts.interfaces.IERC165.IERC165.call_contract": {
-                "destination": "starkware.starknet.common.syscalls.call_contract",
-                "type": "alias"
-            },
-            "contracts.interfaces.IERC165.IERC165.library_call": {
-                "destination": "starkware.starknet.common.syscalls.library_call",
-                "type": "alias"
-            },
-            "contracts.interfaces.IERC165.IERC165.memcpy": {
-                "destination": "starkware.cairo.common.memcpy.memcpy",
-                "type": "alias"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface": {
-                "decorators": [],
-                "pc": 71,
-                "type": "function"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.Args": {
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.Args",
-                "members": {
-                    "contract_address": {
-                        "cairo_type": "felt",
-                        "offset": 0
-                    },
-                    "interfaceId": {
-                        "cairo_type": "felt",
-                        "offset": 1
-                    }
-                },
-                "size": 2,
-                "type": "struct"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.ImplicitArgs": {
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.ImplicitArgs",
-                "members": {
-                    "range_check_ptr": {
-                        "cairo_type": "felt",
-                        "offset": 1
-                    },
-                    "syscall_ptr": {
-                        "cairo_type": "felt*",
-                        "offset": 0
-                    }
-                },
-                "size": 2,
-                "type": "struct"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.Return": {
-                "cairo_type": "(success: felt)",
-                "type": "type_definition"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 1
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.__calldata_ptr": {
-                "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.__calldata_ptr",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 4
-                        },
-                        "pc": 76,
-                        "value": "[cast(fp, felt**)]"
-                    },
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 4
-                        },
-                        "pc": 77,
-                        "value": "cast([fp] + 1, felt*)"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.__return_value_actual_size": {
-                "cairo_type": "felt",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.__return_value_actual_size",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 16
-                        },
-                        "pc": 87,
-                        "value": "cast([ap + (-1)] + 1 - [ap + (-1)], felt)"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.__return_value_arg_success": {
-                "cairo_type": "felt",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.__return_value_arg_success",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 16
-                        },
-                        "pc": 87,
-                        "value": "[cast([ap + (-1)], felt*)]"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.__return_value_ptr": {
-                "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.__return_value_ptr",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 16
-                        },
-                        "pc": 87,
-                        "value": "[cast(ap + (-1), felt**)]"
-                    },
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 16
-                        },
-                        "pc": 87,
-                        "value": "cast([ap + (-1)] + 1, felt*)"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.__temp6": {
-                "cairo_type": "felt",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.__temp6",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 5
-                        },
-                        "pc": 79,
-                        "value": "[cast(ap + (-1), felt*)]"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.__temp7": {
-                "cairo_type": "felt",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.__temp7",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 17
-                        },
-                        "pc": 89,
-                        "value": "[cast(ap + (-1), felt*)]"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.calldata_ptr_start": {
-                "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.calldata_ptr_start",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 4
-                        },
-                        "pc": 75,
-                        "value": "[cast(ap + (-1), felt**)]"
-                    },
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 4
-                        },
-                        "pc": 76,
-                        "value": "[cast(fp, felt**)]"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.contract_address": {
-                "cairo_type": "felt",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.contract_address",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 0
-                        },
-                        "pc": 71,
-                        "value": "[cast(fp + (-4), felt*)]"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.interfaceId": {
-                "cairo_type": "felt",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.interfaceId",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 0
-                        },
-                        "pc": 71,
-                        "value": "[cast(fp + (-3), felt*)]"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.range_check_ptr": {
-                "cairo_type": "felt",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.range_check_ptr",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 0
-                        },
-                        "pc": 71,
-                        "value": "[cast(fp + (-5), felt*)]"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.retdata": {
-                "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.retdata",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 16
-                        },
-                        "pc": 87,
-                        "value": "[cast(ap + (-1), felt**)]"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.retdata_size": {
-                "cairo_type": "felt",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.retdata_size",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 16
-                        },
-                        "pc": 87,
-                        "value": "[cast(ap + (-2), felt*)]"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.IERC165.IERC165.supportsInterface.syscall_ptr": {
-                "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.IERC165.IERC165.supportsInterface.syscall_ptr",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 0
-                        },
-                        "pc": 71,
-                        "value": "[cast(fp + (-6), felt**)]"
-                    },
-                    {
-                        "ap_tracking_data": {
-                            "group": 10,
-                            "offset": 16
-                        },
-                        "pc": 87,
-                        "value": "[cast(ap + (-3), felt**)]"
-                    }
-                ],
-                "type": "reference"
-            },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH": {
-                "type": "namespace"
-            },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.Args": {
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.INITIALIZER_SELECTOR": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.INITIALIZER_SELECTOR": {
                 "type": "const",
                 "value": 1295919550572838631247819983596733806859788957403169325509326258146877103642
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.ImplicitArgs": {
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.ImplicitArgs",
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.ImplicitArgs": {
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.ImplicitArgs",
                 "members": {},
                 "size": 0,
                 "type": "struct"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.Return": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.Return": {
                 "cairo_type": "()",
                 "type": "type_definition"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.SIZEOF_LOCALS": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 0
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.alloc": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.alloc": {
                 "destination": "starkware.cairo.common.alloc.alloc",
                 "type": "alias"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.call_contract": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.call_contract": {
                 "destination": "starkware.starknet.common.syscalls.call_contract",
                 "type": "alias"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer": {
                 "decorators": [],
                 "pc": 94,
                 "type": "function"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.Args": {
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.Args",
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.Args": {
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.Args",
                 "members": {
                     "_assetRecipient": {
                         "cairo_type": "felt",
@@ -6376,8 +6017,8 @@
                 "size": 11,
                 "type": "struct"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.ImplicitArgs": {
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.ImplicitArgs",
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.ImplicitArgs": {
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.ImplicitArgs",
                 "members": {
                     "range_check_ptr": {
                         "cairo_type": "felt",
@@ -6391,17 +6032,17 @@
                 "size": 2,
                 "type": "struct"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.Return": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.Return": {
                 "cairo_type": "()",
                 "type": "type_definition"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.SIZEOF_LOCALS": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 1
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.__calldata_ptr": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.__calldata_ptr": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.__calldata_ptr",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.__calldata_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6494,9 +6135,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.__temp8": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.__temp8": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.__temp8",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.__temp8",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6509,9 +6150,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._assetRecipient": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._assetRecipient": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._assetRecipient",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._assetRecipient",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6524,9 +6165,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._delta": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._delta": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._delta",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._delta",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6539,9 +6180,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._fee": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._fee": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._fee",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._fee",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6554,9 +6195,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._nftAddress": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._nftAddress": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._nftAddress",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._nftAddress",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6569,9 +6210,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._poolType": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._poolType": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._poolType",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._poolType",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6584,9 +6225,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._spotPrice": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._spotPrice": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._spotPrice",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer._spotPrice",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6599,9 +6240,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.bondingCurveAddr": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.bondingCurveAddr": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.bondingCurveAddr",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.bondingCurveAddr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6614,9 +6255,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.calldata_ptr_start": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.calldata_ptr_start": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.calldata_ptr_start",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.calldata_ptr_start",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6637,9 +6278,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.contract_address": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.contract_address": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.contract_address",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.contract_address",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6652,9 +6293,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.factoryAddr": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.factoryAddr": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.factoryAddr",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.factoryAddr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6667,9 +6308,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.owner": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.owner": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.owner",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.owner",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6682,9 +6323,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.range_check_ptr": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.range_check_ptr": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.range_check_ptr",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.range_check_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6697,9 +6338,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.retdata": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.retdata": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.retdata",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.retdata",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6712,9 +6353,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.retdata_size": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.retdata_size": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.retdata_size",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.retdata_size",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6727,9 +6368,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.syscall_ptr": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.syscall_ptr": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.syscall_ptr",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.syscall_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6750,9 +6391,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.wethAddress": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.wethAddress": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.wethAddress",
+                "full_name": "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.initializer.wethAddress",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -6765,13 +6406,326 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.library_call": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.library_call": {
                 "destination": "starkware.starknet.common.syscalls.library_call",
                 "type": "alias"
             },
-            "contracts.interfaces.INFTPairEnumerableETH.INFTPairEnumerableETH.memcpy": {
+            "contracts.interfaces.pairs.INFTPairEnumerableETH.INFTPairEnumerableETH.memcpy": {
                 "destination": "starkware.cairo.common.memcpy.memcpy",
                 "type": "alias"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165": {
+                "type": "namespace"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.Args": {
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.ImplicitArgs": {
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.SUPPORTSINTERFACE_SELECTOR": {
+                "type": "const",
+                "value": 1184015894760294494673613438913361435336722154500302038630992932234692784845
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.call_contract": {
+                "destination": "starkware.starknet.common.syscalls.call_contract",
+                "type": "alias"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.library_call": {
+                "destination": "starkware.starknet.common.syscalls.library_call",
+                "type": "alias"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface": {
+                "decorators": [],
+                "pc": 71,
+                "type": "function"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.Args": {
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.Args",
+                "members": {
+                    "contract_address": {
+                        "cairo_type": "felt",
+                        "offset": 0
+                    },
+                    "interfaceId": {
+                        "cairo_type": "felt",
+                        "offset": 1
+                    }
+                },
+                "size": 2,
+                "type": "struct"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.ImplicitArgs": {
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.ImplicitArgs",
+                "members": {
+                    "range_check_ptr": {
+                        "cairo_type": "felt",
+                        "offset": 1
+                    },
+                    "syscall_ptr": {
+                        "cairo_type": "felt*",
+                        "offset": 0
+                    }
+                },
+                "size": 2,
+                "type": "struct"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.Return": {
+                "cairo_type": "(success: felt)",
+                "type": "type_definition"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 1
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__calldata_ptr": {
+                "cairo_type": "felt*",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__calldata_ptr",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 4
+                        },
+                        "pc": 76,
+                        "value": "[cast(fp, felt**)]"
+                    },
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 4
+                        },
+                        "pc": 77,
+                        "value": "cast([fp] + 1, felt*)"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__return_value_actual_size": {
+                "cairo_type": "felt",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__return_value_actual_size",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 16
+                        },
+                        "pc": 87,
+                        "value": "cast([ap + (-1)] + 1 - [ap + (-1)], felt)"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__return_value_arg_success": {
+                "cairo_type": "felt",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__return_value_arg_success",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 16
+                        },
+                        "pc": 87,
+                        "value": "[cast([ap + (-1)], felt*)]"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__return_value_ptr": {
+                "cairo_type": "felt*",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__return_value_ptr",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 16
+                        },
+                        "pc": 87,
+                        "value": "[cast(ap + (-1), felt**)]"
+                    },
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 16
+                        },
+                        "pc": 87,
+                        "value": "cast([ap + (-1)] + 1, felt*)"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__temp6": {
+                "cairo_type": "felt",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__temp6",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 5
+                        },
+                        "pc": 79,
+                        "value": "[cast(ap + (-1), felt*)]"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__temp7": {
+                "cairo_type": "felt",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.__temp7",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 17
+                        },
+                        "pc": 89,
+                        "value": "[cast(ap + (-1), felt*)]"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.calldata_ptr_start": {
+                "cairo_type": "felt*",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.calldata_ptr_start",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 4
+                        },
+                        "pc": 75,
+                        "value": "[cast(ap + (-1), felt**)]"
+                    },
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 4
+                        },
+                        "pc": 76,
+                        "value": "[cast(fp, felt**)]"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.contract_address": {
+                "cairo_type": "felt",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.contract_address",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 0
+                        },
+                        "pc": 71,
+                        "value": "[cast(fp + (-4), felt*)]"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.interfaceId": {
+                "cairo_type": "felt",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.interfaceId",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 0
+                        },
+                        "pc": 71,
+                        "value": "[cast(fp + (-3), felt*)]"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.range_check_ptr": {
+                "cairo_type": "felt",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.range_check_ptr",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 0
+                        },
+                        "pc": 71,
+                        "value": "[cast(fp + (-5), felt*)]"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.retdata": {
+                "cairo_type": "felt*",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.retdata",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 16
+                        },
+                        "pc": 87,
+                        "value": "[cast(ap + (-1), felt**)]"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.retdata_size": {
+                "cairo_type": "felt",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.retdata_size",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 16
+                        },
+                        "pc": 87,
+                        "value": "[cast(ap + (-2), felt*)]"
+                    }
+                ],
+                "type": "reference"
+            },
+            "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.syscall_ptr": {
+                "cairo_type": "felt*",
+                "full_name": "contracts.interfaces.utils.IERC165.IERC165.supportsInterface.syscall_ptr",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 0
+                        },
+                        "pc": 71,
+                        "value": "[cast(fp + (-6), felt**)]"
+                    },
+                    {
+                        "ap_tracking_data": {
+                            "group": 10,
+                            "offset": 16
+                        },
+                        "pc": 87,
+                        "value": "[cast(ap + (-3), felt**)]"
+                    }
+                ],
+                "type": "reference"
             },
             "starkware.cairo.common.alloc.alloc": {
                 "decorators": [],

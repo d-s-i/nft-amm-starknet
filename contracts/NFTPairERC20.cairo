@@ -11,13 +11,12 @@ from starkware.cairo.common.uint256 import (
 from starkware.cairo.common.math import (assert_not_zero)
 from starkware.cairo.common.bool import (TRUE)
 
-from contracts.interfaces.IERC20 import (IERC20)
+from contracts.interfaces.tokens.IERC20 import (IERC20)
 from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
 from contracts.interfaces.INFTRouter import (INFTRouter)
 
 from contracts.NFTPair import (NFTPair)
 from contracts.libraries.felt_uint import (FeltUint)
-
 
 @storage_var
 func tokenAddress() -> (res: felt) {
@@ -131,7 +130,7 @@ namespace NFTPairERC20 {
         return ();
     }
 
-    // protocolFee paid directly from the sender
+    // protocolFee paid directly from the this address to the factory
     func _payProtocolFeeFromPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         _factory: felt,
         protocolFee: Uint256
@@ -139,7 +138,6 @@ namespace NFTPairERC20 {
         let (protocolFeeExist) = uint256_lt(Uint256(low=0, high=0), protocolFee);
         if(protocolFeeExist == TRUE) {
             let (token) = tokenAddress.read();
-            let (caller) = get_caller_address();
             let (thisAddress) = get_contract_address();
             let (pairTokenBalance) = IERC20.balanceOf(thisAddress);
 
@@ -147,13 +145,43 @@ namespace NFTPairERC20 {
             if(protocolFeeGtBalance == TRUE) {
                 let (balanceExist) = uint256_lt(Uint256(low=0, high=0), pairTokenBalance);
                 if(balanceExist == TRUE) {
-                    IERC20.transferFrom(token, caller, _factory, pairTokenBalance); // transfer pairBalance
+                    IERC20.transferFrom(token, thisAddress, _factory, pairTokenBalance); // transfer pairBalance
                 }
             } else {
-                IERC20.transferFrom(token, caller, _factory, protocolFee); // transfer protocolFee
+                IERC20.transferFrom(token, thisAddress, _factory, protocolFee); // transfer protocolFee
             }
         }
 
         return ();
     }
-}
+
+    func _sendTokenOutput{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        tokenRecipient: felt,
+        outputAmount: Uint256
+    ) {
+        let (outputExist) = uint256_lt(Uint256(low=0, high=0), outputAmount);
+        if(outputExist == TRUE) {
+            let (token) = tokenAddress.read();
+            let (thisAddress) = get_contract_address();
+            IERC20.transferFrom(token, thisAddress, tokenRecipient, outputAmount);
+        }
+        return ();
+    }
+
+    func withdrawERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        erc20Address: felt,
+        amount: Uint256
+    ) {
+        NFTPair._assertOnlyOwner();
+        let (caller) = get_caller_address();
+        let (thisAddress) = get_contract_address();
+        IERC20.transferFrom(erc20Address, thisAddress, caller, amount);
+
+        let (token) = tokenAddress.read();
+        if(erc20Address == token) {
+            NFTPair._emitTokenWithdrawal(amount);
+        }
+
+        return ();
+    }
+}       

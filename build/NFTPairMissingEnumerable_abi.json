@@ -46,6 +46,28 @@
     {
         "data": [
             {
+                "name": "amount",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "TokenDeposit",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "amount",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "TokenWithdrawal",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
                 "name": "newSpotPrice",
                 "type": "Uint256"
             }

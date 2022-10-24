@@ -841,11 +841,11 @@
             "0x480a7ffc7fff8000",
             "0x480a7ffd7fff8000",
             "0x480680017fff8000",
+            "0x0",
+            "0x480680017fff8000",
             "0x1",
             "0x480680017fff8000",
             "0x2",
-            "0x480680017fff8000",
-            "0x3",
             "0x208b7fff7fff7ffe",
             "0x480a7ff97fff8000",
             "0x480a7ffa7fff8000",
@@ -4308,7 +4308,7 @@
                             "offset": 0
                         },
                         "pc": 825,
-                        "value": "cast((\n    1,\n    2,\n    3\n    ), contracts.bonding_curves.CurveErrorCodes.CurveErrorCodes.Error)"
+                        "value": "cast((\n    0,\n    1,\n    2\n    ), contracts.bonding_curves.CurveErrorCodes.CurveErrorCodes.Error)"
                     }
                 ],
                 "type": "reference"
@@ -14510,7 +14510,7 @@
                         "offset": 0
                     },
                     "pc": 825,
-                    "value": "cast((\n    1,\n    2,\n    3\n    ), contracts.bonding_curves.CurveErrorCodes.CurveErrorCodes.Error)"
+                    "value": "cast((\n    0,\n    1,\n    2\n    ), contracts.bonding_curves.CurveErrorCodes.CurveErrorCodes.Error)"
                 },
                 {
                     "ap_tracking_data": {

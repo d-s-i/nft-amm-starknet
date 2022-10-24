@@ -7,13 +7,10 @@ from starkware.cairo.common.uint256 import (Uint256)
 from starkware.cairo.common.math import (assert_not_zero)
 from starkware.cairo.common.bool import (TRUE, FALSE)
 
-
 from contracts.constants.library import (IERC721_ENUMERABLE_ID)
-from contracts.interfaces.ICurve import (ICurve)
-from contracts.interfaces.IERC165 import (IERC165)
-from contracts.interfaces.INFTPairEnumerableETH import (INFTPairEnumerableETH)
-
-from contracts.constants.structs import (PoolType)
+from contracts.interfaces.bonding_curves.ICurve import (ICurve)
+from contracts.interfaces.utils.IERC165 import (IERC165)
+from contracts.interfaces.pairs.INFTPairEnumerableETH import (INFTPairEnumerableETH)
 
 const MAX_PROTOCOL_FEE = 10**18;
 
