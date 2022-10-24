@@ -20,6 +20,7 @@ from contracts.libraries.felt_uint import (FeltUint)
 from contracts.interfaces.bonding_curves.ICurve import (ICurve)
 from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
 from contracts.interfaces.tokens.IERC721 import (IERC721)
+from contracts.interfaces.tokens.IERC1155 import (IERC1155)
 from contracts.interfaces.INFTRouter import (INFTRouter)
 
 from contracts.constants.PoolType import (PoolTypes)
@@ -92,6 +93,14 @@ func SpotPriceUpdate(newSpotPrice: Uint256) {
 func DeltaUpdate(newDelta: Uint256) {
 }
 
+@event
+func FeeUpdate(newFee: felt) {
+}
+
+@event
+func AssetRecipientChange(newRecipient: felt) {
+}
+
 namespace NFTPair {
     func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         factoryAddr: felt,
@@ -129,6 +138,9 @@ namespace NFTPair {
         pairVariant.write(_pairVariant);
         return ();
     }
+
+    ////////
+    // MAIN FUNCTIONS
 
     func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         numNFTs: Uint256,
@@ -302,6 +314,9 @@ namespace NFTPair {
         return ();
     }
 
+    ////////
+    // GETTERS
+
     func getBuyNFTQuote{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         numNFTs: Uint256
     ) -> (
@@ -413,112 +428,18 @@ namespace NFTPair {
         return (_nftAddress=_nftAddress);
     }
 
-    func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        interfaceId: felt
-    ) -> (isSupported: felt) {
-        let (isSupported) = ERC1155Holder.supportsInterface(interfaceId);
-        return (isSupported=isSupported);
+    func getBondingCurve{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_bondingCurve: felt) {
+        let (_bondingCurve) = bondingCurve.read();
+        return (_bondingCurve=_bondingCurve);
     }
 
-    func setInterfacesSupported{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        interfaceId: felt, 
-        isSupported: felt
-    ) {
-        Ownable.assert_only_owner();
-        ERC1155Holder.setInterfacesSupported(interfaceId, isSupported);
-        return ();
+    func getFactory{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_factory: felt) {
+        let (_factory) = factory.read();
+        return (_factory=_factory);
     }
 
-    func onERC1155Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        operator: felt, 
-        from_: felt, 
-        token_id: Uint256, 
-        amount: Uint256,
-        data_len: felt, 
-        data: felt*
-    ) -> (selector: felt) {
-        let (selector) = ERC1155Holder.onERC1155Received(
-            operator,
-            from_,
-            token_id,
-            amount,
-            data_len,
-            data
-        );
-        return (selector=selector);
-    }
-
-    func onERC1155BatchReceived{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        operator: felt, 
-        from_: felt, 
-        token_ids_len: felt,
-        token_ids: Uint256*, 
-        amounts_len: felt,
-        amounts: Uint256*,
-        data_len: felt, 
-        data: felt*
-    ) -> (selector: felt) {
-        let (selector) = ERC1155Holder.onERC1155BatchReceived(
-            operator,
-            from_,
-            token_ids_len,
-            token_ids,
-            amounts_len,
-            amounts,
-            data_len,
-            data
-        );
-        return (selector=selector);
-    }   
-
-    func _assertCorrectlyInitializedWithPoolType{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        _poolType: felt,
-        _fee: felt,
-        _assetRecipient: felt
-    ) {
-        alloc_locals;
-        let (poolTypes) = PoolTypes.value();
-        if(_poolType == poolTypes.TOKEN) {
-            with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
-                assert _fee = 0;
-            }
-            assetRecipient.write(_assetRecipient);
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        } else {
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        }
-        if(_poolType == poolTypes.NFT) {
-            with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
-                assert _fee = 0;
-            }
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        } else {
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        }
-        if(_poolType == poolTypes.TRADE) {
-            assert_lt(_fee, MAX_FEE);
-            with_attr error_message("NFTPair::initializer - Trade pools can't set asset recipient") {
-                assert _assetRecipient = 0;
-            }
-            fee.write(_fee);
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        } else {
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        }
-        return ();
-    }
+    ////////
+    // INTERNAL
 
     func _calculateBuyInfoAndUpdatePoolParams{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         numNFTs: Uint256,
@@ -727,11 +648,247 @@ namespace NFTPair {
         return ();
     } 
 
+    ////////
+    // ADMIN
+
+    func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        from_: felt, 
+        to: felt, 
+        tokenIds_len,
+        tokenIds: Uint256*
+    ) {
+        with_attr error_message("NFTPair::withdrawERC721 - Function must be implemented in parent") {
+            assert 1 = 2;
+        }
+        return ();
+    }
+
+    func withdrawERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        sender: felt, 
+        recipient: felt, 
+        amount: Uint256
+    ) {
+        with_attr error_message("NFTPair::withdrawERC20 - Function must be implemented in parent") {
+            assert 1 = 2;
+        }
+        return ();
+    }
+
+    func withdrawERC1155{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        from_: felt,
+        to: felt,
+        ids_len: felt,
+        ids: Uint256*,
+        amounts_len: felt,
+        amounts: Uint256*,
+        data_len: felt,
+        data: felt*,
+    ) {
+        with_attr error_message("NFTPair::withdrawERC1155 - Function must be implemented in parent") {
+            assert 1 = 2;
+        }
+        return ();
+    }
+
+    func changeSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newSpotPrice: Uint256
+    ) {
+        Ownable.assert_only_owner();
+
+        let (_bondingCurve) = bondingCurve.read();
+        let (spotPriceValid) = ICurve.validateSpotPrice(_bondingCurve, newSpotPrice);
+        
+        with_attr error_message("NFTPair::changeSpotPrice - Invalid new spot price for curve") {
+            assert spotPriceValid = TRUE;
+        }
+
+        spotPrice.write(newSpotPrice);
+
+        SpotPriceUpdate.emit(newSpotPrice);
+        return ();
+    }
+
+    func changeDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newDelta: Uint256
+    ) {
+        Ownable.assert_only_owner();
+
+        let (_bondingCurve) = bondingCurve.read();
+        let (deltaValid) = ICurve.validateDelta(_bondingCurve, newDelta);
+        
+        with_attr error_message("NFTPair::changeDelta - Invalid new delta for curve") {
+            assert deltaValid = TRUE;
+        }
+
+        delta.write(newDelta);
+
+        DeltaUpdate.emit(newDelta);
+        return ();
+    }
+
+    func changeFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newFee: Uint256
+    ) {
+        Ownable.assert_only_owner();
+
+        let (_poolType) = poolType.read();
+        let (poolTypes) = PoolTypes.value();
+        
+        with_attr error_message("NFTPair::changeFee - Only for trade pools") {
+            assert _poolType = poolTypes.TRADE;
+        }
+
+        with_attr error_message("NFTPair::changeFee - Trade fee must be less than 90%") {
+            assert_lt(newFee, MAX_FEE);
+        }
+
+        fee.write(newFee);
+
+        FeeUpdate.emit(newFee);
+        return ();
+    }
+
+    func changeAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newRecipient: felt
+    ) {
+        Ownable.assert_only_owner();
+
+        let (_poolType) = poolType.read();
+        let (poolTypes) = PoolTypes.value();
+        
+        if(_poolType == poolTypes.TRADE) {
+            with_attr error_message("NFTPair::changeAssetRecipient - Not for trade pools") {
+                assert 1 = 2;
+            }
+        }
+        assetRecipient.write(newRecipient);
+
+        AssetRecipientChange.emit(newRecipient);
+        return ();
+    }
+
+    // Not implementing call
+    // Not implementing multicall
+    // Not implementing _getRevertMsg
+
+    ////////
+    // INHERITANCE
+
+    func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        interfaceId: felt
+    ) -> (isSupported: felt) {
+        let (isSupported) = ERC1155Holder.supportsInterface(interfaceId);
+        return (isSupported=isSupported);
+    }
+
+    func setInterfacesSupported{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        interfaceId: felt, 
+        isSupported: felt
+    ) {
+        Ownable.assert_only_owner();
+        ERC1155Holder.setInterfacesSupported(interfaceId, isSupported);
+        return ();
+    }
+
+    func onERC1155Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        operator: felt, 
+        from_: felt, 
+        token_id: Uint256, 
+        amount: Uint256,
+        data_len: felt, 
+        data: felt*
+    ) -> (selector: felt) {
+        let (selector) = ERC1155Holder.onERC1155Received(
+            operator,
+            from_,
+            token_id,
+            amount,
+            data_len,
+            data
+        );
+        return (selector=selector);
+    }
+
+    func onERC1155BatchReceived{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        operator: felt, 
+        from_: felt, 
+        token_ids_len: felt,
+        token_ids: Uint256*, 
+        amounts_len: felt,
+        amounts: Uint256*,
+        data_len: felt, 
+        data: felt*
+    ) -> (selector: felt) {
+        let (selector) = ERC1155Holder.onERC1155BatchReceived(
+            operator,
+            from_,
+            token_ids_len,
+            token_ids,
+            amounts_len,
+            amounts,
+            data_len,
+            data
+        );
+        return (selector=selector);
+    }
+
+    ////////
+    // ADDED FUNCTIONS
+
+    func _assertCorrectlyInitializedWithPoolType{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        _poolType: felt,
+        _fee: felt,
+        _assetRecipient: felt
+    ) {
+        alloc_locals;
+        let (poolTypes) = PoolTypes.value();
+        if(_poolType == poolTypes.TOKEN) {
+            with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
+                assert _fee = 0;
+            }
+            assetRecipient.write(_assetRecipient);
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+        } else {
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+        }
+        if(_poolType == poolTypes.NFT) {
+            with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
+                assert _fee = 0;
+            }
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+        } else {
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+        }
+        if(_poolType == poolTypes.TRADE) {
+            assert_lt(_fee, MAX_FEE);
+            with_attr error_message("NFTPair::initializer - Trade pools can't set asset recipient") {
+                assert _assetRecipient = 0;
+            }
+            fee.write(_fee);
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+        } else {
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+        }
+        return ();
+    }
+    
     func _revertIfError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(error: felt) {
         let (isError) = uint256_lt(Uint256(low=0, high=0), error);
         if(isError == TRUE) {
             with_attr error_message(
-                "NFTPair::_calculateBuyInfoAndUpdatePoolParams - There was an error with the bonding curve (code: {error})"
+                "NFTPair - There was an error with the bonding curve (code: {error})"
             ) {
                 assert 1 = 2;
             }

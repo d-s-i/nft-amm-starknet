@@ -86,5 +86,27 @@
         "keys": [],
         "name": "DeltaUpdate",
         "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "newFee",
+                "type": "felt"
+            }
+        ],
+        "keys": [],
+        "name": "FeeUpdate",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "newRecipient",
+                "type": "felt"
+            }
+        ],
+        "keys": [],
+        "name": "AssetRecipientChange",
+        "type": "event"
     }
 ]

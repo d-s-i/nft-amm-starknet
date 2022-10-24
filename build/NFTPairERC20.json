@@ -87,6 +87,28 @@
             "keys": [],
             "name": "DeltaUpdate",
             "type": "event"
+        },
+        {
+            "data": [
+                {
+                    "name": "newFee",
+                    "type": "felt"
+                }
+            ],
+            "keys": [],
+            "name": "FeeUpdate",
+            "type": "event"
+        },
+        {
+            "data": [
+                {
+                    "name": "newRecipient",
+                    "type": "felt"
+                }
+            ],
+            "keys": [],
+            "name": "AssetRecipientChange",
+            "type": "event"
         }
     ],
     "entry_points_by_type": {
@@ -664,6 +686,45 @@
                 "destination": "starkware.cairo.common.uint256.uint256_sub",
                 "type": "alias"
             },
+            "contracts.NFTPair.AssetRecipientChange": {
+                "type": "namespace"
+            },
+            "contracts.NFTPair.AssetRecipientChange.Args": {
+                "full_name": "contracts.NFTPair.AssetRecipientChange.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.NFTPair.AssetRecipientChange.ImplicitArgs": {
+                "full_name": "contracts.NFTPair.AssetRecipientChange.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.NFTPair.AssetRecipientChange.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.NFTPair.AssetRecipientChange.SELECTOR": {
+                "type": "const",
+                "value": 1787653121547831136081970316025370997024512746615334276680412255596325467693
+            },
+            "contracts.NFTPair.AssetRecipientChange.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.NFTPair.AssetRecipientChange.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.NFTPair.AssetRecipientChange.emit_event": {
+                "destination": "starkware.starknet.common.syscalls.emit_event",
+                "type": "alias"
+            },
+            "contracts.NFTPair.AssetRecipientChange.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
             "contracts.NFTPair.DeltaUpdate": {
                 "type": "namespace"
             },
@@ -711,6 +772,45 @@
                 "destination": "starkware.cairo.common.bool.FALSE",
                 "type": "alias"
             },
+            "contracts.NFTPair.FeeUpdate": {
+                "type": "namespace"
+            },
+            "contracts.NFTPair.FeeUpdate.Args": {
+                "full_name": "contracts.NFTPair.FeeUpdate.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.NFTPair.FeeUpdate.ImplicitArgs": {
+                "full_name": "contracts.NFTPair.FeeUpdate.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.NFTPair.FeeUpdate.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.NFTPair.FeeUpdate.SELECTOR": {
+                "type": "const",
+                "value": 197945060600006977919595332353281094858456578168587454345022061522768544474
+            },
+            "contracts.NFTPair.FeeUpdate.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.NFTPair.FeeUpdate.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.NFTPair.FeeUpdate.emit_event": {
+                "destination": "starkware.starknet.common.syscalls.emit_event",
+                "type": "alias"
+            },
+            "contracts.NFTPair.FeeUpdate.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
             "contracts.NFTPair.FeltUint": {
                 "destination": "contracts.libraries.felt_uint.FeltUint",
                 "type": "alias"
@@ -721,6 +821,10 @@
             },
             "contracts.NFTPair.ICurve": {
                 "destination": "contracts.interfaces.bonding_curves.ICurve.ICurve",
+                "type": "alias"
+            },
+            "contracts.NFTPair.IERC1155": {
+                "destination": "contracts.interfaces.tokens.IERC1155.IERC1155",
                 "type": "alias"
             },
             "contracts.NFTPair.IERC721": {
@@ -1640,6 +1744,57 @@
                 "type": "alias"
             },
             "contracts.interfaces.bonding_curves.ICurve.Uint256": {
+                "destination": "starkware.cairo.common.uint256.Uint256",
+                "type": "alias"
+            },
+            "contracts.interfaces.tokens.IERC1155.IERC1155": {
+                "type": "namespace"
+            },
+            "contracts.interfaces.tokens.IERC1155.IERC1155.Args": {
+                "full_name": "contracts.interfaces.tokens.IERC1155.IERC1155.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.interfaces.tokens.IERC1155.IERC1155.ImplicitArgs": {
+                "full_name": "contracts.interfaces.tokens.IERC1155.IERC1155.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.interfaces.tokens.IERC1155.IERC1155.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.interfaces.tokens.IERC1155.IERC1155.SAFEBATCHTRANSFERFROM_SELECTOR": {
+                "type": "const",
+                "value": 1011984872421844494651141556693751752127985442946177191791798333100036886581
+            },
+            "contracts.interfaces.tokens.IERC1155.IERC1155.SAFETRANSFERFROM_SELECTOR": {
+                "type": "const",
+                "value": 730327702935662484951878015260342994925824754530470619774470754812327453764
+            },
+            "contracts.interfaces.tokens.IERC1155.IERC1155.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.interfaces.tokens.IERC1155.IERC1155.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.interfaces.tokens.IERC1155.IERC1155.call_contract": {
+                "destination": "starkware.starknet.common.syscalls.call_contract",
+                "type": "alias"
+            },
+            "contracts.interfaces.tokens.IERC1155.IERC1155.library_call": {
+                "destination": "starkware.starknet.common.syscalls.library_call",
+                "type": "alias"
+            },
+            "contracts.interfaces.tokens.IERC1155.IERC1155.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
+            "contracts.interfaces.tokens.IERC1155.Uint256": {
                 "destination": "starkware.cairo.common.uint256.Uint256",
                 "type": "alias"
             },
