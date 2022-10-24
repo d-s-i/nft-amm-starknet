@@ -4,12 +4,16 @@ from starkware.cairo.common.cairo_builtins import (HashBuiltin)
 from starkware.cairo.common.uint256 import (
     Uint256, 
     uint256_lt, 
+    uint256_eq,
     uint256_sub, 
     uint256_add
 )
 from starkware.cairo.common.alloc import (alloc)
 from starkware.starknet.common.syscalls import (get_contract_address, get_caller_address)
 from starkware.cairo.common.bool import (TRUE)
+
+from contracts.constants.library import (IERC721_RECEIVER_ID)
+from contracts.libraries.felt_uint import (FeltUint) 
 
 from contracts.interfaces.tokens.IERC721Enumerable import (IERC721Enumerable)
 
@@ -87,40 +91,43 @@ namespace NFTPairEnumerable {
         );
     }
 
-    func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (tokenIds_len: felt, tokenIds: Uint256) {
+    func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (tokenIds_len: felt, tokenIds: Uint256*) {
+        alloc_locals;
+
         let (_nftAddress) = NFTPair.getNFTAddress();
         let (thisAddress) = get_contract_address();
         let (balance) = IERC721Enumerable.balanceOf(_nftAddress, thisAddress);
         
-        with_attr error_message("NFTPairEnumerable::getAllHeldIds - Contract balance above maximum") {
-            assert balance.high = 0;
-        }
-
+        let (tokenIds_len) = FeltUint.uint256ToFelt(balance);
         let (tokenIds: Uint256*) = alloc();
 
-        _getAllIdsLoop(0, balance.low, _nftAddress, thisAddress, tokenIds);
+        _getAllIdsLoop(Uint256(low=0, high=0), balance, _nftAddress, thisAddress, tokenIds);
 
-        return (balance.low, tokenIds);
+        return (tokenIds_len, tokenIds);
     }
 
     func _getAllIdsLoop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        index: felt,
-        end: felt,
+        index: Uint256,
+        end: Uint256,
         nftAddress: felt,
         ownerAddress: felt,
         tokenIds: Uint256*
-    ) -> (tokenIds_len: felt, tokenIds: Uint256) {
-        if(index == end) {
-            return (tokenIds_len=end, tokenIds=tokenIds);
+    ) {
+
+        let (endReached) = uint256_eq(index, end);
+        if(endReached == TRUE) {
+            return ();
         }
 
         let (id) = IERC721Enumerable.tokenOfOwnerByIndex(nftAddress, ownerAddress, index);
         assert [tokenIds] = id;
 
+        let (newIndex, newIndexCarry) = uint256_add(index, Uint256(low=1, high=0));
         return _getAllIdsLoop(
-            index + 1,
+            newIndex,
             end,
             nftAddress,
+            ownerAddress,
             tokenIds + 1
         );
     }
@@ -191,7 +198,7 @@ namespace NFTPairEnumerable {
         newSpotPrice: Uint256,
         newDelta: Uint256,
         inputAmount: Uint256,
-        protocolFee: felt
+        protocolFee: Uint256
     ) {
         let (
             error,
@@ -216,7 +223,7 @@ namespace NFTPairEnumerable {
         newSpotPrice: Uint256,
         newDelta: Uint256,
         outputAmount: Uint256,
-        protocolFee: felt
+        protocolFee: Uint256
     ) {
         let (
             error,
@@ -234,11 +241,45 @@ namespace NFTPairEnumerable {
         );
     }
 
+    func getAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (recipient: felt) {
+        let (_assetRecipient) = NFTPair.getAssetRecipient();
+        return (recipient=_assetRecipient);
+    }
+
+    func getPairVariant{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_pairVariant: felt) {
+        let (_pairVariant) = NFTPair.getPairVariant();
+        return (_pairVariant=_pairVariant);
+    }
+
+    func getPoolType{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_poolType: felt) {
+        let (_poolType) = NFTPair.getPoolType();
+        return (_poolType=_poolType);
+    }
+
+    func getNFTAddress{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_nftAddress: felt) {
+        let (_nftAddress) = NFTPair.getNFTAddress();
+        return (_nftAddress=_nftAddress);
+    }
+
+    func getBondingCurve{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_bondingCurve: felt) {
+        let (_bondingCurve) = NFTPair.getBondingCurve();
+        return (_bondingCurve=_bondingCurve);
+    }
+
+    func getFactory{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_factory: felt) {
+        let (_factory) = NFTPair.getFactory();
+        return (_factory=_factory);
+    }
+
     func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         interfaceId: felt
     ) -> (isSupported: felt) {
         let (isSupported) = NFTPair.supportsInterface(interfaceId);
         return (isSupported=isSupported);
+    }
+
+    func onERC721Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (interfaceId: felt) {
+        return (IERC721_RECEIVER_ID);
     }
 
     func onERC1155Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
@@ -270,7 +311,7 @@ namespace NFTPairEnumerable {
         data_len: felt, 
         data: felt*
     ) -> (selector: felt) {
-        let (selector) = NFTPair.onERC1155Received(
+        let (selector) = NFTPair.onERC1155BatchReceived(
             operator,
             from_,
             token_ids_len,
@@ -370,7 +411,7 @@ namespace NFTPairEnumerable {
     }
 
     func changeFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        newFee: Uint256
+        newFee: felt
     ) {
         NFTPair.changeFee(newFee);
         return ();

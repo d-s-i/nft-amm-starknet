@@ -1,0 +1,606 @@
+[
+    {
+        "members": [
+            {
+                "name": "low",
+                "offset": 0,
+                "type": "felt"
+            },
+            {
+                "name": "high",
+                "offset": 1,
+                "type": "felt"
+            }
+        ],
+        "name": "Uint256",
+        "size": 2,
+        "type": "struct"
+    },
+    {
+        "data": [
+            {
+                "name": "previousOwner",
+                "type": "felt"
+            },
+            {
+                "name": "newOwner",
+                "type": "felt"
+            }
+        ],
+        "keys": [],
+        "name": "OwnershipTransferred",
+        "type": "event"
+    },
+    {
+        "data": [],
+        "keys": [],
+        "name": "SwapNFTInPair",
+        "type": "event"
+    },
+    {
+        "data": [],
+        "keys": [],
+        "name": "SwpaNFTOutPair",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "amount",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "TokenDeposit",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "amount",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "TokenWithdrawal",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "newSpotPrice",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "SpotPriceUpdate",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "newDelta",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "DeltaUpdate",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "newFee",
+                "type": "felt"
+            }
+        ],
+        "keys": [],
+        "name": "FeeUpdate",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "newRecipient",
+                "type": "felt"
+            }
+        ],
+        "keys": [],
+        "name": "AssetRecipientChange",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "name": "factoryAddr",
+                "type": "felt"
+            },
+            {
+                "name": "bondingCurveAddr",
+                "type": "felt"
+            },
+            {
+                "name": "_poolType",
+                "type": "felt"
+            },
+            {
+                "name": "_nftAddress",
+                "type": "felt"
+            },
+            {
+                "name": "_spotPrice",
+                "type": "Uint256"
+            },
+            {
+                "name": "_delta",
+                "type": "Uint256"
+            },
+            {
+                "name": "_fee",
+                "type": "felt"
+            },
+            {
+                "name": "owner",
+                "type": "felt"
+            },
+            {
+                "name": "_assetRecipient",
+                "type": "felt"
+            },
+            {
+                "name": "_tokenAddress",
+                "type": "felt"
+            }
+        ],
+        "name": "initializer",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "erc20Address",
+                "type": "felt"
+            },
+            {
+                "name": "amount",
+                "type": "Uint256"
+            }
+        ],
+        "name": "withdrawERC20",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "numNFTs",
+                "type": "Uint256"
+            },
+            {
+                "name": "maxExpectedTokenInput",
+                "type": "Uint256"
+            },
+            {
+                "name": "nftRecipient",
+                "type": "felt"
+            },
+            {
+                "name": "isRouter",
+                "type": "felt"
+            },
+            {
+                "name": "routerCaller",
+                "type": "felt"
+            }
+        ],
+        "name": "swapTokenForAnyNFTs",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "nftIds_len",
+                "type": "felt"
+            },
+            {
+                "name": "nftIds",
+                "type": "Uint256*"
+            },
+            {
+                "name": "maxExpectedTokenInput",
+                "type": "Uint256"
+            },
+            {
+                "name": "nftRecipient",
+                "type": "felt"
+            },
+            {
+                "name": "isRouter",
+                "type": "felt"
+            },
+            {
+                "name": "routerCaller",
+                "type": "felt"
+            }
+        ],
+        "name": "swapTokenForSpecificNFTs",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "nftIds_len",
+                "type": "felt"
+            },
+            {
+                "name": "nftIds",
+                "type": "Uint256*"
+            },
+            {
+                "name": "minExpectedTokenOutput",
+                "type": "Uint256"
+            },
+            {
+                "name": "tokenRecipient",
+                "type": "felt"
+            },
+            {
+                "name": "isRouter",
+                "type": "felt"
+            },
+            {
+                "name": "routerCaller",
+                "type": "felt"
+            }
+        ],
+        "name": "swapNFTsForToken",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "numNFTs",
+                "type": "Uint256"
+            }
+        ],
+        "name": "getBuyNFTQuote",
+        "outputs": [
+            {
+                "name": "error",
+                "type": "felt"
+            },
+            {
+                "name": "newSpotPrice",
+                "type": "Uint256"
+            },
+            {
+                "name": "newDelta",
+                "type": "Uint256"
+            },
+            {
+                "name": "inputAmount",
+                "type": "Uint256"
+            },
+            {
+                "name": "protocolFee",
+                "type": "Uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "numNFTs",
+                "type": "Uint256"
+            }
+        ],
+        "name": "getSellNFTQuote",
+        "outputs": [
+            {
+                "name": "error",
+                "type": "felt"
+            },
+            {
+                "name": "newSpotPrice",
+                "type": "Uint256"
+            },
+            {
+                "name": "newDelta",
+                "type": "Uint256"
+            },
+            {
+                "name": "outputAmount",
+                "type": "Uint256"
+            },
+            {
+                "name": "protocolFee",
+                "type": "Uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAllHeldIds",
+        "outputs": [
+            {
+                "name": "tokenIds_len",
+                "type": "felt"
+            },
+            {
+                "name": "tokenIds",
+                "type": "Uint256*"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAssetRecipient",
+        "outputs": [
+            {
+                "name": "recipient",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getPairVariant",
+        "outputs": [
+            {
+                "name": "_pairVariant",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getPoolType",
+        "outputs": [
+            {
+                "name": "_poolType",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getNFTAddress",
+        "outputs": [
+            {
+                "name": "_nftAddress",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getBondingCurve",
+        "outputs": [
+            {
+                "name": "_bondingCurve",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getFactory",
+        "outputs": [
+            {
+                "name": "_factory",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "interfaceId",
+                "type": "felt"
+            }
+        ],
+        "name": "supportsInterface",
+        "outputs": [
+            {
+                "name": "isSupported",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "onERC721Received",
+        "outputs": [
+            {
+                "name": "interfaceId",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "operator",
+                "type": "felt"
+            },
+            {
+                "name": "from_",
+                "type": "felt"
+            },
+            {
+                "name": "token_id",
+                "type": "Uint256"
+            },
+            {
+                "name": "amount",
+                "type": "Uint256"
+            },
+            {
+                "name": "data_len",
+                "type": "felt"
+            },
+            {
+                "name": "data",
+                "type": "felt*"
+            }
+        ],
+        "name": "onERC1155Received",
+        "outputs": [
+            {
+                "name": "selector",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "operator",
+                "type": "felt"
+            },
+            {
+                "name": "from_",
+                "type": "felt"
+            },
+            {
+                "name": "token_ids_len",
+                "type": "felt"
+            },
+            {
+                "name": "token_ids",
+                "type": "Uint256*"
+            },
+            {
+                "name": "amounts_len",
+                "type": "felt"
+            },
+            {
+                "name": "amounts",
+                "type": "Uint256*"
+            },
+            {
+                "name": "data_len",
+                "type": "felt"
+            },
+            {
+                "name": "data",
+                "type": "felt*"
+            }
+        ],
+        "name": "onERC1155BatchReceived",
+        "outputs": [
+            {
+                "name": "selector",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "_nftAddress",
+                "type": "felt"
+            },
+            {
+                "name": "tokenIds_len",
+                "type": "felt"
+            },
+            {
+                "name": "tokenIds",
+                "type": "Uint256*"
+            }
+        ],
+        "name": "withdrawERC721",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "newSpotPrice",
+                "type": "Uint256"
+            }
+        ],
+        "name": "changeSpotPrice",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "newDelta",
+                "type": "Uint256"
+            }
+        ],
+        "name": "changeDelta",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "newFee",
+                "type": "felt"
+            }
+        ],
+        "name": "changeFee",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "newRecipient",
+                "type": "felt"
+            }
+        ],
+        "name": "changeAssetRecipient",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "interfaceId",
+                "type": "felt"
+            },
+            {
+                "name": "isSupported",
+                "type": "felt"
+            }
+        ],
+        "name": "setInterfacesSupported",
+        "outputs": [],
+        "type": "function"
+    }
+]

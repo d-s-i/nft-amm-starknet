@@ -9,7 +9,7 @@ namespace FeltUint {
         return (Uint256(low=low, high=high),);
     }
 
-    func Uint256ToFelt{range_check_ptr: felt}(value: Uint256) -> (value: felt) {
+    func uint256ToFelt{range_check_ptr: felt}(value: Uint256) -> (value: felt) {
         assert_lt_felt(value.high, 2 ** 123);
         return (value.high * (2 ** 128) + value.low,);
     }

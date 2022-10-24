@@ -1,28 +1,5 @@
 %lang starknet
 
-// from contracts.NFTPair import (
-//     swapTokenForAnyNFTs,
-//     swapTokenForSpecificNFTs,
-//     swapNFTsForToken,
-//     getBuyNFTQuote,
-//     getSellNFTQuote,
-//     getAssetRecipient,
-//     getPairVariant,
-//     getNFtAddress,
-//     supportsInterface,
-//     setInterfacesSupported,
-//     onERC1155Received,
-//     onERC1155BatchReceived,
-//     _assertCorrectlyInitializedWithPoolType,
-//     _calculateBuyInfoAndUpdatePoolParams,
-//     _calculateSellInfoAndUpdatePoolParams,
-//     _takeNFTsFromSender,
-//     _pullTokenInputAndPayProtocolFee,
-//     _sendAnyNFTsToRecipient,
-//     _sendSpecificNFTsToRecipient,
-//     _sendTokenOutput,
-//     _payProtocolFeeFromPair
-// )
 from starkware.cairo.common.cairo_builtins import (HashBuiltin)
 from starkware.starknet.common.syscalls import (get_contract_address)
 

@@ -59,6 +59,8 @@ namespace NFTPairERC20 {
         _factory: felt,
         protocolFee: felt
     ) {
+        alloc_locals;
+    
         let (_token) = tokenAddress.read();
         let (_assetRecipient) = NFTPair.getAssetRecipient();
         let (_pairVariant) = NFTPair.getPairVariant();
@@ -106,7 +108,9 @@ namespace NFTPairERC20 {
                 protocolFeeUint,
                 _pairVariant
             );
-
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
         } else {
             let (caller) = get_caller_address();
             IERC20.transferFrom(
@@ -124,7 +128,17 @@ namespace NFTPairERC20 {
                     _factory,
                     protocolFeeUint
                 );
+                tempvar range_check_ptr = range_check_ptr;
+                tempvar syscall_ptr = syscall_ptr;
+                tempvar pedersen_ptr = pedersen_ptr;
+            } else {
+                tempvar range_check_ptr = range_check_ptr;
+                tempvar syscall_ptr = syscall_ptr;
+                tempvar pedersen_ptr = pedersen_ptr;
             }
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
         }
 
         return ();
@@ -139,18 +153,38 @@ namespace NFTPairERC20 {
         if(protocolFeeExist == TRUE) {
             let (token) = tokenAddress.read();
             let (thisAddress) = get_contract_address();
-            let (pairTokenBalance) = IERC20.balanceOf(thisAddress);
+            let (pairTokenBalance) = IERC20.balanceOf(token, thisAddress);
 
             let (protocolFeeGtBalance) = uint256_lt(pairTokenBalance, protocolFee);
             if(protocolFeeGtBalance == TRUE) {
                 let (balanceExist) = uint256_lt(Uint256(low=0, high=0), pairTokenBalance);
                 if(balanceExist == TRUE) {
                     IERC20.transferFrom(token, thisAddress, _factory, pairTokenBalance); // transfer pairBalance
+                    tempvar range_check_ptr = range_check_ptr;
+                    tempvar syscall_ptr = syscall_ptr;
+                    tempvar pedersen_ptr = pedersen_ptr;
+                } else {
+                    tempvar range_check_ptr = range_check_ptr;
+                    tempvar syscall_ptr = syscall_ptr;
+                    tempvar pedersen_ptr = pedersen_ptr;
                 }
+                tempvar range_check_ptr = range_check_ptr;
+                tempvar syscall_ptr = syscall_ptr;
+                tempvar pedersen_ptr = pedersen_ptr;                
             } else {
                 IERC20.transferFrom(token, thisAddress, _factory, protocolFee); // transfer protocolFee
+                tempvar range_check_ptr = range_check_ptr;
+                tempvar syscall_ptr = syscall_ptr;
+                tempvar pedersen_ptr = pedersen_ptr;                
             }
-        }
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+        } else {
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+        }        
 
         return ();
     }
@@ -164,7 +198,18 @@ namespace NFTPairERC20 {
             let (token) = tokenAddress.read();
             let (thisAddress) = get_contract_address();
             IERC20.transferFrom(token, thisAddress, tokenRecipient, outputAmount);
-        }
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;            
+        } else {
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+        }        
+        return ();
+    }
+
+    func _refundTokenToSender{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(amount: Uint256) {
         return ();
     }
 
@@ -180,6 +225,13 @@ namespace NFTPairERC20 {
         let (token) = tokenAddress.read();
         if(erc20Address == token) {
             NFTPair._emitTokenWithdrawal(amount);
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+        } else {
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
         }
 
         return ();

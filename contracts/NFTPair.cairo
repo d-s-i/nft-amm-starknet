@@ -497,6 +497,8 @@ namespace NFTPair {
         _bondingCurve: felt,
         _factory: felt
     ) -> (protocolFee: Uint256, outputAmount: Uint256) {
+        alloc_locals;
+
         let (currentSpotPrice) = spotPrice.read();
         let (currentDelta) = delta.read();
         let (protocolFeeMultiplier) = INFTPairFactory.getProtocolFeeMultiplier(_factory);
@@ -726,7 +728,7 @@ namespace NFTPair {
     }
 
     func changeFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        newFee: Uint256
+        newFee: felt
     ) {
         Ownable.assert_only_owner();
 
@@ -759,10 +761,18 @@ namespace NFTPair {
             with_attr error_message("NFTPair::changeAssetRecipient - Not for trade pools") {
                 assert 1 = 2;
             }
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+            tempvar range_check_ptr = range_check_ptr;
+        } else {
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+            tempvar range_check_ptr = range_check_ptr;
         }
-        assetRecipient.write(newRecipient);
 
+        assetRecipient.write(newRecipient);
         AssetRecipientChange.emit(newRecipient);
+
         return ();
     }
 
@@ -847,47 +857,58 @@ namespace NFTPair {
             tempvar syscall_ptr = syscall_ptr;
             tempvar pedersen_ptr = pedersen_ptr;
         } else {
+                if(_poolType == poolTypes.NFT) {
+                    with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
+                        assert _fee = 0;
+                    }
+                    tempvar range_check_ptr = range_check_ptr;
+                    tempvar syscall_ptr = syscall_ptr;
+                    tempvar pedersen_ptr = pedersen_ptr;
+                } else {
+                    tempvar range_check_ptr = range_check_ptr;
+                    tempvar syscall_ptr = syscall_ptr;
+                    tempvar pedersen_ptr = pedersen_ptr;
+                        if(_poolType == poolTypes.TRADE) {
+                            assert_lt(_fee, MAX_FEE);
+                            with_attr error_message("NFTPair::initializer - Trade pools can't set asset recipient") {
+                                assert _assetRecipient = 0;
+                            }
+                            fee.write(_fee);
+                            tempvar range_check_ptr = range_check_ptr;
+                            tempvar syscall_ptr = syscall_ptr;
+                            tempvar pedersen_ptr = pedersen_ptr;
+                        } else {
+                            with_attr error_message("NFTPair::initializer - Wrong pool type (value: {_poolType})") {
+                                assert 1 = 2;
+                            }
+                            tempvar range_check_ptr = range_check_ptr;
+                            tempvar syscall_ptr = syscall_ptr;
+                            tempvar pedersen_ptr = pedersen_ptr;
+                        }
+                }
             tempvar range_check_ptr = range_check_ptr;
             tempvar syscall_ptr = syscall_ptr;
             tempvar pedersen_ptr = pedersen_ptr;
         }
-        if(_poolType == poolTypes.NFT) {
-            with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
-                assert _fee = 0;
-            }
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        } else {
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        }
-        if(_poolType == poolTypes.TRADE) {
-            assert_lt(_fee, MAX_FEE);
-            with_attr error_message("NFTPair::initializer - Trade pools can't set asset recipient") {
-                assert _assetRecipient = 0;
-            }
-            fee.write(_fee);
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        } else {
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        }
+
         return ();
     }
     
     func _revertIfError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(error: felt) {
-        let (isError) = uint256_lt(Uint256(low=0, high=0), error);
+        let (isError) = uint256_lt(Uint256(low=0, high=0), Uint256(low=error, high=0));
         if(isError == TRUE) {
             with_attr error_message(
                 "NFTPair - There was an error with the bonding curve (code: {error})"
             ) {
                 assert 1 = 2;
             }
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+        } else {
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
         }
         return ();
     }
