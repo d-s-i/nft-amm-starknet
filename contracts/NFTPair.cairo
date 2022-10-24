@@ -652,8 +652,7 @@ namespace NFTPair {
     // ADMIN
 
     func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        from_: felt, 
-        to: felt, 
+        _nftAddress: felt,
         tokenIds_len,
         tokenIds: Uint256*
     ) {
@@ -767,20 +766,6 @@ namespace NFTPair {
         return ();
     }
 
-    // Not implementing call
-    // Not implementing multicall
-    // Not implementing _getRevertMsg
-
-    ////////
-    // INHERITANCE
-
-    func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        interfaceId: felt
-    ) -> (isSupported: felt) {
-        let (isSupported) = ERC1155Holder.supportsInterface(interfaceId);
-        return (isSupported=isSupported);
-    }
-
     func setInterfacesSupported{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         interfaceId: felt, 
         isSupported: felt
@@ -788,6 +773,17 @@ namespace NFTPair {
         Ownable.assert_only_owner();
         ERC1155Holder.setInterfacesSupported(interfaceId, isSupported);
         return ();
+    }
+
+    // Not implementing call
+    // Not implementing multicall
+    // Not implementing _getRevertMsg
+
+    func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        interfaceId: felt
+    ) -> (isSupported: felt) {
+        let (isSupported) = ERC1155Holder.supportsInterface(interfaceId);
+        return (isSupported=isSupported);
     }
 
     func onERC1155Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(

@@ -18,4 +18,7 @@ namespace IERC721Enumerable {
 
     func tokenOfOwnerByIndex(owner: felt, index: Uint256) -> (tokenId: Uint256) {
     }
+
+    func transferFrom(from_: felt, to: felt, tokenId: Uint256) {
+    }
 }

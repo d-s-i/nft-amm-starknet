@@ -8,10 +8,9 @@ from starkware.cairo.common.uint256 import (
     uint256_add
 )
 from starkware.cairo.common.alloc import (alloc)
-from starkware.starknet.common.syscalls import (get_contract_address)
+from starkware.starknet.common.syscalls import (get_contract_address, get_caller_address)
 from starkware.cairo.common.bool import (TRUE)
 
-from contracts.interfaces.tokens.IERC721 import (IERC721)
 from contracts.interfaces.tokens.IERC721Enumerable import (IERC721Enumerable)
 
 from contracts.NFTPair import (NFTPair)
@@ -51,13 +50,13 @@ namespace NFTPairEnumerable {
         numNFTs: Uint256
     ) {
         let (contractAddress) = get_contract_address();
-        let (balance) = IERC721.balanceOf(_nftAddress, contractAddress);
+        let (balance) = IERC721Enumerable.balanceOf(_nftAddress, contractAddress);
         let (lastIndex) = uint256_sub(balance, Uint256(low=1, high=0));
 
         let (isLower) = uint256_lt(startIndex, numNFTs);
         if(isLower == TRUE) {
             let (nftId) = IERC721Enumerable.tokenOfOwnerByIndex(_nftAddress, contractAddress, startIndex);
-            IERC721.transferFrom(_nftAddress, contractAddress, nftRecipient, nftId);
+            IERC721Enumerable.transferFrom(_nftAddress, contractAddress, nftRecipient, nftId);
             let (newStartIndex, carry) = uint256_add(startIndex, Uint256(low=1, high=0));
             return _sendAnyNFTsToRecipient(_nftAddress, nftRecipient, newStartIndex, numNFTs);
         } 
@@ -77,7 +76,7 @@ namespace NFTPairEnumerable {
         }
 
         let (contractAddress) = get_contract_address();
-        IERC721.transferFrom(_nftAddress, contractAddress, nftRecipient, [nftIds]);
+        IERC721Enumerable.transferFrom(_nftAddress, contractAddress, nftRecipient, [nftIds]);
 
         return _sendSpecificNFTsToRecipient(
             _nftAddress,
@@ -242,14 +241,6 @@ namespace NFTPairEnumerable {
         return (isSupported=isSupported);
     }
 
-    func setInterfacesSupported{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        interfaceId: felt, 
-        isSupported: felt
-    ) {
-        NFTPair.setInterfacesSupported(interfaceId, isSupported);
-        return ();
-    }
-
     func onERC1155Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         operator: felt, 
         from_: felt, 
@@ -291,4 +282,112 @@ namespace NFTPairEnumerable {
         );
         return (selector=selector);
     }    
+
+    func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        _nftAddress: felt,
+        tokenIds_len,
+        tokenIds: Uint256*
+    ) {
+        let (thisAddress) = get_contract_address();
+        let (caller) = get_caller_address();
+
+        withdrawERC721_loop(
+            _nftAddress, 
+            thisAddress, 
+            caller,
+            tokenIds_len,
+            tokenIds,
+            0
+        );
+        
+        return ();
+    }
+
+    func withdrawERC721_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        _nftAddress: felt,
+        from_: felt,
+        to: felt,
+        tokenIds_len: felt,
+        tokenIds: Uint256*,
+        start: felt
+    ) {
+        if(start == tokenIds_len) {
+            return ();
+        }
+
+        IERC721Enumerable.transferFrom(_nftAddress, from_, to, [tokenIds]);
+
+        return withdrawERC721_loop(
+            _nftAddress,
+            from_,
+            to,
+            tokenIds_len,
+            tokenIds + 1,
+            start + 1
+        );
+    
+    }
+
+    func withdrawERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        sender: felt, 
+        recipient: felt, 
+        amount: Uint256
+    ) {
+        with_attr error_message("NFTPairEnumerable::withdrawERC20 - Function must be implemented in parent") {
+            assert 1 = 2;
+        }
+        return ();
+    }
+
+    func withdrawERC1155{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        from_: felt,
+        to: felt,
+        ids_len: felt,
+        ids: Uint256*,
+        amounts_len: felt,
+        amounts: Uint256*,
+        data_len: felt,
+        data: felt*,
+    ) {
+        with_attr error_message("NFTPairEnumerable::withdrawERC1155 - Function must be implemented in parent") {
+            assert 1 = 2;
+        }
+        return ();
+    }
+
+    func changeSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newSpotPrice: Uint256
+    ) {
+        NFTPair.changeSpotPrice(newSpotPrice);
+        return ();
+    }
+
+    func changeDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newDelta: Uint256
+    ) {
+        NFTPair.changeDelta(newDelta);
+        return ();
+    }
+
+    func changeFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newFee: Uint256
+    ) {
+        NFTPair.changeFee(newFee);
+        return ();
+    }
+
+    func changeAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newRecipient: felt
+    ) {
+        NFTPair.changeAssetRecipient(newRecipient);
+        return ();
+    }
+
+    func setInterfacesSupported{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        interfaceId: felt, 
+        isSupported: felt
+    ) {
+        NFTPair.setInterfacesSupported(interfaceId, isSupported);
+        return ();
+    }
 }
