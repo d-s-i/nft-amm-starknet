@@ -27,6 +27,10 @@ func idSet_len() -> (res: felt) {
 func idSet(id: felt) -> (tokenId: Uint256) {
 }
 
+@event
+func NFTWithdrawal() {
+}
+
 namespace NFTPairMissingEnumerable {
     func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         factoryAddr: felt,
@@ -55,52 +59,81 @@ namespace NFTPairMissingEnumerable {
         return ();
     }
 
-    func onERC721Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        operator: felt, 
-        from_: felt, 
-        tokenId: Uint256, 
-        data_len: felt,
-        data: felt*
-    ) -> (selector: felt) {
-        let (_nftAddress) = NFTPair.getNFTAddress();
-        let (caller) = get_caller_address();
+    func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        _nftAddress: felt,
+        tokenIds_len: felt,
+        tokenIds: Uint256*
+    ) {
+        NFTPair._assertOnlyOwner();
 
-        with_attr error_message("NFTPairMissingEnumerable::onERC721Received - Can only receive NFTs from pooled collection") {
-            assert caller = _nftAddress;
+        let (collectionAddress) = NFTPair.getNFTAddress();
+        let(thisAddress) = get_contract_address();
+        let (caller) = get_caller_address();
+        if(_nftAddress != collectionAddress) {
+            _withdrawExternalERC721_loop(
+                0,
+                tokenIds_len,
+                thisAddress,
+                caller,
+                tokenIds
+            );
+        } else {
+            _withdrawERC721_loop(
+                0,
+                tokenIds_len,
+                thisAddress,
+                caller,
+                tokenIds
+            );
         }
 
-        _addNFTInEnumeration(tokenId);
-
-        return (selector=IERC721_RECEIVER_ID);
+        return ();
     }
 
-    func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (ids_len: felt, ids: Uint256*) {
-        alloc_locals;
-        let (ids: Uint256*) = alloc();
-        let (end) = idSet_len.read();
-
-        _getAllHeldIds_loop(ids, 0, end);
-        
-        return (ids_len=end, ids=ids);
-    }
-
-    func _getAllHeldIds_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        _ids: Uint256*,
+    func _withdrawExternalERC721_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         start: felt,
-        end: felt
+        end: felt,
+        from_: felt,
+        to: felt,
+        tokenIds: Uint256*
     ) {
-
         if(start == end) {
             return ();
         }
-
-        let (currentId) = idSet.read(start);
-        assert [_ids] = currentId;
-
-        return _getAllHeldIds_loop(
-            _ids + 1,
+        IERC721.transferFrom(_nftAddress, from_, to, [tokenIds]);
+        return _withdrawExternalERC721_loop(
             start + 1,
-            end
+            end,
+            from_,
+            to,
+            tokenIds + 1
+        );
+    }
+
+
+    func _withdrawERC721_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        start: felt,
+        end: felt,
+        from_: felt,
+        to: felt,
+        tokenIds: Uint256*
+    ) {
+        if(start == end) {
+            return ();
+        }
+        
+        IERC721.transferFrom(_nftAddress, from_, to, [tokenIds]);
+
+        let (maxIndex) = idSet_len.read();
+        _removeNFTInEnumeration([tokenids], 0, maxIndex);
+        NFTWithdrawal.emit()
+        
+        return _withdrawExternalERC721_loop(
+            start + 1,
+            end,
+            from_,
+            to,
+            tokenIds + 1
         );
     }
 
@@ -166,6 +199,55 @@ namespace NFTPairMissingEnumerable {
             startIndex + 1,
             nftIds_len,
             nftIds + 1
+        );
+    }
+
+    func onERC721Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        operator: felt, 
+        from_: felt, 
+        tokenId: Uint256, 
+        data_len: felt,
+        data: felt*
+    ) -> (selector: felt) {
+        let (_nftAddress) = NFTPair.getNFTAddress();
+        let (caller) = get_caller_address();
+
+        with_attr error_message("NFTPairMissingEnumerable::onERC721Received - Can only receive NFTs from pooled collection") {
+            assert caller = _nftAddress;
+        }
+
+        _addNFTInEnumeration(tokenId);
+
+        return (selector=IERC721_RECEIVER_ID);
+    }
+
+    func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (ids_len: felt, ids: Uint256*) {
+        alloc_locals;
+        let (ids: Uint256*) = alloc();
+        let (end) = idSet_len.read();
+
+        _getAllHeldIds_loop(ids, 0, end);
+        
+        return (ids_len=end, ids=ids);
+    }
+
+    func _getAllHeldIds_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        _ids: Uint256*,
+        start: felt,
+        end: felt
+    ) {
+
+        if(start == end) {
+            return ();
+        }
+
+        let (currentId) = idSet.read(start);
+        assert [_ids] = currentId;
+
+        return _getAllHeldIds_loop(
+            _ids + 1,
+            start + 1,
+            end
         );
     }
 

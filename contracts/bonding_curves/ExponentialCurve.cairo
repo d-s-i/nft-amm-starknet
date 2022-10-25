@@ -19,6 +19,7 @@ from contracts.constants.library import (MAX_UINT_128)
 // 1 gwei
 const MIN_PRICE = 1000000000;
 
+@external
 func validateDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     delta: Uint256
 ) -> (success: felt) {
@@ -27,6 +28,7 @@ func validateDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
     return (success=greaterThanWAD);
 }
 
+@external
 func validateSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     newSpotPrice: Uint256
 ) -> (success: felt) {
@@ -35,6 +37,7 @@ func validateSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
     return (success=isPositive);
 }
 
+@view
 func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     spotPrice: Uint256,
     delta: Uint256,
@@ -127,6 +130,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     );
 }
 
+@view
 func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     spotPrice: Uint256,
     delta: Uint256,

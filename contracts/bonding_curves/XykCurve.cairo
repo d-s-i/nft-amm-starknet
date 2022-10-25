@@ -17,18 +17,21 @@ from contracts.bonding_curves.CurveErrorCodes import (CurveErrorCodes)
 from contracts.bonding_curves.FixedPointMathLib import (FixedPointMathLib)
 from contracts.libraries.felt_uint import (FeltUint)
 
+@external
 func validateDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     delta: Uint256
 ) -> (success: felt) {
     return (success=TRUE);
 }
 
+@external
 func validateSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     delta: Uint256
 ) -> (success: felt) {
     return (success=TRUE);
 }
 
+@view
 func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     spotPrice: Uint256,
     delta: Uint256,
@@ -87,6 +90,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
 
 }
 
+@view
 func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     spotPrice: Uint256,
     delta: Uint256,
