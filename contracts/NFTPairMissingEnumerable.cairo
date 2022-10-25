@@ -73,6 +73,7 @@ namespace NFTPairMissingEnumerable {
             _withdrawExternalERC721_loop(
                 0,
                 tokenIds_len,
+                _nftAddress,
                 thisAddress,
                 caller,
                 tokenIds
@@ -81,6 +82,7 @@ namespace NFTPairMissingEnumerable {
             _withdrawERC721_loop(
                 0,
                 tokenIds_len,
+                _nftAddress,
                 thisAddress,
                 caller,
                 tokenIds
@@ -93,6 +95,7 @@ namespace NFTPairMissingEnumerable {
     func _withdrawExternalERC721_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         start: felt,
         end: felt,
+        _nftAddress: felt,
         from_: felt,
         to: felt,
         tokenIds: Uint256*
@@ -114,6 +117,7 @@ namespace NFTPairMissingEnumerable {
     func _withdrawERC721_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         start: felt,
         end: felt,
+        _nftAddress: felt,
         from_: felt,
         to: felt,
         tokenIds: Uint256*
@@ -125,8 +129,8 @@ namespace NFTPairMissingEnumerable {
         IERC721.transferFrom(_nftAddress, from_, to, [tokenIds]);
 
         let (maxIndex) = idSet_len.read();
-        _removeNFTInEnumeration([tokenids], 0, maxIndex);
-        NFTWithdrawal.emit()
+        _removeNFTInEnumeration([tokenIds], 0, maxIndex);
+        NFTWithdrawal.emit();
         
         return _withdrawExternalERC721_loop(
             start + 1,
@@ -245,7 +249,7 @@ namespace NFTPairMissingEnumerable {
         assert [_ids] = currentId;
 
         return _getAllHeldIds_loop(
-            _ids + 1,
+            _ids + 2,
             start + 1,
             end
         );
@@ -289,6 +293,237 @@ namespace NFTPairMissingEnumerable {
         } else {
             return _removeNFTInEnumeration(targetId, startIndex + 1, max);
         }
+    }
 
+
+    ////////
+    // NFTPair
+
+    func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        numNFTs: Uint256,
+        maxExpectedTokenInput: Uint256,
+        nftRecipient: felt,
+        isRouter: felt,
+        routerCaller: felt
+    ) {
+        NFTPair.swapTokenForAnyNFTs(
+            numNFTs,
+            maxExpectedTokenInput,
+            nftRecipient,
+            isRouter,
+            routerCaller
+        );
+        
+        return ();
+    }
+
+    func swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        nftIds_len: felt,
+        nftIds: Uint256*,
+        maxExpectedTokenInput: Uint256,
+        nftRecipient: felt,
+        isRouter: felt,
+        routerCaller: felt
+    ) {
+        NFTPair.swapTokenForSpecificNFTs(
+            nftIds_len,
+            nftIds,
+            maxExpectedTokenInput,
+            nftRecipient,
+            isRouter,
+            routerCaller
+        );
+        return ();
+
+    }
+
+    func swapNFTsForToken{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        nftIds_len: felt,
+        nftIds: Uint256*,
+        minExpectedTokenOutput: Uint256,
+        tokenRecipient: felt,
+        isRouter: felt,
+        routerCaller: felt
+    ) {
+        NFTPair.swapNFTsForToken(
+            nftIds_len,
+            nftIds,
+            minExpectedTokenOutput,
+            tokenRecipient,
+            isRouter,
+            routerCaller
+        );
+        return ();
+    }
+
+    ////////
+    // GETTERS
+
+    func getBuyNFTQuote{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        numNFTs: Uint256
+    ) -> (
+        error: felt,
+        newSpotPrice: Uint256,
+        newDelta: Uint256,
+        inputAmount: Uint256,
+        protocolFee: Uint256
+    ) {
+        let (
+            error,
+            newSpotPrice,
+            newDelta,
+            inputAmount,
+            protocolFee
+        ) = NFTPair.getBuyNFTQuote(numNFTs);
+        return (
+            error=error,
+            newSpotPrice=newSpotPrice,
+            newDelta=newDelta,
+            inputAmount=inputAmount,
+            protocolFee=protocolFee
+        );
+    }
+
+    func getSellNFTQuote{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        numNFTs: Uint256
+    ) -> (
+        error: felt,
+        newSpotPrice: Uint256,
+        newDelta: Uint256,
+        inputAmount: Uint256,
+        protocolFee: Uint256
+    ) {
+        let (
+            error,
+            newSpotPrice,
+            newDelta,
+            inputAmount,
+            protocolFee
+        ) = NFTPair.getSellNFTQuote(numNFTs);
+        return (
+            error=error,
+            newSpotPrice=newSpotPrice,
+            newDelta=newDelta,
+            inputAmount=inputAmount,
+            protocolFee=protocolFee
+        );
+    }
+
+    func getAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (recipient: felt) {
+        let (_assetRecipient) = NFTPair.getAssetRecipient();
+        return (recipient=_assetRecipient);
+    }
+
+    func getPairVariant{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_pairVariant: felt) {
+        let (_pairVariant) = NFTPair.getPairVariant();
+        return (_pairVariant=_pairVariant);
+    }
+
+    func getPoolType{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_poolType: felt) {
+        let (_poolType) = NFTPair.getPoolType();
+        return (_poolType=_poolType);
+    }
+
+    func getNFTAddress{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_nftAddress: felt) {
+        let (_nftAddress) = NFTPair.getNFTAddress();
+        return (_nftAddress=_nftAddress);
+    }
+
+    func getBondingCurve{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_bondingCurve: felt) {
+        let (_bondingCurve) = NFTPair.getBondingCurve();
+        return (_bondingCurve=_bondingCurve);
+    }
+
+    func getFactory{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_factory: felt) {
+        let (_factory) = NFTPair.getFactory();
+        return (_factory=_factory);
+    }
+
+    ////////
+    // NFTPair - ADMIN
+
+    func changeSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newSpotPrice: Uint256
+    ) {
+        NFTPair.changeSpotPrice(newSpotPrice);
+        return ();
+    }
+
+    func changeDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newDelta: Uint256
+    ) {
+        NFTPair.changeDelta(newDelta);
+        return ();
+    }
+
+    func changeFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newFee: felt
+    ) {
+        NFTPair.changeFee(newFee);
+        return ();
+    }
+
+    func changeAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        newRecipient: felt
+    ) {
+        NFTPair.changeAssetRecipient(newRecipient);
+        return ();
+    }
+
+    func setInterfacesSupported{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        interfaceId: felt, 
+        isSupported: felt
+    ) {
+        NFTPair.setInterfacesSupported(interfaceId, isSupported);
+        return ();
+    }
+
+    func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        interfaceId: felt
+    ) -> (isSupported: felt) {
+        let (isSupported) = NFTPair.supportsInterface(interfaceId);
+        return (isSupported=isSupported);
+    }
+
+    func onERC1155Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        operator: felt, 
+        from_: felt, 
+        token_id: Uint256, 
+        amount: Uint256,
+        data_len: felt, 
+        data: felt*
+    ) -> (selector: felt) {
+        let (selector) = NFTPair.onERC1155Received(
+            operator,
+            from_,
+            token_id,
+            amount,
+            data_len,
+            data
+        );
+        return (selector=selector);
+    }
+
+    func onERC1155BatchReceived{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        operator: felt, 
+        from_: felt, 
+        token_ids_len: felt,
+        token_ids: Uint256*, 
+        amounts_len: felt,
+        amounts: Uint256*,
+        data_len: felt, 
+        data: felt*
+    ) -> (selector: felt) {
+        let (selector) = NFTPair.onERC1155BatchReceived(
+            operator,
+            from_,
+            token_ids_len,
+            token_ids,
+            amounts_len,
+            amounts,
+            data_len,
+            data
+        );
+        return (selector=selector);
     }
 }

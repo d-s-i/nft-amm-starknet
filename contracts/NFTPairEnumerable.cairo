@@ -431,4 +431,78 @@ namespace NFTPairEnumerable {
         NFTPair.setInterfacesSupported(interfaceId, isSupported);
         return ();
     }
+
+    ////////
+    // INTERNAL
+
+    func _takeNFTsFromSender{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        _nftAddress: felt,
+        startIndex: felt,
+        nftIds_len: felt,
+        nftIds: Uint256*,
+        _factory: felt,
+        isRouter: felt,
+        routerCaller: felt
+    ) {
+        NFTPair._takeNFTsFromSender(
+            _nftAddress,
+            startIndex,
+            nftIds_len,
+            nftIds,
+            _factory,
+            isRouter,
+            routerCaller
+        );
+        return ();
+    }
+
+    func _pullTokenInputAndPayProtocolFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        inputAmount: Uint256,
+        isRouter: felt,
+        routerCaller: felt,
+        _factory: felt,
+        protocolFee: Uint256
+    ) {
+        with_attr error_message("NFTPair::_pullTokenInputAndPayProtocolFee - Function must be implemented in parent contract") {
+            assert 1 = 2;
+        }
+        return ();
+    }
+
+    func _sendTokenOutput{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        tokenRecipient: felt, 
+        outputAmount: Uint256
+    ) {
+        with_attr error_message("NFTPairEnumerable::_sendTokenOutput - Function must be implemented in parent contract") {
+            assert 1 = 2;
+        }
+        return ();
+    }
+
+    func _payProtocolFeeFromPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        _factory: felt, 
+        protocolFee: Uint256
+    ) {
+        with_attr error_message("NFTPairEnumerable::_payProtocolFeeFromPair - Function must be implemented in parent contract") {
+            assert 1 = 2;
+        }
+        return ();
+    } 
+
+    func _revertIfError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(error: felt) {
+        NFTPair._revertIfError(error);
+        return ();
+    }
+
+    func _assertOnlyOwner{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+        NFTPair._assertOnlyOwner();
+        return ();
+    }
+
+    func _emitTokenWithdrawal{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        amount: Uint256
+    ) {
+        NFTPair._emitTokenWithdrawal(amount);
+        return ();
+    }
 }

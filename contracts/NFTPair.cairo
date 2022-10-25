@@ -655,7 +655,7 @@ namespace NFTPair {
 
     func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         _nftAddress: felt,
-        tokenIds_len,
+        tokenIds_len: felt,
         tokenIds: Uint256*
     ) {
         with_attr error_message("NFTPair::withdrawERC721 - Function must be implemented in parent") {
