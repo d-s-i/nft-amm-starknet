@@ -67,7 +67,7 @@ func test_getBuyInfoExample{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, rang
     let (numItems) = FeltUint.feltToUint256(5);
     // 0.5%
     let (feeMultiplierUint, feeMultiplierUintRem) = uint256_unsigned_div_rem(fiveWAD, Uint256(low=1000, high=0));
-    let (feeMultiplier) = FeltUint.Uint256ToFelt(feeMultiplierUint);
+    let (feeMultiplier) = FeltUint.uint256ToFelt(feeMultiplierUint);
     // 0.3%
     let (protocolFeeMultiplier, protocolFeeMultiplierRem) = uint256_unsigned_div_rem(threeWAD, Uint256(low=1000, high=0));
 
@@ -147,12 +147,12 @@ func test_getBuyInfoWithoutFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, r
 
     let (fullWidthGtMax) = uint256_lt(Uint256(low=MAX_UINT_128, high=0), fullWidthNewSpotPrice);
     if(fullWidthGtMax == TRUE) {
-        tempvar syscall_ptr = syscall_ptr;
-        tempvar pedersen_ptr = pedersen_ptr;
-        tempvar range_check_ptr = range_check_ptr;
         with_attr error_message("Error code should be SPOT_PRICE_OVERFLOW") {
             assert error = errors.SPOT_PRICE_OVERFLOW;
         }
+        tempvar syscall_ptr = syscall_ptr;
+        tempvar pedersen_ptr = pedersen_ptr;
+        tempvar range_check_ptr = range_check_ptr;
     } else {
         with_attr error_message("Error code should be OK") {
             assert error = errors.OK;
@@ -190,7 +190,13 @@ func test_getBuyInfoWithoutFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, r
                         tempvar pedersen_ptr = pedersen_ptr;
                         tempvar range_check_ptr = range_check_ptr;
                     }
+                    tempvar syscall_ptr = syscall_ptr;
+                    tempvar pedersen_ptr = pedersen_ptr;
+                    tempvar range_check_ptr = range_check_ptr;
                 }
+                tempvar syscall_ptr = syscall_ptr;
+                tempvar pedersen_ptr = pedersen_ptr;
+                tempvar range_check_ptr = range_check_ptr;                
             } else {
                 tempvar syscall_ptr = syscall_ptr;
                 tempvar pedersen_ptr = pedersen_ptr;
@@ -248,7 +254,7 @@ func test_getSellInfoExample{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ran
     let (numItems) = FeltUint.feltToUint256(5);
     // 0.5%
     let (feeMultiplierUint, feeMultiplierUintRem) = uint256_unsigned_div_rem(fiveWAD, Uint256(low=1000, high=0));
-    let (feeMultiplier) = FeltUint.Uint256ToFelt(feeMultiplierUint);
+    let (feeMultiplier) = FeltUint.uint256ToFelt(feeMultiplierUint);
     // 0.3%
     let (protocolFeeMultiplier, protocolFeeMultiplierRem) = uint256_unsigned_div_rem(threeWAD, Uint256(low=1000, high=0));
 
@@ -280,6 +286,68 @@ func test_getSellInfoExample{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ran
     assert_uint256_eq(newDelta, _2_WETH);
     assert_uint256_eq(outputValue, _5_766_WETH);
     assert_uint256_eq(protocolFee, _0_0174375_WETH);
+
+    return ();
+}
+
+
+@external
+func test_getSellInfoExample{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+    alloc_locals;
+
+    // _spotPrice=0, _delta=0, _numItems=0,
+
+    let (WAD) = FixedPointMathLib.WAD();
+    let (errors) = CurveErrorCodes.ERROR();
+    let (fiveWAD, fiveWADHigh) = uint256_mul(WAD, Uint256(low=5, high=0));
+    let (threeWAD, fiveWADHigh) = uint256_mul(WAD, Uint256(low=3, high=0));
+    let (_2_WETH) = FeltUint.feltToUint256(2000000000000000000);
+    let (_3_WETH) = FeltUint.feltToUint256(3000000000000000000);
+    // 0.09375 WETH
+    let (_0_09375_WETH) = FeltUint.feltToUint256(93750000000000000);
+    // 5.766 WETH
+    let (_5_766_WETH) = FeltUint.feltToUint256(5766000000000000000);
+    // 0.0174375 WETH
+    let (_0_0174375_WETH) = FeltUint.feltToUint256(17437500000000000);
+
+    // 3 WETH
+    let spotPrice = Uint256(low=0, high=0);
+    // 2 WETH
+    let delta = Uint256(low=0, high=0);
+    let numItems = Uint256(low=0, high=0);
+    // 0.5%
+    let (feeMultiplierUint, feeMultiplierUintRem) = uint256_unsigned_div_rem(fiveWAD, Uint256(low=1000, high=0));
+    let (feeMultiplier) = FeltUint.uint256ToFelt(feeMultiplierUint);
+    // 0.3%
+    let (protocolFeeMultiplier, protocolFeeMultiplierRem) = uint256_unsigned_div_rem(threeWAD, Uint256(low=1000, high=0));
+
+    let (
+        error,
+        newSpotPrice,
+        newDelta,
+        outputValue,
+        protocolFee
+    ) = getSellInfo(
+        spotPrice,
+        delta,
+        numItems,
+        feeMultiplier,
+        protocolFeeMultiplier
+    );
+
+    %{
+        print(f"error: {ids.error}")
+        print(f"newSpotPrice: {ids.newSpotPrice.low + ids.newSpotPrice.high}")
+        print(f"newDelta: {ids.newDelta.low + ids.newDelta.high}")
+        print(f"outputAmount: {ids.outputValue.low + ids.outputValue.high}")
+        print(f"protocolFee: {ids.protocolFee.low + ids.protocolFee.high}")
+    %}
+    
+    assert error = errors.INVALID_NUMITEMS;
+    // assert_uint256_eq(newSpotPrice, _0_09375_WETH);
+    // assert_uint256_eq(newDelta, _2_WETH);
+    // assert_uint256_eq(outputValue, _5_766_WETH);
+    // assert_uint256_eq(protocolFee, _0_0174375_WETH);
 
     return ();
 }
@@ -368,7 +436,13 @@ func test_getSellInfoWithoutFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, 
                     tempvar pedersen_ptr = pedersen_ptr;
                     tempvar range_check_ptr = range_check_ptr;
                 }
+                tempvar syscall_ptr = syscall_ptr;
+                tempvar pedersen_ptr = pedersen_ptr;
+                tempvar range_check_ptr = range_check_ptr;                
             }
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+            tempvar range_check_ptr = range_check_ptr;            
         } else {
             tempvar syscall_ptr = syscall_ptr;
             tempvar pedersen_ptr = pedersen_ptr;

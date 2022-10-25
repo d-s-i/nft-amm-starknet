@@ -15,7 +15,7 @@ from starkware.cairo.common.uint256 import (
 )
 from starkware.cairo.common.bool import (TRUE, FALSE)
 
-from contracts.FixedPointMathLib import (FixedPointMathLib)
+from contracts.bonding_curves.FixedPointMathLib import (FixedPointMathLib)
 
 @external
 func test_WAD{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}() {

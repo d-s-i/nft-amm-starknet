@@ -146,6 +146,10 @@
             {
                 "name": "_assetRecipient",
                 "type": "felt"
+            },
+            {
+                "name": "pairVariant",
+                "type": "felt"
             }
         ],
         "name": "initializer",
