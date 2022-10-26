@@ -6,7 +6,9 @@ from starkware.cairo.common.math import (assert_not_zero, assert_lt)
 from starkware.cairo.common.uint256 import (
     Uint256, 
     uint256_lt, 
-    uint256_le
+    uint256_le,
+    assert_uint256_lt,
+    assert_uint256_le
 )
 from starkware.starknet.common.syscalls import (get_contract_address)
 from starkware.cairo.common.bool import (TRUE, FALSE)
@@ -165,14 +167,19 @@ namespace NFTPair {
             }
         }
 
-        let (contractAddress) = get_contract_address();
-        let (balance) = IERC721.balanceOf(_nftAddress, contractAddress);
+        let (thisAddress) = get_contract_address();
+        let (balance) = IERC721.balanceOf(_nftAddress, thisAddress);
+
+        with_attr error_mesage("NFTPair::swapTokenForAnyNFTs - Must by at least 1 NFT") {
+            // assert_not_zero(numNFTs.low);
+            // assert_not_zero(numNFTs.high);
+            assert_uint256_lt(Uint256(low=0, high=0), numNFTs);
+        }
 
         with_attr error_message("NFTPair::swapTokenForAnyNFTs - Contract has not enough balances for trade") {
-            assert_not_zero(numNFTs.low);
-            assert_not_zero(numNFTs.high);
-            let (isLower) = uint256_le(numNFTs, balance); 
-            assert isLower = TRUE;
+            assert_uint256_le(numNFTs, balance);
+            // let (isLower) = uint256_le(numNFTs, balance); 
+            // assert isLower = TRUE;
         }
 
         let (protocolFee, inputAmount) = _calculateBuyInfoAndUpdatePoolParams(
@@ -182,6 +189,7 @@ namespace NFTPair {
             _factory
         );
 
+        // Implemented in NFTPairERC20
         _pullTokenInputAndPayProtocolFee(
             inputAmount,
             isRouter,
@@ -190,6 +198,7 @@ namespace NFTPair {
             protocolFee
         );
 
+        // Implemented in NFTPairERC20
         _sendAnyNFTsToRecipient(_nftAddress, nftRecipient, Uint256(low=0, high=0), numNFTs);
 
         SwpaNFTOutPair.emit();

@@ -45,12 +45,19 @@ func protocolFeeMultiplier() -> (res: Uint256) {
 func NewPair(contractAddress: felt) {
 }
 
+@event
+func BondingCurveStatusUpdate(bondingCurveAddress: felt, isAllowed: felt) {
+}
+
 @constructor
 func constructor{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     _enumerableERC20Template: felt,
     _missingEnumerableERC20Template: felt,
-    _protocolFeeMultiplier: Uint256
+    _protocolFeeMultiplier: Uint256,
+    owner: felt
 ) {
+    Ownable.initializer(owner);
+
     enumerableERC20Template.write(_enumerableERC20Template);
     missingEnumerableERC20Template.write(_missingEnumerableERC20Template);
     protocolFeeMultiplier.write(_protocolFeeMultiplier);
@@ -116,6 +123,17 @@ func createPairERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
     }
 }
 
+@external
+func setBondingCurveAllowed{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    bondingCurveAddress: felt,
+    isAllowed: felt
+) {
+    Ownable.assert_only_owner();
+    bondigCurveAllowed.write(bondingCurveAddress, isAllowed);
+    BondingCurveStatusUpdate.emit(bondingCurveAddress, isAllowed);
+    return ();
+}
+
 func deployPairEnumerableERC20{
     syscall_ptr: felt*,
     pedersen_ptr: HashBuiltin*,
@@ -162,7 +180,7 @@ func deployPairEnumerableERC20{
     );
 
     _transferInitialLiquidity(
-        thisAddress,
+        _pairAddress,
         _erc20Address,
         _nftAddress,
         _initialNFTIds_len,
@@ -222,7 +240,7 @@ func deployPairMissingEnumerableERC20{
     );
 
     _transferInitialLiquidity(
-        thisAddress,
+        _pairAddress,
         _erc20Address,
         _nftAddress,
         _initialNFTIds_len,
@@ -236,7 +254,7 @@ func deployPairMissingEnumerableERC20{
 }
 
 func _transferInitialLiquidity{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    thisAddress: felt,
+    pairAddress: felt,
     erc20Address: felt,
     nftAddress: felt,
     nftIds_len: felt,
@@ -244,8 +262,15 @@ func _transferInitialLiquidity{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, r
     initialERC20Balance: Uint256
 ) {
     let (caller) = get_caller_address();
-    IERC20.transferFrom(erc20Address, caller, thisAddress, initialERC20Balance);
-    _transferInitialNFTs(0, nftIds_len, caller, thisAddress, nftAddress, nftIds);
+    IERC20.transferFrom(erc20Address, caller, pairAddress, initialERC20Balance);
+    _transferInitialNFTs(
+        start=0, 
+        end=nftIds_len, 
+        from_=caller, 
+        to=pairAddress, 
+        nftAddress=nftAddress, 
+        tokenIds=nftIds
+    );
 
     return ();
 }

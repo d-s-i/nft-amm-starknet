@@ -107,6 +107,7 @@ namespace NFTPairMissingEnumerable {
         return _withdrawExternalERC721_loop(
             start + 1,
             end,
+            _nftAddress,
             from_,
             to,
             tokenIds + 1
@@ -132,9 +133,10 @@ namespace NFTPairMissingEnumerable {
         _removeNFTInEnumeration([tokenIds], 0, maxIndex);
         NFTWithdrawal.emit();
         
-        return _withdrawExternalERC721_loop(
+        return _withdrawERC721_loop(
             start + 1,
             end,
+            _nftAddress,
             from_,
             to,
             tokenIds + 1

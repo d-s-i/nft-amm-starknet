@@ -1,0 +1,53 @@
+NFTPairMissingEnumerableERC20 is NFTPairMissingEnumerable, NFTPairERC20:
+- pairVariant()
+
+NFTPairMissingEnumerable is NFTPair:
+- _sendAnyNFTsToRecipient()
+- _sendSpecificNFTsToRecipient() //
+- getAllHeldIds()
+- onERC721Received()
+- withdrawERC721() //
+
+NFTPairERC20 is NFTPair:
+- token()
+- _pullTokenInputAndPayProtocolFee()
+- _refundTokenToSender()
+- _payProtocolFeeFromPair()
+- _sendTokenOutput()
+- _immutableParamsLength()
+- withdrawERC20()
+
+NFTPair is :
+- initialize()
+- swapTokenForAnyNFTs() // Have to be implemented in main function
+- swapTokenForSpecificNFTs() // Have to be implemented in main function
+- swapNFTsForToken() // can be implemented in NFTPair/NFTPairERC20
+- getBuyNFTQuote()
+- getSellNFTQuote()
+- factory()
+- bondingCurve()
+- nft()
+- poolType()
+- getAssetRecipient()
+- _calculateBuyInfoAndUpdatePoolParams()
+- _calculateSellInfoAndUpdatePoolParams()
+- _takeNFTsFromSender()
+- changeSpotPrice()
+- changeDelta()
+- changeFee()
+- changeAssetRecipient()
+- call()
+- multicall()
+- _getRevertMsg()
+
+// not implemented
+- _pullTokenInputAndPayProtocolFee()
+- _refundTokenToSender()
+- _payProtocolFeeFromPair()
+- _sendTokenOutput()
+- _sendAnyNFTsToRecipient()
+- _sendSpecificNFTsToRecipient()
+- _immutableParamsLength()
+- withdrawERC721()
+- withdrawERC20()
+- withdrawERC1155()

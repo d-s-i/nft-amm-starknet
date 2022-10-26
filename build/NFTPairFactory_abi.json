@@ -43,6 +43,21 @@
         "type": "event"
     },
     {
+        "data": [
+            {
+                "name": "bondingCurveAddress",
+                "type": "felt"
+            },
+            {
+                "name": "isAllowed",
+                "type": "felt"
+            }
+        ],
+        "keys": [],
+        "name": "BondingCurveStatusUpdate",
+        "type": "event"
+    },
+    {
         "inputs": [
             {
                 "name": "_enumerableERC20Template",
@@ -55,6 +70,10 @@
             {
                 "name": "_protocolFeeMultiplier",
                 "type": "Uint256"
+            },
+            {
+                "name": "owner",
+                "type": "felt"
             }
         ],
         "name": "constructor",
@@ -115,6 +134,21 @@
                 "type": "felt"
             }
         ],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "bondingCurveAddress",
+                "type": "felt"
+            },
+            {
+                "name": "isAllowed",
+                "type": "felt"
+            }
+        ],
+        "name": "setBondingCurveAllowed",
+        "outputs": [],
         "type": "function"
     },
     {

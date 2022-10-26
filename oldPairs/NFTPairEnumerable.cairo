@@ -463,7 +463,7 @@ namespace NFTPairEnumerable {
         _factory: felt,
         protocolFee: Uint256
     ) {
-        with_attr error_message("NFTPair::_pullTokenInputAndPayProtocolFee - Function must be implemented in parent contract") {
+        with_attr error_message("NFTPairEnumerable::_pullTokenInputAndPayProtocolFee - Function must be implemented in parent contract") {
             assert 1 = 2;
         }
         return ();

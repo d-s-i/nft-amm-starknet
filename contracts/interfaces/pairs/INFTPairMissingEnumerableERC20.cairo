@@ -17,4 +17,33 @@ namespace INFTPairMissingEnumerableERC20 {
         _tokenAddress: felt
     ) {
     }
+
+    func swapTokenForAnyNFTs(
+        numNFTs: Uint256,
+        maxExpectedTokenInput: Uint256,
+        nftRecipient: felt,
+        isRouter: felt,
+        routerCaller: felt
+    ) {
+    }
+
+    func swapTokenForSpecificNFTs(
+        nftIds_len: felt,
+        nftIds: Uint256*,
+        maxExpectedTokenInput: Uint256,
+        nftRecipient: felt,
+        isRouter: felt,
+        routerCaller: felt
+    ) {
+    }
+
+    func swapNFTsForToken(
+        nftIds_len: felt,
+        nftIds: Uint256*,
+        minExpectedTokenOutput: Uint256,
+        tokenRecipient: felt,
+        isRouter: felt,
+        routerCaller: felt
+    ) {
+    }
 }

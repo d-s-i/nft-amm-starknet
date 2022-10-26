@@ -40,7 +40,7 @@
     {
         "data": [],
         "keys": [],
-        "name": "SwpaNFTOutPair",
+        "name": "SwapNFTOutPair",
         "type": "event"
     },
     {
@@ -110,66 +110,10 @@
         "type": "event"
     },
     {
-        "inputs": [
-            {
-                "name": "factoryAddr",
-                "type": "felt"
-            },
-            {
-                "name": "bondingCurveAddr",
-                "type": "felt"
-            },
-            {
-                "name": "_poolType",
-                "type": "felt"
-            },
-            {
-                "name": "_nftAddress",
-                "type": "felt"
-            },
-            {
-                "name": "_spotPrice",
-                "type": "Uint256"
-            },
-            {
-                "name": "_delta",
-                "type": "Uint256"
-            },
-            {
-                "name": "_fee",
-                "type": "felt"
-            },
-            {
-                "name": "owner",
-                "type": "felt"
-            },
-            {
-                "name": "_assetRecipient",
-                "type": "felt"
-            },
-            {
-                "name": "_tokenAddress",
-                "type": "felt"
-            }
-        ],
-        "name": "initializer",
-        "outputs": [],
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "erc20Address",
-                "type": "felt"
-            },
-            {
-                "name": "amount",
-                "type": "Uint256"
-            }
-        ],
-        "name": "withdrawERC20",
-        "outputs": [],
-        "type": "function"
+        "data": [],
+        "keys": [],
+        "name": "NFTWithdrawal",
+        "type": "event"
     },
     {
         "inputs": [
@@ -315,28 +259,12 @@
                 "type": "Uint256"
             },
             {
-                "name": "outputAmount",
+                "name": "inputAmount",
                 "type": "Uint256"
             },
             {
                 "name": "protocolFee",
                 "type": "Uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getAllHeldIds",
-        "outputs": [
-            {
-                "name": "tokenIds_len",
-                "type": "felt"
-            },
-            {
-                "name": "tokenIds",
-                "type": "Uint256*"
             }
         ],
         "stateMutability": "view",
@@ -417,6 +345,80 @@
     {
         "inputs": [
             {
+                "name": "erc20Address",
+                "type": "felt"
+            },
+            {
+                "name": "amount",
+                "type": "Uint256"
+            }
+        ],
+        "name": "withdrawERC20",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "newSpotPrice",
+                "type": "Uint256"
+            }
+        ],
+        "name": "changeSpotPrice",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "newDelta",
+                "type": "Uint256"
+            }
+        ],
+        "name": "changeDelta",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "newFee",
+                "type": "felt"
+            }
+        ],
+        "name": "changeFee",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "newRecipient",
+                "type": "felt"
+            }
+        ],
+        "name": "changeAssetRecipient",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "interfaceId",
+                "type": "felt"
+            },
+            {
+                "name": "isSupported",
+                "type": "felt"
+            }
+        ],
+        "name": "setInterfacesSupported",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "name": "interfaceId",
                 "type": "felt"
             }
@@ -425,18 +427,6 @@
         "outputs": [
             {
                 "name": "isSupported",
-                "type": "felt"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "onERC721Received",
-        "outputs": [
-            {
-                "name": "interfaceId",
                 "type": "felt"
             }
         ],
@@ -523,84 +513,6 @@
             }
         ],
         "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "_nftAddress",
-                "type": "felt"
-            },
-            {
-                "name": "tokenIds_len",
-                "type": "felt"
-            },
-            {
-                "name": "tokenIds",
-                "type": "Uint256*"
-            }
-        ],
-        "name": "withdrawERC721",
-        "outputs": [],
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "newSpotPrice",
-                "type": "Uint256"
-            }
-        ],
-        "name": "changeSpotPrice",
-        "outputs": [],
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "newDelta",
-                "type": "Uint256"
-            }
-        ],
-        "name": "changeDelta",
-        "outputs": [],
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "newFee",
-                "type": "felt"
-            }
-        ],
-        "name": "changeFee",
-        "outputs": [],
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "newRecipient",
-                "type": "felt"
-            }
-        ],
-        "name": "changeAssetRecipient",
-        "outputs": [],
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "interfaceId",
-                "type": "felt"
-            },
-            {
-                "name": "isSupported",
-                "type": "felt"
-            }
-        ],
-        "name": "setInterfacesSupported",
-        "outputs": [],
         "type": "function"
     }
 ]
