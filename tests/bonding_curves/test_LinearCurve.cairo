@@ -93,53 +93,53 @@ func test_getBuyInfoExample{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, rang
     return ();
 }
 
-// @external
-// func test_getBuyInfoError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
-//     alloc_locals;
+@external
+func test_getBuyInfoError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+    alloc_locals;
 
-// // _spotPrice = 0
-// // _delta = 340282366920938463463374607431768211455
-// // _numItems = 1
+// _spotPrice = 0
+// _delta = 340282366920938463463374607431768211455
+// _numItems = 1
 
-//     let (WAD) = FixedPointMathLib.WAD();
-//     let (errors) = CurveErrorCodes.ERROR();
-//     let (fiveWAD, fiveWADHigh) = uint256_mul(WAD, Uint256(low=5, high=0));
-//     let (threeWAD, fiveWADHigh) = uint256_mul(WAD, Uint256(low=3, high=0));
+    let (WAD) = FixedPointMathLib.WAD();
+    let (errors) = CurveErrorCodes.ERROR();
+    let (fiveWAD, fiveWADHigh) = uint256_mul(WAD, Uint256(low=5, high=0));
+    let (threeWAD, fiveWADHigh) = uint256_mul(WAD, Uint256(low=3, high=0));
 
-//     // 3 WETH
-//     let spotPrice = Uint256(low=0, high=0);
-//     // 2 WETH
-//     let (delta) = FeltUint.feltToUint256(340282366920938463463374607431768211455);
-//     let numItems = Uint256(low=1, high=0);
-//     // 0.5%
-//     let (feeMultiplierUint, feeMultiplierUintRem) = uint256_unsigned_div_rem(fiveWAD, Uint256(low=1000, high=0));
-//     let (feeMultiplier) = FeltUint.uint256ToFelt(feeMultiplierUint);
-//     // 0.3%
-//     let (protocolFeeMultiplier, protocolFeeMultiplierRem) = uint256_unsigned_div_rem(threeWAD, Uint256(low=1000, high=0));
+    // 3 WETH
+    let spotPrice = Uint256(low=0, high=0);
+    // 2 WETH
+    let (delta) = FeltUint.feltToUint256(340282366920938463463374607431768211455);
+    let numItems = Uint256(low=1, high=0);
+    // 0.5%
+    let (feeMultiplierUint, feeMultiplierUintRem) = uint256_unsigned_div_rem(fiveWAD, Uint256(low=1000, high=0));
+    let (feeMultiplier) = FeltUint.uint256ToFelt(feeMultiplierUint);
+    // 0.3%
+    let (protocolFeeMultiplier, protocolFeeMultiplierRem) = uint256_unsigned_div_rem(threeWAD, Uint256(low=1000, high=0));
 
-//     %{
-//         print(f"feeMultiplier: {ids.feeMultiplier}") 
-//         print(f"protocolFeeMultiplier: {ids.protocolFeeMultiplier.low + ids.protocolFeeMultiplier.high}")
-//     %}
+    %{
+        print(f"feeMultiplier: {ids.feeMultiplier}") 
+        print(f"protocolFeeMultiplier: {ids.protocolFeeMultiplier.low + ids.protocolFeeMultiplier.high}")
+    %}
 
-//     let (
-//         error,
-//         newSpotPrice,
-//         newDelta,
-//         inputValue,
-//         protocolFee
-//     ) = getBuyInfo(
-//         spotPrice,
-//         delta,
-//         numItems,
-//         feeMultiplier,
-//         protocolFeeMultiplier
-//     );
+    let (
+        error,
+        newSpotPrice,
+        newDelta,
+        inputValue,
+        protocolFee
+    ) = getBuyInfo(
+        spotPrice,
+        delta,
+        numItems,
+        feeMultiplier,
+        protocolFeeMultiplier
+    );
 
-//     assert error = errors.OK;
+    assert error = errors.OK;
 
-//     return ();
-// }
+    return ();
+}
 
 @external
 func test_getBuyInfoWithoutFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
@@ -288,81 +288,81 @@ func test_getSellInfoExample{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ran
     return ();
 }
 
-// @external
-// func test_getSellInfoError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
-//     alloc_locals;
+@external
+func test_getSellInfoError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+    alloc_locals;
 
-// // _spotPrice = 1
-// // _delta = 1
-// // _numItems = 2
+// _spotPrice = 1
+// _delta = 1
+// _numItems = 2
 
-//     let (WAD) = FixedPointMathLib.WAD();
-//     let (errors) = CurveErrorCodes.ERROR();
-//     let (fiveWAD, fiveWADHigh) = uint256_mul(WAD, Uint256(low=5, high=0));
-//     let (threeWAD, fiveWADHigh) = uint256_mul(WAD, Uint256(low=3, high=0));
+    let (WAD) = FixedPointMathLib.WAD();
+    let (errors) = CurveErrorCodes.ERROR();
+    let (fiveWAD, fiveWADHigh) = uint256_mul(WAD, Uint256(low=5, high=0));
+    let (threeWAD, fiveWADHigh) = uint256_mul(WAD, Uint256(low=3, high=0));
 
-//     let spotPrice = Uint256(low=1, high=0);
-//     let (delta) = FeltUint.feltToUint256(1);
-//     let numItems = Uint256(low=2, high=0);
-//     // // 0.5%
-//     // let (feeMultiplierUint, feeMultiplierUintRem) = uint256_unsigned_div_rem(fiveWAD, Uint256(low=1000, high=0));
-//     // let (feeMultiplier) = FeltUint.uint256ToFelt(feeMultiplierUint);
-//     let feeMultiplier = 0;
-//     // // 0.3%
-//     // let (protocolFeeMultiplier, protocolFeeMultiplierRem) = uint256_unsigned_div_rem(threeWAD, Uint256(low=1000, high=0));
-//     let protocolFeeMultiplier = Uint256(low=0, high=0);
+    let spotPrice = Uint256(low=1, high=0);
+    let (delta) = FeltUint.feltToUint256(1);
+    let numItems = Uint256(low=2, high=0);
+    // // 0.5%
+    // let (feeMultiplierUint, feeMultiplierUintRem) = uint256_unsigned_div_rem(fiveWAD, Uint256(low=1000, high=0));
+    // let (feeMultiplier) = FeltUint.uint256ToFelt(feeMultiplierUint);
+    let feeMultiplier = 0;
+    // // 0.3%
+    // let (protocolFeeMultiplier, protocolFeeMultiplierRem) = uint256_unsigned_div_rem(threeWAD, Uint256(low=1000, high=0));
+    let protocolFeeMultiplier = Uint256(low=0, high=0);
 
-//     local _spotPrice: Uint256 = spotPrice;
-//     local _numItems: Uint256 = numItems;
-//     local _protocolFeeMultiplier: Uint256 = protocolFeeMultiplier;
-//     %{
-//         print(f"running getSellInfo with: ");
-//         print(f"spotPrice: {ids._spotPrice.low + ids._spotPrice.high}")
-//         print(f"delta: {ids.delta.low + ids.delta.high}")
-//         print(f"numItems: {ids._numItems.low + ids._numItems.high}")
-//         print(f"feeMultiplier: {ids.feeMultiplier}") 
-//         print(f"protocolFeeMultiplier: {ids._protocolFeeMultiplier.low + ids._protocolFeeMultiplier.high}")
-//     %}
+    local _spotPrice: Uint256 = spotPrice;
+    local _numItems: Uint256 = numItems;
+    local _protocolFeeMultiplier: Uint256 = protocolFeeMultiplier;
+    %{
+        print(f"running getSellInfo with: ");
+        print(f"spotPrice: {ids._spotPrice.low + ids._spotPrice.high}")
+        print(f"delta: {ids.delta.low + ids.delta.high}")
+        print(f"numItems: {ids._numItems.low + ids._numItems.high}")
+        print(f"feeMultiplier: {ids.feeMultiplier}") 
+        print(f"protocolFeeMultiplier: {ids._protocolFeeMultiplier.low + ids._protocolFeeMultiplier.high}")
+    %}
 
-//     let (
-//         error,
-//         newSpotPrice,
-//         newDelta,
-//         outputValue,
-//         protocolFee
-//     ) = getSellInfo(
-//         spotPrice,
-//         delta,
-//         numItems,
-//         0,
-//         Uint256(low=0, high=0)
-//     );
+    let (
+        error,
+        newSpotPrice,
+        newDelta,
+        outputValue,
+        protocolFee
+    ) = getSellInfo(
+        spotPrice,
+        delta,
+        numItems,
+        0,
+        Uint256(low=0, high=0)
+    );
 
-//     %{
-//         print("\n --- RESULT --- ")
-//         print(f"error: {ids.error}")
-//         print(f"newSpotPrice: {ids.newSpotPrice.low + ids.newSpotPrice.high}")
-//         print(f"newDelta: {ids.newDelta.low + ids.newDelta.high}")
-//         print(f"outputValue: {ids.outputValue.low + ids.outputValue.high}")
-//         print(f"protocolFee: {ids.protocolFee.low + ids.protocolFee.high}")
-//     %}
+    %{
+        print("\n --- RESULT --- ")
+        print(f"error: {ids.error}")
+        print(f"newSpotPrice: {ids.newSpotPrice.low + ids.newSpotPrice.high}")
+        print(f"newDelta: {ids.newDelta.low + ids.newDelta.high}")
+        print(f"outputValue: {ids.outputValue.low + ids.outputValue.high}")
+        print(f"protocolFee: {ids.protocolFee.low + ids.protocolFee.high}")
+    %}
     
-//     assert error = errors.OK;
-//     with_attr error_message("getSellInfoError - newSpotPrice value incorrect") {
-//         assert_uint256_eq(newSpotPrice, Uint256(low=0, high=0));
-//     }
-//     with_attr error_message("getSellInfoError - newDelta value incorrect") {
-//         assert_uint256_eq(newDelta, Uint256(low=1, high=0));
-//     }
-//     with_attr error_message("getSellInfoError - outputValue value incorrect") {
-//         assert_uint256_eq(outputValue, Uint256(low=0, high=0));
-//     }
-//     with_attr error_message("getSellInfoError - protocolFee value incorrect") {
-//         assert_uint256_eq(protocolFee, Uint256(low=0, high=0));
-//     }
+    assert error = errors.OK;
+    with_attr error_message("getSellInfoError - newSpotPrice value incorrect") {
+        assert_uint256_eq(newSpotPrice, Uint256(low=0, high=0));
+    }
+    with_attr error_message("getSellInfoError - newDelta value incorrect") {
+        assert_uint256_eq(newDelta, Uint256(low=1, high=0));
+    }
+    with_attr error_message("getSellInfoError - outputValue value incorrect") {
+        assert_uint256_eq(outputValue, Uint256(low=0, high=0));
+    }
+    with_attr error_message("getSellInfoError - protocolFee value incorrect") {
+        assert_uint256_eq(protocolFee, Uint256(low=0, high=0));
+    }
 
-//     return ();
-// }
+    return ();
+}
 
 @external
 func test_getSellInfoWithoutFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(

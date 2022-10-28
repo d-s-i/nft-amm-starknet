@@ -6,12 +6,14 @@ from starkware.starknet.common.syscalls import (get_caller_address, get_contract
 from starkware.cairo.common.math import (assert_not_zero, assert_lt)
 from starkware.cairo.common.uint256 import (
     Uint256, 
+    uint256_add,
     uint256_sub,
     uint256_lt, 
     uint256_le,
     uint256_eq,
     assert_uint256_lt,
-    assert_uint256_le
+    assert_uint256_le,
+    assert_uint256_eq
 )
 from starkware.cairo.common.bool import (TRUE, FALSE)
 
@@ -150,132 +152,6 @@ namespace NFTPairERC20 {
         return ();
     }
 
-    ////////
-    // MAIN FUNCTIONS
-
-    // func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    //     numNFTs: Uint256,
-    //     maxExpectedTokenInput: Uint256,
-    //     nftRecipient: felt,
-    //     isRouter: felt,
-    //     routerCaller: felt
-    // ) {
-    //     alloc_locals;
-
-    //     ReentrancyGuard._start();
-
-    //     let (poolTypes) = PoolTypes.value();
-    //     let (_factory) = factory.read();
-    //     let (_bondingCurve) = bondingCurve.read();
-    //     let (_nftAddress) = nftAddress.read();
-    //     let (_poolType) = poolType.read();
-
-    //     if(_poolType == poolTypes.TOKEN) {
-    //         with_attr error_message("NFTPairERC20::swapTokenForAnyNFTs - Wrong Pool type") {
-    //             assert 1 = 2;
-    //         }
-    //     }
-
-    //     let (thisAddress) = get_contract_address();
-    //     let (balance) = IERC721.balanceOf(_nftAddress, thisAddress);
-
-    //     with_attr error_mesage("NFTPairERC20::swapTokenForAnyNFTs - Must by at least 1 NFT") {
-    //         // assert_not_zero(numNFTs.low);
-    //         // assert_not_zero(numNFTs.high);
-    //         assert_uint256_lt(Uint256(low=0, high=0), numNFTs);
-    //     }
-
-    //     with_attr error_message("NFTPairERC20::swapTokenForAnyNFTs - Contract has not enough balances for trade") {
-    //         assert_uint256_le(numNFTs, balance);
-    //         // let (isLower) = uint256_le(numNFTs, balance); 
-    //         // assert isLower = TRUE;
-    //     }
-
-    //     let (protocolFee, inputAmount) = _calculateBuyInfoAndUpdatePoolParams(
-    //         numNFTs,
-    //         maxExpectedTokenInput,
-    //         _bondingCurve,
-    //         _factory
-    //     );
-
-    //     // Implemented in NFTPairERC20
-    //     _pullTokenInputAndPayProtocolFee(
-    //         inputAmount,
-    //         isRouter,
-    //         routerCaller,
-    //         _factory,
-    //         protocolFee
-    //     );
-
-    //     // Implemented in NFTPairERC20
-    //     _sendAnyNFTsToRecipient(_nftAddress, nftRecipient, Uint256(low=0, high=0), numNFTs);
-
-    //     SwpaNFTOutPair.emit();
-
-    //     ReentrancyGuard._end();
-        
-    //     return ();
-    // }
-
-    // func swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    //     nftIds_len: felt,
-    //     nftIds: Uint256*,
-    //     maxExpectedTokenInput: Uint256,
-    //     nftRecipient: felt,
-    //     isRouter: felt,
-    //     routerCaller: felt
-    // ) {
-
-    //     alloc_locals;
-    //     ReentrancyGuard._start();
-
-    //     let (poolTypes) = PoolTypes.value();
-    //     let (_factory) = factory.read();
-    //     let (_bondingCurve) = bondingCurve.read();
-    //     let (_poolType) = poolType.read();
-    //     let (_nftAddress) = nftAddress.read();
-
-    //     if(_poolType == poolTypes.TOKEN) {
-    //         with_attr error_message("Wrong Pool type") {
-    //             assert 1 = 2;
-    //         }
-    //     }
-    //     with_attr error_message("Must ask for more than 0 NFTs") {
-    //         assert_lt(0, nftIds_len);
-    //     }
-
-    //     let (numNFTsUint) = FeltUint.feltToUint256(nftIds_len);
-    //     let (protocolFee, inputAmount) = _calculateBuyInfoAndUpdatePoolParams(
-    //         numNFTsUint,
-    //         maxExpectedTokenInput,
-    //         _bondingCurve,
-    //         _factory
-    //     );
-
-    //     _pullTokenInputAndPayProtocolFee(
-    //         inputAmount,
-    //         isRouter,
-    //         routerCaller,
-    //         _factory,
-    //         protocolFee
-    //     );
-
-    //     _sendSpecificNFTsToRecipient(
-    //         _nftAddress,
-    //         nftRecipient,
-    //         0,
-    //         nftIds_len,
-    //         nftIds
-    //     );        
-
-    //     SwpaNFTOutPair.emit();
-
-    //     ReentrancyGuard._end();
-
-    //     return ();
-
-    // }
-
     // @notice Sends a set of NFTs to the pair in exchange for token
     // @dev To compute the amount of token to that will be received, call bondingCurve.getSellInfo.
     // @param nftIds The list of IDs of the NFTs to sell to the pair
@@ -303,13 +179,14 @@ namespace NFTPairERC20 {
         let (_factory) = factory.read();
         let (_bondingCurve) = bondingCurve.read();
         let (_poolType) = poolType.read();
+        let (_nftAddress) = nftAddress.read();
 
         if(_poolType == poolTypes.NFT) {
-            with_attr error_message("Wrong Pool type") {
+            with_attr error_message("NFTPairERC20::swapNFTsForToken - Wrong Pool type") {
                 assert 1 = 2;
             }
         }
-        with_attr error_message("Must ask for more than 0 NFTs") {
+        with_attr error_message("NFTPairERC20::swapNFTsForToken - Must ask for more than 0 NFTs") {
             assert_lt(0, nftIds_len);
         }
 
@@ -324,6 +201,16 @@ namespace NFTPairERC20 {
         _sendTokenOutput(tokenRecipient, outputAmount);
 
         _payProtocolFeeFromPair(_factory, protocolFee);
+
+        _takeNFTsFromSender(
+            _nftAddress=_nftAddress,
+            startIndex=0,
+            nftIds_len=nftIds_len,
+            nftIds=nftIds,
+            _factory=_factory,
+            isRouter=isRouter,
+            routerCaller=routerCaller
+        );
 
         SwapNFTInPair.emit();
 
@@ -380,7 +267,7 @@ namespace NFTPairERC20 {
         error: felt,
         newSpotPrice: Uint256,
         newDelta: Uint256,
-        inputAmount: Uint256,
+        outputAmount: Uint256,
         protocolFee: Uint256
     ) {
 
@@ -395,7 +282,7 @@ namespace NFTPairERC20 {
             error,
             newSpotPrice,
             newDelta,
-            inputAmount,
+            outputAmount,
             protocolFee
         ) = ICurve.getSellInfo(
             _bondingCurve,
@@ -409,7 +296,7 @@ namespace NFTPairERC20 {
             error=error,
             newSpotPrice=newSpotPrice,
             newDelta=newDelta,
-            inputAmount=inputAmount,
+            outputAmount=outputAmount,
             protocolFee=protocolFee
         );
     }
@@ -430,6 +317,21 @@ namespace NFTPairERC20 {
         }
         return (recipient=_assetRecipient);
     }
+
+    func getFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_fee: felt) {
+        let (_fee) = fee.read();
+        return (_fee=_fee);
+    }
+
+    func getSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_spotPrice: Uint256) {
+        let (_spotPrice) = spotPrice.read();
+        return (_spotPrice=_spotPrice);
+    }
+
+    func getDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_delta: Uint256) {
+        let (_delta) = delta.read();
+        return (_delta=_delta);
+    }    
 
     func getPairVariant{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_pairVariant: felt) {
         let (_pairVariant) = pairVariant.read();
@@ -563,13 +465,16 @@ namespace NFTPairERC20 {
         isRouter: felt,
         routerCaller: felt
     ) {
+        alloc_locals;
+
+        let (_assetRecipient) = getAssetRecipient();
 
         if(isRouter == TRUE) {
-            let (_assetRecipient) = getAssetRecipient();
             let (routerAllowed) = INFTPairFactory.routerStatus(_factory, routerCaller);
-            with_attr error_message("Router Not Allowed") {
+            with_attr error_message("NFTPairERC20::_takeNFTsFromSender - Router Not Allowed") {
                 assert routerAllowed = 1;
             }
+            let (_pairVariant) = pairVariant.read();
 
             let (nftIdsLenUint) = FeltUint.feltToUint256(nftIds_len);
             let (moreThanOneNFT) = uint256_lt(Uint256(low=1, high=0), nftIdsLenUint);  
@@ -577,8 +482,7 @@ namespace NFTPairERC20 {
                 let (beforeBalance) = IERC721.balanceOf(_nftAddress, _assetRecipient);
                 if(startIndex == nftIds_len) {
                     return ();
-                }
-                let (_pairVariant) = pairVariant.read();
+                }                  
                 INFTRouter.pairTransferNFTFrom(
                     routerCaller,
                     _nftAddress,
@@ -587,6 +491,15 @@ namespace NFTPairERC20 {
                     [nftIds],
                     _pairVariant
                 );
+                let (afterBalance) = IERC721.balanceOf(_nftAddress, _assetRecipient);
+                let (expectedAfterBalance, expectedAfterBalanceCarry) = uint256_add(beforeBalance, Uint256(low=1, high=0));
+                with_attr error_mesage("NFTPairERC20::_takeNFTsFromSender - One NFT not transfered") {
+                    assert_uint256_eq(afterBalance, expectedAfterBalance);
+                }
+
+                tempvar range_check_ptr = range_check_ptr;
+                tempvar syscall_ptr = syscall_ptr;
+                tempvar pedersen_ptr = pedersen_ptr;
 
                 return _takeNFTsFromSender(
                     _nftAddress,
@@ -597,17 +510,54 @@ namespace NFTPairERC20 {
                     isRouter,
                     routerCaller
                 );
-            }
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        } else {
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-        }
 
-        return ();
+            } else {
+                INFTRouter.pairTransferNFTFrom(
+                    routerCaller,
+                    _nftAddress,
+                    routerCaller,
+                    _assetRecipient,
+                    [nftIds],
+                    _pairVariant
+                );
+                let (owner) = IERC721.ownerOf(_nftAddress, [nftIds]);
+                with_attr error_mesage("NFTPairERC20::_takeNFTsFromSender - NFT not transferred") {
+                    assert owner = _assetRecipient;
+                }
+                tempvar range_check_ptr = range_check_ptr;
+                tempvar syscall_ptr = syscall_ptr;
+                tempvar pedersen_ptr = pedersen_ptr;
+
+                return ();
+            }
+        } else {
+            if(startIndex == nftIds_len) {
+                return ();
+            }          
+            let (caller) = get_caller_address();
+            IERC721.safeTransferFrom(
+                contract_address=_nftAddress,
+                from_=caller,
+                to=_assetRecipient, 
+                tokenId=[nftIds], 
+                data_len=0, 
+                data=cast (new (0,), felt*)
+            );
+
+            tempvar range_check_ptr = range_check_ptr;
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+
+            return _takeNFTsFromSender(
+                _nftAddress,
+                startIndex + 1,
+                nftIds_len,
+                nftIds + 1,
+                _factory,
+                isRouter,
+                routerCaller
+            );
+        }
     }
 
     func _pullTokenInputAndPayProtocolFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(

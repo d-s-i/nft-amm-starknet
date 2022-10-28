@@ -17,8 +17,10 @@ from starkware.cairo.common.uint256 import (
 from contracts.libraries.felt_uint import (FeltUint)
 
 from contracts.interfaces.tokens.IERC721 import (IERC721)
+from contracts.interfaces.tokens.IERC20 import (IERC20)
 
 from contracts.constants.PoolType import (PoolTypes)
+from contracts.constants.library import (MAX_UINT_128)
 from contracts.constants.library import (IERC721_RECEIVER_ID)
 from contracts.constants.PairVariant import (PairVariants)
 
@@ -64,6 +66,11 @@ func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
         pairVariants.MISSING_ENUMERABLE_ERC20,
         _erc20Address
     );
+    setInterfacesSupported(IERC721_RECEIVER_ID, TRUE);
+    let (thisAddress) = get_contract_address();
+    IERC721.setApprovalForAll(_nftAddress, thisAddress, TRUE);
+    IERC20.approve(_erc20Address, thisAddress, Uint256(low=MAX_UINT_128, high=MAX_UINT_128));
+
     return ();
 }
  /////////////////
@@ -177,7 +184,7 @@ func swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ra
         0,
         nftIds_len,
         nftIds
-    );        
+    );
 
     NFTPairERC20._emitSwapNFTOutPair();
 
@@ -220,6 +227,7 @@ func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_
     let(thisAddress) = get_contract_address();
     let (caller) = get_caller_address();
     if(_nftAddress != collectionAddress) {
+        IERC721.setApprovalForAll(_nftAddress, thisAddress, TRUE);
         _withdrawExternalERC721_loop(
             0,
             tokenIds_len,
@@ -335,7 +343,7 @@ func _sendAnyNFTsToRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ran
     alloc_locals;
     let (len) = idSet_len.read();
 
-    let (maxReached) = uint256_lt(start, numNFTs);
+    let (maxReached) = uint256_eq(start, numNFTs);
     if(maxReached == TRUE) {
         return ();
     } 
@@ -369,11 +377,20 @@ func onERC721Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_chec
     let (_nftAddress) = NFTPairERC20.getNFTAddress();
     let (caller) = get_caller_address();
 
-    with_attr error_message("NFTPairMissingEnumerable::onERC721Received - Can only receive NFTs from pooled collection") {
-        assert caller = _nftAddress;
-    }
+    // with_attr error_message("NFTPairMissingEnumerable::onERC721Received - Can only receive NFTs from pooled collection") {
+    //     assert caller = _nftAddress;
+    // }
+    if(caller == _nftAddress) {
+        _addNFTInEnumeration(tokenId);
 
-    _addNFTInEnumeration(tokenId);
+        tempvar range_check_ptr = range_check_ptr;
+        tempvar syscall_ptr = syscall_ptr;
+        tempvar pedersen_ptr = pedersen_ptr;        
+    } else {
+        tempvar range_check_ptr = range_check_ptr;
+        tempvar syscall_ptr = syscall_ptr;
+        tempvar pedersen_ptr = pedersen_ptr;    
+    }
 
     return (selector=IERC721_RECEIVER_ID);
 }
@@ -434,7 +451,7 @@ func _removeNFTInEnumeration{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ran
     let (currentId) = idSet.read(startIndex);
     let (idFound) = uint256_eq(currentId, targetId);
     if(idFound == TRUE) {
-        // replace this value by last valule
+        // remove value by replacing with last value
         let (lastValue) = idSet.read(max - 1);
         idSet.write(startIndex, lastValue);
         // set last value to 0 (bc is now set to current index)
@@ -484,21 +501,21 @@ func getSellNFTQuote{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
     error: felt,
     newSpotPrice: Uint256,
     newDelta: Uint256,
-    inputAmount: Uint256,
+    outputAmount: Uint256,
     protocolFee: Uint256
 ) {
     let (
         error,
         newSpotPrice,
         newDelta,
-        inputAmount,
+        outputAmount,
         protocolFee
     ) = NFTPairERC20.getSellNFTQuote(numNFTs);
     return (
         error=error,
         newSpotPrice=newSpotPrice,
         newDelta=newDelta,
-        inputAmount=inputAmount,
+        outputAmount=outputAmount,
         protocolFee=protocolFee
     );
 }
@@ -519,6 +536,24 @@ func getAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
         return (recipient=thisAddress);
     }
     return (recipient=_assetRecipient);
+}
+
+@view
+func getFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_fee: felt) {
+    let (_fee) = NFTPairERC20.getFee();
+    return (_fee=_fee);
+}
+
+@view
+func getSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_spotPrice: Uint256) {
+    let (_spotPrice) = NFTPairERC20.getSpotPrice();
+    return (_spotPrice=_spotPrice);
+}
+
+@view
+func getDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_delta: Uint256) {
+    let (_delta) = NFTPairERC20.getDelta();
+    return (_delta=_delta);
 }
 
 @view

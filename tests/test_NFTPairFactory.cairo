@@ -39,20 +39,6 @@ namespace NFTPairFactory {
 
 @contract_interface
 namespace INFTPairMissingEnumerableERC20 {
-    func initializer(
-        factoryAddr: felt,
-        bondingCurveAddr: felt,
-        _poolType: felt,
-        _nftAddress: felt,
-        _spotPrice: Uint256,
-        _delta: Uint256,
-        _fee: felt,
-        owner: felt,
-        _assetRecipient: felt,
-        _tokenAddress: felt
-    ) {
-    }
-
     func swapTokenForAnyNFTs(
         numNFTs: Uint256,
         maxExpectedTokenInput: Uint256,
@@ -81,6 +67,16 @@ namespace INFTPairMissingEnumerableERC20 {
         routerCaller: felt
     ) {
     }
+    func getBuyNFTQuote(numNFTs: Uint256) -> (
+        error: felt,
+        newSpotPrice: Uint256,
+        newDelta: Uint256,
+        inputAmount: Uint256,
+        protocolFee: Uint256
+    ) {
+    }
+    func getAllHeldIds() -> (tokenIds_len: felt, tokenIds: Uint256*) {
+    }
 }
 
 @contract_interface
@@ -92,6 +88,8 @@ namespace ERC20 {
     func mint(to: felt, amount: Uint256) {
     }
     func balanceOf(owner: felt) -> (balance: Uint256) {
+    }
+    func test() -> (caller: felt) {
     }
 }
 
@@ -107,17 +105,16 @@ namespace ERC721 {
 func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
     alloc_locals;
 
-    tempvar MAX_UINT_256 = Uint256(low=MAX_UINT_128, high=MAX_UINT_128);
-
-    let holderAddr = 2971377087062275847644889140048409281862029281453332545390872066700573941323;
-    
+    tempvar accountAddr;
     tempvar factoryAddr;
     tempvar bondingCurveAddr;
     tempvar erc721Addr;
     tempvar erc20Addr;
     %{ 
         print("Starting setup")
-        context.holderAddr = ids.holderAddr
+        # context.accountAddr = ids.accountAddr
+        ids.accountAddr = deploy_contract("./contracts/tests/Account.cairo", [0]).contract_address
+        context.accountAddr = ids.accountAddr
         
         # Deploy factory
         # NFTPairEnumerableERC20ClassHash = declare("./contracts/NFTPairEnumerableERC20.cairo").class_hash
@@ -129,7 +126,7 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
                 NFTPairMissingEnumerableERC20ClassHash, 
                 0, 
                 0,
-                ids.holderAddr
+                ids.accountAddr
             ]
         ).contract_address
         ids.factoryAddr = context.factoryAddr
@@ -141,55 +138,38 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         # Deploy tokens
         context.erc20Addr = deploy_contract(
             "./contracts/tests/ERC20.cairo", 
-            [0, 0, 18, 1000000000000000000000, 0, context.holderAddr, context.holderAddr]
+            [0, 0, 18, 1000000000000000000000, 0, context.accountAddr, context.accountAddr]
         ).contract_address
         ids.erc20Addr = context.erc20Addr
         context.erc721Addr = deploy_contract(
             "./contracts/tests/ERC721.cairo",
-            [0, 0, ids.holderAddr]
+            [0, 0, ids.accountAddr]
         ).contract_address
         ids.erc721Addr = context.erc721Addr
-
-        # Set allowances
-        store(context.erc20Addr, "ERC20_allowances", [ids.MAX_UINT_256.low, ids.MAX_UINT_256.high], [context.holderAddr, context.factoryAddr])
-        store(context.erc721Addr, "ERC721_operator_approvals", [1], [context.holderAddr, context.factoryAddr])
 
         print(f"factoryAddr: {context.factoryAddr} (hex: {hex(context.factoryAddr)})")
         print(f"bondingCurveAddr: {context.bondingCurveAddr} (hex: {hex(context.bondingCurveAddr)})")
         print(f"erc20Addr: {context.erc20Addr} (hex: {hex(context.erc20Addr)})")
         print(f"erc721Addr: {context.erc721Addr} (hex: {hex(context.erc721Addr)})")
-        print(f"holderAddr: {context.holderAddr} (hex: {hex(context.holderAddr)})")
+        print(f"accountAddr: {context.accountAddr} (hex: {hex(context.accountAddr)})")
 
-        stop_prank_factory = start_prank(context.holderAddr, context.factoryAddr)
-        stop_prank_erc721 = start_prank(context.holderAddr, context.erc721Addr)
-
+        stop_prank_factory = start_prank(context.accountAddr, context.factoryAddr)
     %}
 
     NFTPairFactory.setBondingCurveAllowed(factoryAddr, bondingCurveAddr, 1);
-
-    let tokenId = Uint256(low=TOKEN_ID, high=0);
-    ERC721.mint(erc721Addr, holderAddr, tokenId);
+    %{stop_prank_factory()%}
 
     let (poolTypes) = PoolTypes.value();
-    let (pairAddress) = NFTPairFactory.createPairERC20(
-        contract_address=factoryAddr,
-        _erc20Address=erc20Addr,
-        _nftAddress=erc721Addr,
-        _bondingCurve=bondingCurveAddr,
-        _assetRecipient=0,
-        _poolType=poolTypes.TRADE,
-        _delta=Uint256(low=0, high=0),
-        _fee=0,
-        _spotPrice=Uint256(low=10, high=0),
-        _initialNFTIDs_len=1,
-        _initialNFTIDs=cast(new (tokenId,), Uint256*),
-        initialERC20Balance=Uint256(low=100, high=0)
+    deployPair(
+        accountAddr,
+        factoryAddr,
+        erc20Addr,
+        erc721Addr,
+        bondingCurveAddr,
+        poolTypes.TRADE,
+        TOKEN_ID,
+        Uint256(low=100, high=0)
     );
-
-    %{
-        print(f"pairAddress: {ids.pairAddress} (hex: {hex(ids.pairAddress)})")
-        context.pairAddress = ids.pairAddress
-    %}
 
     return ();
 }
@@ -201,6 +181,19 @@ func test_createPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
     tempvar pairAddress;
     %{ ids.pairAddress = context.pairAddress %}
 
+    // tempvar factoryAddr;
+    // tempvar erc20Addr;
+    // tempvar bondingCurveAddr;
+    // tempvar erc721Addr;
+    // tempvar accountAddr;
+    // %{
+    //     ids.factoryAddr = context.factoryAddr
+    //     ids.erc20Addr = context.erc20Addr
+    //     ids.bondingCurveAddr = context.bondingCurveAddr
+    //     ids.erc721Addr = context.erc721Addr
+    //     ids.accountAddr = context.accountAddr
+    // %}
+
     with_attr error_mesage("NFTPairFactory::createPairERC20 - pairAddress should not be 0 (value: {pairAddress})") {
         assert_not_zero(pairAddress);
     }
@@ -208,42 +201,53 @@ func test_createPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
     return ();
 }
 
-@external
-func test_swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+func deployPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    accountAddr: felt,
+    factoryAddr: felt,
+    erc20Addr: felt,
+    erc721Addr: felt,
+    bondingCurveAddr: felt,
+    poolType: felt,
+    initialNFTId: felt,
+    initialERC20Balance: Uint256
+) -> (pairAddress: felt) {
 
-    tempvar pairAddress;
-    tempvar erc20Addr;
-    tempvar erc721Addr;
-    tempvar holderAddr;
+    tempvar MAX_UINT_256 = Uint256(low=MAX_UINT_128, high=MAX_UINT_128);
+
+    let initialNFTIdUint = Uint256(low=initialNFTId, high=0);
     %{
-        stop_prank_erc20 = start_prank(context.holderAddr, context.erc20Addr)
-        ids.holderAddr = context.holderAddr
-        ids.pairAddress = context.pairAddress
-        ids.erc20Addr = context.erc20Addr
-        ids.erc721Addr = context.erc721Addr
+        stop_prank_factory = start_prank(ids.accountAddr, ids.factoryAddr)
+        stop_prank_erc721 = start_prank(context.accountAddr, context.erc721Addr)
+
+        # Set allowances    
+        store(context.erc20Addr, "ERC20_allowances", [ids.MAX_UINT_256.low, ids.MAX_UINT_256.high], [context.accountAddr, context.factoryAddr])
+        store(context.erc721Addr, "ERC721_operator_approvals", [1], [context.accountAddr, context.factoryAddr])
     %}
-
-    ERC20.mint(erc20Addr, holderAddr, Uint256(low=MAX_UINT_128, high=0));
-
-    let (initialPairTokenBalance) = ERC20.balanceOf(erc20Addr, pairAddress);
-    let (initialPairNFTBalance) = ERC721.balanceOf(erc721Addr, pairAddress);
-    %{
-        print(f"initialPairTokenBalance: {ids.initialPairTokenBalance.low + ids.initialPairTokenBalance.high}")
-        print(f"initialPairNFTBalance: {ids.initialPairNFTBalance.low + ids.initialPairNFTBalance.high}")
-    %}
-
-    INFTPairMissingEnumerableERC20.swapTokenForAnyNFTs(
-        pairAddress,
-        Uint256(low=1, high=0),
-        Uint256(low=MAX_UINT_128, high=0),
-        holderAddr,
-        0,
-        0
+    ERC721.mint(erc721Addr, accountAddr, initialNFTIdUint);
+    
+    let (pairAddress) = NFTPairFactory.createPairERC20(
+        contract_address=factoryAddr,
+        _erc20Address=erc20Addr,
+        _nftAddress=erc721Addr,
+        _bondingCurve=bondingCurveAddr,
+        _assetRecipient=0,
+        _poolType=poolType,
+        _delta=Uint256(low=0, high=0),
+        _fee=0,
+        _spotPrice=Uint256(low=10, high=0),
+        _initialNFTIDs_len=1,
+        _initialNFTIDs=cast(new (initialNFTIdUint,), Uint256*),
+        initialERC20Balance=initialERC20Balance
     );
 
-    let (finalPairTokenBalance) = ERC20.balanceOf(erc20Addr, pairAddress);
     %{
-        print(f"finalPairTokenBalance: {ids.finalPairTokenBalance.low + ids.finalPairTokenBalance.high}")
+        stop_prank_factory()
+        stop_prank_erc721()
     %}
-    return ();
+
+    %{
+        print(f"pairAddress: {ids.pairAddress} (hex: {hex(ids.pairAddress)})")
+        context.pairAddress = ids.pairAddress
+    %}
+    return (pairAddress=pairAddress);
 }

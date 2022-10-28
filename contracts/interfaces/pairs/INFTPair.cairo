@@ -63,7 +63,7 @@ namespace INFTPair {
         error: felt,
         newSpotPrice: Uint256,
         newDelta: Uint256,
-        inputAmount: Uint256,
+        outputAmount: Uint256,
         protocolFee: felt
     ) {
     }

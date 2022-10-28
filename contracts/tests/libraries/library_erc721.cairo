@@ -247,8 +247,9 @@ namespace ERC721 {
         with_attr error_message("ERC721: token_id is not a valid Uint256") {
             uint256_check(token_id);
         }
-        let (caller) = get_caller_address();
+        let (caller) = get_caller_address();        
         let is_approved = _is_approved_or_owner(caller, token_id);
+
         with_attr error_message(
                 "ERC721: either is not approved or the caller is the zero address") {
             assert_not_zero(caller * is_approved);

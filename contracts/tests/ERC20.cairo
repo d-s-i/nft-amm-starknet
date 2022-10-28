@@ -3,6 +3,7 @@
 
 %lang starknet
 
+from starkware.starknet.common.syscalls import (get_caller_address)
 from starkware.cairo.common.cairo_builtins import (HashBuiltin)
 from starkware.cairo.common.uint256 import (Uint256)
 
@@ -128,4 +129,10 @@ func transferOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
 func renounceOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}() {
     Ownable.renounce_ownership();
     return ();
+}
+
+@external
+func test{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (caller: felt) {
+    let (caller) = get_caller_address();
+    return (caller=caller);
 }
