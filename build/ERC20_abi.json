@@ -333,5 +333,16 @@
         "name": "renounceOwnership",
         "outputs": [],
         "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "test",
+        "outputs": [
+            {
+                "name": "caller",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
     }
 ]

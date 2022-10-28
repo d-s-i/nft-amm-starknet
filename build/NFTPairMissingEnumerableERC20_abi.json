@@ -118,6 +118,53 @@
     {
         "inputs": [
             {
+                "name": "factoryAddr",
+                "type": "felt"
+            },
+            {
+                "name": "bondingCurveAddr",
+                "type": "felt"
+            },
+            {
+                "name": "_poolType",
+                "type": "felt"
+            },
+            {
+                "name": "_nftAddress",
+                "type": "felt"
+            },
+            {
+                "name": "_spotPrice",
+                "type": "Uint256"
+            },
+            {
+                "name": "_delta",
+                "type": "Uint256"
+            },
+            {
+                "name": "_fee",
+                "type": "felt"
+            },
+            {
+                "name": "owner",
+                "type": "felt"
+            },
+            {
+                "name": "_assetRecipient",
+                "type": "felt"
+            },
+            {
+                "name": "_erc20Address",
+                "type": "felt"
+            }
+        ],
+        "name": "initializer",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "name": "numNFTs",
                 "type": "Uint256"
             },
@@ -207,6 +254,54 @@
     {
         "inputs": [
             {
+                "name": "operator",
+                "type": "felt"
+            },
+            {
+                "name": "from_",
+                "type": "felt"
+            },
+            {
+                "name": "tokenId",
+                "type": "Uint256"
+            },
+            {
+                "name": "data_len",
+                "type": "felt"
+            },
+            {
+                "name": "data",
+                "type": "felt*"
+            }
+        ],
+        "name": "onERC721Received",
+        "outputs": [
+            {
+                "name": "selector",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAllHeldIds",
+        "outputs": [
+            {
+                "name": "ids_len",
+                "type": "felt"
+            },
+            {
+                "name": "ids",
+                "type": "Uint256*"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "name": "numNFTs",
                 "type": "Uint256"
             }
@@ -259,7 +354,7 @@
                 "type": "Uint256"
             },
             {
-                "name": "inputAmount",
+                "name": "outputAmount",
                 "type": "Uint256"
             },
             {
@@ -277,6 +372,42 @@
             {
                 "name": "recipient",
                 "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getFee",
+        "outputs": [
+            {
+                "name": "_fee",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getSpotPrice",
+        "outputs": [
+            {
+                "name": "_spotPrice",
+                "type": "Uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getDelta",
+        "outputs": [
+            {
+                "name": "_delta",
+                "type": "Uint256"
             }
         ],
         "stateMutability": "view",

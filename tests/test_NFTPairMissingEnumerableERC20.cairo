@@ -9,13 +9,13 @@ from starkware.cairo.common.uint256 import (
     uint256_sub
 )
 
-from contracts.NFTPairMissingEnumerableERC20 import (
-    _removeNFTInEnumeration,
-    _addNFTInEnumeration,
-    getAllHeldIds,
-    idSet_len, 
-    idSet
-)
+// from contracts.NFTPairMissingEnumerableERC20 import (
+//     _removeNFTInEnumeration,
+//     _addNFTInEnumeration,
+//     getAllHeldIds,
+//     idSet_len, 
+//     idSet
+// )
 
 from contracts.constants.library import (MAX_UINT_128)
 from contracts.constants.PoolType import (PoolTypes)
@@ -508,197 +508,197 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
 //     return ();
 // }
 
-// @external
-// func test_swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+@external
+func test_swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
 
-//     alloc_locals;
+    alloc_locals;
 
-//     tempvar MAX_UINT_256 = Uint256(low=MAX_UINT_128, high=MAX_UINT_128);
+    tempvar MAX_UINT_256 = Uint256(low=MAX_UINT_128, high=MAX_UINT_128);
 
-//     tempvar pairAddress;
-//     tempvar erc20Addr;
-//     tempvar erc721Addr;
-//     tempvar accountAddr;
-//     %{
-//         ids.accountAddr = context.accountAddr
-//         ids.pairAddress = context.pairAddressForAnySwap
-//         ids.erc20Addr = context.erc20AddrForAnySwap
-//         ids.erc721Addr = context.erc721AddrForAnySwap
-//         stop_prank_erc20 = start_prank(context.accountAddr, ids.erc20Addr)
-//         stop_prank_pair = start_prank(context.accountAddr, ids.pairAddress)
-//         store(context.erc20AddrForAnySwap, "ERC20_allowances", [ids.MAX_UINT_256.low, ids.MAX_UINT_256.high], [ids.accountAddr, ids.pairAddress])
-//     %}
+    tempvar pairAddress;
+    tempvar erc20Addr;
+    tempvar erc721Addr;
+    tempvar accountAddr;
+    %{
+        ids.accountAddr = context.accountAddr
+        ids.pairAddress = context.pairAddressForAnySwap
+        ids.erc20Addr = context.erc20AddrForAnySwap
+        ids.erc721Addr = context.erc721AddrForAnySwap
+        stop_prank_erc20 = start_prank(context.accountAddr, ids.erc20Addr)
+        stop_prank_pair = start_prank(context.accountAddr, ids.pairAddress)
+        store(context.erc20AddrForAnySwap, "ERC20_allowances", [ids.MAX_UINT_256.low, ids.MAX_UINT_256.high], [ids.accountAddr, ids.pairAddress])
+    %}
 
-//     ERC20.mint(erc20Addr, accountAddr, Uint256(low=MAX_UINT_128, high=0));
-//     %{stop_prank_erc20()%}
+    ERC20.mint(erc20Addr, accountAddr, Uint256(low=MAX_UINT_128, high=0));
+    %{stop_prank_erc20()%}
 
-//     let (initialPairTokenBalance) = ERC20.balanceOf(erc20Addr, pairAddress);
-//     let (initialPairNFTBalance) = ERC721.balanceOf(erc721Addr, pairAddress);
-//     %{
-//         print(f"initialPairTokenBalance: {ids.initialPairTokenBalance.low + ids.initialPairTokenBalance.high}")
-//         print(f"initialPairNFTBalance: {ids.initialPairNFTBalance.low + ids.initialPairNFTBalance.high}")
-//     %}
+    let (initialPairTokenBalance) = ERC20.balanceOf(erc20Addr, pairAddress);
+    let (initialPairNFTBalance) = ERC721.balanceOf(erc721Addr, pairAddress);
+    %{
+        print(f"initialPairTokenBalance: {ids.initialPairTokenBalance.low + ids.initialPairTokenBalance.high}")
+        print(f"initialPairNFTBalance: {ids.initialPairNFTBalance.low + ids.initialPairNFTBalance.high}")
+    %}
 
-//     let (initialHolderTokenBalance) = ERC20.balanceOf(erc20Addr, accountAddr);
-//     let (initialHolderNFTBalance) = ERC721.balanceOf(erc721Addr, accountAddr);
-//     %{
-//         print(f"initialHolderTokenBalance: {ids.initialHolderTokenBalance.low + ids.initialHolderTokenBalance.high}")
-//         print(f"initialHolderNFTBalance: {ids.initialHolderNFTBalance.low + ids.initialHolderNFTBalance.high}")
-//     %}
+    let (initialHolderTokenBalance) = ERC20.balanceOf(erc20Addr, accountAddr);
+    let (initialHolderNFTBalance) = ERC721.balanceOf(erc721Addr, accountAddr);
+    %{
+        print(f"initialHolderTokenBalance: {ids.initialHolderTokenBalance.low + ids.initialHolderTokenBalance.high}")
+        print(f"initialHolderNFTBalance: {ids.initialHolderNFTBalance.low + ids.initialHolderNFTBalance.high}")
+    %}
 
-//     let (
-//         error,
-//         newSpotPrice,
-//         newDelta,
-//         inputAmount,
-//         protocolFee
-//     ) = NFTPairMissingEnumerableERC20.getBuyNFTQuote(pairAddress, Uint256(low=1, high=0));
-//     %{
-//         print(f"error: {ids.error}")
-//         print(f"newSpotPrice: {ids.newSpotPrice.low + ids.newSpotPrice.high}")
-//         print(f"newDelta: {ids.newDelta.low + ids.newDelta.high}")
-//         print(f"inputAmount: {ids.inputAmount.low + ids.inputAmount.high}")
-//         print(f"protocolFee: {ids.protocolFee.low + ids.protocolFee.high}")
-//     %}
+    let (
+        error,
+        newSpotPrice,
+        newDelta,
+        inputAmount,
+        protocolFee
+    ) = NFTPairMissingEnumerableERC20.getBuyNFTQuote(pairAddress, Uint256(low=1, high=0));
+    %{
+        print(f"error: {ids.error}")
+        print(f"newSpotPrice: {ids.newSpotPrice.low + ids.newSpotPrice.high}")
+        print(f"newDelta: {ids.newDelta.low + ids.newDelta.high}")
+        print(f"inputAmount: {ids.inputAmount.low + ids.inputAmount.high}")
+        print(f"protocolFee: {ids.protocolFee.low + ids.protocolFee.high}")
+    %}
 
-//     let (tokenIdsPair_len, tokenIdsPair) = NFTPairMissingEnumerableERC20.getAllHeldIds(pairAddress);
-//     %{
-//         tokenIdsPairLen = ids.tokenIdsPair_len
-//         print(f"tokenIdsPairLen: {tokenIdsPairLen}")
-//     %}
+    let (tokenIdsPair_len, tokenIdsPair) = NFTPairMissingEnumerableERC20.getAllHeldIds(pairAddress);
+    %{
+        tokenIdsPairLen = ids.tokenIdsPair_len
+        print(f"tokenIdsPairLen: {tokenIdsPairLen}")
+    %}
 
-//     let numNFTs = Uint256(low=1, high=0);
-//     NFTPairMissingEnumerableERC20.swapTokenForAnyNFTs(
-//         pairAddress,
-//         numNFTs,
-//         Uint256(low=MAX_UINT_128, high=0),
-//         accountAddr,
-//         0,
-//         0
-//     );
+    let numNFTs = Uint256(low=1, high=0);
+    NFTPairMissingEnumerableERC20.swapTokenForAnyNFTs(
+        pairAddress,
+        numNFTs,
+        Uint256(low=MAX_UINT_128, high=0),
+        accountAddr,
+        0,
+        0
+    );
 
-//     let (finalPairTokenBalance) = ERC20.balanceOf(erc20Addr, pairAddress);
-//     let (finalPairNFTBalance) = ERC721.balanceOf(erc721Addr, pairAddress);
-//     %{
-//         print(f"finalPairTokenBalance: {ids.finalPairTokenBalance.low + ids.finalPairTokenBalance.high}")
-//         print(f"finialPairNFTBalance: {ids.finalPairNFTBalance.low + ids.finalPairNFTBalance.high}")
-//     %}
+    let (finalPairTokenBalance) = ERC20.balanceOf(erc20Addr, pairAddress);
+    let (finalPairNFTBalance) = ERC721.balanceOf(erc721Addr, pairAddress);
+    %{
+        print(f"finalPairTokenBalance: {ids.finalPairTokenBalance.low + ids.finalPairTokenBalance.high}")
+        print(f"finialPairNFTBalance: {ids.finalPairNFTBalance.low + ids.finalPairNFTBalance.high}")
+    %}
 
-//     let (finalHolderTokenBalance) = ERC20.balanceOf(erc20Addr, accountAddr);
-//     let (finalHolderNFTBalance) = ERC721.balanceOf(erc721Addr, accountAddr);
-//     %{
-//         print(f"finalHolderTokenBalance: {ids.finalHolderTokenBalance.low + ids.finalHolderTokenBalance.high}")
-//         print(f"finalHolderNFTBalance: {ids.finalHolderNFTBalance.low + ids.finalHolderNFTBalance.high}")
-//     %}
+    let (finalHolderTokenBalance) = ERC20.balanceOf(erc20Addr, accountAddr);
+    let (finalHolderNFTBalance) = ERC721.balanceOf(erc721Addr, accountAddr);
+    %{
+        print(f"finalHolderTokenBalance: {ids.finalHolderTokenBalance.low + ids.finalHolderTokenBalance.high}")
+        print(f"finalHolderNFTBalance: {ids.finalHolderNFTBalance.low + ids.finalHolderNFTBalance.high}")
+    %}
 
-//     let (expetedFinalPairTokenBalance, expetedFinalPairTokenBalanceCarry) = uint256_add(initialPairTokenBalance, inputAmount);
-//     assert_uint256_eq(finalPairTokenBalance, expetedFinalPairTokenBalance);
-//     let (expectedFinalHolderTokenBalance) = uint256_sub(initialHolderTokenBalance, inputAmount);
-//     assert_uint256_eq(finalHolderTokenBalance, expectedFinalHolderTokenBalance);
+    let (expetedFinalPairTokenBalance, expetedFinalPairTokenBalanceCarry) = uint256_add(initialPairTokenBalance, inputAmount);
+    assert_uint256_eq(finalPairTokenBalance, expetedFinalPairTokenBalance);
+    let (expectedFinalHolderTokenBalance) = uint256_sub(initialHolderTokenBalance, inputAmount);
+    assert_uint256_eq(finalHolderTokenBalance, expectedFinalHolderTokenBalance);
 
-//     let (expectedFinalPairNFTBalance) = uint256_sub(initialPairNFTBalance, numNFTs);
-//     assert_uint256_eq(expectedFinalPairNFTBalance, finalPairNFTBalance);
-//     let (expectedFinalHolderNFTBalance, expectedFinalHolderNFTBalanceCarry) = uint256_add(initialHolderNFTBalance, numNFTs);
-//     assert_uint256_eq(expectedFinalHolderNFTBalance, finalHolderNFTBalance);
+    let (expectedFinalPairNFTBalance) = uint256_sub(initialPairNFTBalance, numNFTs);
+    assert_uint256_eq(expectedFinalPairNFTBalance, finalPairNFTBalance);
+    let (expectedFinalHolderNFTBalance, expectedFinalHolderNFTBalanceCarry) = uint256_add(initialHolderNFTBalance, numNFTs);
+    assert_uint256_eq(expectedFinalHolderNFTBalance, finalHolderNFTBalance);
 
-//     return ();
-// }
+    return ();
+}
 
-// @external
-// func test_swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
-//     alloc_locals;
+@external
+func test_swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+    alloc_locals;
 
-//     local pairAddress;
-//     local erc20Addr;
-//     local erc721Addr;
-//     local accountAddr;
+    local pairAddress;
+    local erc20Addr;
+    local erc721Addr;
+    local accountAddr;
 
-//     tempvar MAX_UINT_256 = Uint256(low=MAX_UINT_128, high=MAX_UINT_128);
-//     %{
-//         ids.accountAddr = context.accountAddr
-//         print(f"(in test) pairAddress: {context.pairAddressForSpecificSwap}")
-//         ids.pairAddress = context.pairAddressForSpecificSwap
-//         ids.erc20Addr = context.erc20AddrForSpecificSwap
-//         ids.erc721Addr = context.erc721AddrForSpecificSwap
-//         stop_prank_erc20 = start_prank(context.accountAddr, context.erc20AddrForSpecificSwap)
-//         stop_prank_pair = start_prank(context.accountAddr, context.pairAddressForSpecificSwap)
-//         store(context.erc20AddrForSpecificSwap, "ERC20_allowances", [ids.MAX_UINT_256.low, ids.MAX_UINT_256.high], [context.accountAddr, context.pairAddressForSpecificSwap])
-//     %}
+    tempvar MAX_UINT_256 = Uint256(low=MAX_UINT_128, high=MAX_UINT_128);
+    %{
+        ids.accountAddr = context.accountAddr
+        print(f"(in test) pairAddress: {context.pairAddressForSpecificSwap}")
+        ids.pairAddress = context.pairAddressForSpecificSwap
+        ids.erc20Addr = context.erc20AddrForSpecificSwap
+        ids.erc721Addr = context.erc721AddrForSpecificSwap
+        stop_prank_erc20 = start_prank(context.accountAddr, context.erc20AddrForSpecificSwap)
+        stop_prank_pair = start_prank(context.accountAddr, context.pairAddressForSpecificSwap)
+        store(context.erc20AddrForSpecificSwap, "ERC20_allowances", [ids.MAX_UINT_256.low, ids.MAX_UINT_256.high], [context.accountAddr, context.pairAddressForSpecificSwap])
+    %}
 
-//     ERC20.mint(erc20Addr, accountAddr, Uint256(low=MAX_UINT_128, high=0));
-//     %{stop_prank_erc20()%}
+    ERC20.mint(erc20Addr, accountAddr, Uint256(low=MAX_UINT_128, high=0));
+    %{stop_prank_erc20()%}
 
-//     let (initialPairTokenBalance) = ERC20.balanceOf(erc20Addr, pairAddress);
-//     let (initialPairNFTBalance) = ERC721.balanceOf(erc721Addr, pairAddress);
-//     %{
-//         print(f"initialPairTokenBalance: {ids.initialPairTokenBalance.low + ids.initialPairTokenBalance.high}")
-//         print(f"initialPairNFTBalance: {ids.initialPairNFTBalance.low + ids.initialPairNFTBalance.high}")
-//     %}
+    let (initialPairTokenBalance) = ERC20.balanceOf(erc20Addr, pairAddress);
+    let (initialPairNFTBalance) = ERC721.balanceOf(erc721Addr, pairAddress);
+    %{
+        print(f"initialPairTokenBalance: {ids.initialPairTokenBalance.low + ids.initialPairTokenBalance.high}")
+        print(f"initialPairNFTBalance: {ids.initialPairNFTBalance.low + ids.initialPairNFTBalance.high}")
+    %}
 
-//     let (initialHolderTokenBalance) = ERC20.balanceOf(erc20Addr, accountAddr);
-//     let (initialHolderNFTBalance) = ERC721.balanceOf(erc721Addr, accountAddr);
-//     %{
-//         print(f"initialHolderTokenBalance: {ids.initialHolderTokenBalance.low + ids.initialHolderTokenBalance.high}")
-//         print(f"initialHolderNFTBalance: {ids.initialHolderNFTBalance.low + ids.initialHolderNFTBalance.high}")
-//     %}
+    let (initialHolderTokenBalance) = ERC20.balanceOf(erc20Addr, accountAddr);
+    let (initialHolderNFTBalance) = ERC721.balanceOf(erc721Addr, accountAddr);
+    %{
+        print(f"initialHolderTokenBalance: {ids.initialHolderTokenBalance.low + ids.initialHolderTokenBalance.high}")
+        print(f"initialHolderNFTBalance: {ids.initialHolderNFTBalance.low + ids.initialHolderNFTBalance.high}")
+    %}
 
-//     let (
-//         error,
-//         newSpotPrice,
-//         newDelta,
-//         inputAmount,
-//         protocolFee
-//     ) = NFTPairMissingEnumerableERC20.getBuyNFTQuote(pairAddress, Uint256(low=1, high=0));
-//     %{
-//         print(f"error: {ids.error}")
-//         print(f"newSpotPrice: {ids.newSpotPrice.low + ids.newSpotPrice.high}")
-//         print(f"newDelta: {ids.newDelta.low + ids.newDelta.high}")
-//         print(f"inputAmount: {ids.inputAmount.low + ids.inputAmount.high}")
-//         print(f"protocolFee: {ids.protocolFee.low + ids.protocolFee.high}")
-//     %}
+    let (
+        error,
+        newSpotPrice,
+        newDelta,
+        inputAmount,
+        protocolFee
+    ) = NFTPairMissingEnumerableERC20.getBuyNFTQuote(pairAddress, Uint256(low=1, high=0));
+    %{
+        print(f"error: {ids.error}")
+        print(f"newSpotPrice: {ids.newSpotPrice.low + ids.newSpotPrice.high}")
+        print(f"newDelta: {ids.newDelta.low + ids.newDelta.high}")
+        print(f"inputAmount: {ids.inputAmount.low + ids.inputAmount.high}")
+        print(f"protocolFee: {ids.protocolFee.low + ids.protocolFee.high}")
+    %}
 
-//     let (tokenIdsPair_len, tokenIdsPair) = NFTPairMissingEnumerableERC20.getAllHeldIds(pairAddress);
-//     %{
-//         tokenIdsPairLen = ids.tokenIdsPair_len
-//         print(f"tokenIdsPairLen: {tokenIdsPairLen}")
-//     %}
+    let (tokenIdsPair_len, tokenIdsPair) = NFTPairMissingEnumerableERC20.getAllHeldIds(pairAddress);
+    %{
+        tokenIdsPairLen = ids.tokenIdsPair_len
+        print(f"tokenIdsPairLen: {tokenIdsPairLen}")
+    %}
 
-//     let nftIds_len = 1;
-//     NFTPairMissingEnumerableERC20.swapTokenForSpecificNFTs(
-//         pairAddress,
-//         nftIds_len,
-//         cast(new (Uint256(low=1, high=0),), Uint256*),
-//         MAX_UINT_256,
-//         accountAddr,
-//         0,
-//         0
-//     );
+    let nftIds_len = 1;
+    NFTPairMissingEnumerableERC20.swapTokenForSpecificNFTs(
+        pairAddress,
+        nftIds_len,
+        cast(new (Uint256(low=1, high=0),), Uint256*),
+        MAX_UINT_256,
+        accountAddr,
+        0,
+        0
+    );
 
-//     let (finalPairTokenBalance) = ERC20.balanceOf(erc20Addr, pairAddress);
-//     let (finalPairNFTBalance) = ERC721.balanceOf(erc721Addr, pairAddress);
-//     %{
-//         print(f"finalPairTokenBalance: {ids.finalPairTokenBalance.low + ids.finalPairTokenBalance.high}")
-//         print(f"finialPairNFTBalance: {ids.finalPairNFTBalance.low + ids.finalPairNFTBalance.high}")
-//     %}
+    let (finalPairTokenBalance) = ERC20.balanceOf(erc20Addr, pairAddress);
+    let (finalPairNFTBalance) = ERC721.balanceOf(erc721Addr, pairAddress);
+    %{
+        print(f"finalPairTokenBalance: {ids.finalPairTokenBalance.low + ids.finalPairTokenBalance.high}")
+        print(f"finialPairNFTBalance: {ids.finalPairNFTBalance.low + ids.finalPairNFTBalance.high}")
+    %}
 
-//     let (finalHolderTokenBalance) = ERC20.balanceOf(erc20Addr, accountAddr);
-//     let (finalHolderNFTBalance) = ERC721.balanceOf(erc721Addr, accountAddr);
-//     %{
-//         print(f"finalHolderTokenBalance: {ids.finalHolderTokenBalance.low + ids.finalHolderTokenBalance.high}")
-//         print(f"finalHolderNFTBalance: {ids.finalHolderNFTBalance.low + ids.finalHolderNFTBalance.high}")
-//     %}
+    let (finalHolderTokenBalance) = ERC20.balanceOf(erc20Addr, accountAddr);
+    let (finalHolderNFTBalance) = ERC721.balanceOf(erc721Addr, accountAddr);
+    %{
+        print(f"finalHolderTokenBalance: {ids.finalHolderTokenBalance.low + ids.finalHolderTokenBalance.high}")
+        print(f"finalHolderNFTBalance: {ids.finalHolderNFTBalance.low + ids.finalHolderNFTBalance.high}")
+    %}
 
-//     let (expetedFinalPairTokenBalance, expetedFinalPairTokenBalanceCarry) = uint256_add(initialPairTokenBalance, inputAmount);
-//     assert_uint256_eq(finalPairTokenBalance, expetedFinalPairTokenBalance);
-//     let (expectedFinalHolderTokenBalance) = uint256_sub(initialHolderTokenBalance, inputAmount);
-//     assert_uint256_eq(finalHolderTokenBalance, expectedFinalHolderTokenBalance);
+    let (expetedFinalPairTokenBalance, expetedFinalPairTokenBalanceCarry) = uint256_add(initialPairTokenBalance, inputAmount);
+    assert_uint256_eq(finalPairTokenBalance, expetedFinalPairTokenBalance);
+    let (expectedFinalHolderTokenBalance) = uint256_sub(initialHolderTokenBalance, inputAmount);
+    assert_uint256_eq(finalHolderTokenBalance, expectedFinalHolderTokenBalance);
 
-//     let (expectedFinalPairNFTBalance) = uint256_sub(initialPairNFTBalance, Uint256(low=nftIds_len, high=0));
-//     assert_uint256_eq(expectedFinalPairNFTBalance, finalPairNFTBalance);
-//     let (expectedFinalHolderNFTBalance, expectedFinalHolderNFTBalanceCarry) = uint256_add(initialHolderNFTBalance, Uint256(low=nftIds_len, high=0));
-//     assert_uint256_eq(expectedFinalHolderNFTBalance, finalHolderNFTBalance);
-//     return ();
-// }
+    let (expectedFinalPairNFTBalance) = uint256_sub(initialPairNFTBalance, Uint256(low=nftIds_len, high=0));
+    assert_uint256_eq(expectedFinalPairNFTBalance, finalPairNFTBalance);
+    let (expectedFinalHolderNFTBalance, expectedFinalHolderNFTBalanceCarry) = uint256_add(initialHolderNFTBalance, Uint256(low=nftIds_len, high=0));
+    assert_uint256_eq(expectedFinalHolderNFTBalance, finalHolderNFTBalance);
+    return ();
+}
 
 @external
 func test_swapNFTsForTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
@@ -808,17 +808,17 @@ func test_swapNFTsForTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, rang
 ////////////////
 /// Helpers 
 
-// @notice set index = tokenId for all index starting from startId to maxId
-func addNFTsToEnum{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(startId: felt, maxId: felt) {
-    alloc_locals;
-    if(startId == maxId + 1) {
-        return ();
-    }
+// // @notice set index = tokenId for all index starting from startId to maxId
+// func addNFTsToEnum{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(startId: felt, maxId: felt) {
+//     alloc_locals;
+//     if(startId == maxId + 1) {
+//         return ();
+//     }
 
-    _addNFTInEnumeration(Uint256(low=startId, high=0));
+//     _addNFTInEnumeration(Uint256(low=startId, high=0));
 
-    return addNFTsToEnum(startId + 1, maxId);
-}
+//     return addNFTsToEnum(startId + 1, maxId);
+// }
 
 func deployPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     accountAddr: felt,
