@@ -14,7 +14,18 @@ from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
 from contracts.constants.library import (MAX_UINT_128)
 from contracts.constants.structs import (PoolType)
 
-from tests.utils.DeployPair import (deployPair)
+// from tests.utils.DeployPair import (deployPair)
+// from tests.utils.DeployFactory import (deployFactory)
+// from tests.utils.DeployTokens import (deployTokens)
+// from tests.utils.DeployCurve import (deployCurve, CurveId)
+
+from tests.utils.Deployments import (
+    deployPair,
+    deployFactory,
+    deployTokens,
+    deployCurve,
+    CurveId
+)
 
 const TOKEN_ID = 1;
 
@@ -23,60 +34,31 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
     alloc_locals;
 
     tempvar accountAddr;
-    tempvar factoryAddr;
-    tempvar bondingCurveAddr;
-    tempvar erc721Addr;
-    tempvar erc20Addr;
     %{ 
-        print("Starting setup")
-        # context.accountAddr = ids.accountAddr
         ids.accountAddr = deploy_contract("./contracts/mocks/Account.cairo", [0]).contract_address
-        context.accountAddr = ids.accountAddr
-        
-        # Deploy factory
-        NFTPairEnumerableERC20ClassHash = declare("./contracts/NFTPairEnumerableERC20.cairo").class_hash
-        NFTPairMissingEnumerableERC20ClassHash = declare("./contracts/NFTPairMissingEnumerableERC20.cairo").class_hash
-        context.factoryAddr = deploy_contract(
-            "./contracts/NFTPairFactory.cairo", 
-            [
-                NFTPairEnumerableERC20ClassHash,
-                NFTPairMissingEnumerableERC20ClassHash, 
-                0, 
-                0,
-                ids.accountAddr
-            ]
-        ).contract_address
-        ids.factoryAddr = context.factoryAddr
-
-        # Deploy curve
-        context.bondingCurveAddr = deploy_contract("./contracts/bonding_curves/LinearCurve.cairo").contract_address
-        ids.bondingCurveAddr = context.bondingCurveAddr
-
-        # Deploy tokens
-        context.erc20Addr = deploy_contract(
-            "./contracts/mocks/ERC20.cairo", 
-            [0, 0, 18, 1000000000000000000000, 0, context.accountAddr, context.accountAddr]
-        ).contract_address
-        ids.erc20Addr = context.erc20Addr
-        context.erc721Addr = deploy_contract(
-            "./contracts/mocks/ERC721.cairo",
-            [0, 0, ids.accountAddr]
-        ).contract_address
-        ids.erc721Addr = context.erc721Addr
-
-        print(f"factoryAddr: {context.factoryAddr} (hex: {hex(context.factoryAddr)})")
-        print(f"bondingCurveAddr: {context.bondingCurveAddr} (hex: {hex(context.bondingCurveAddr)})")
-        print(f"erc20Addr: {context.erc20Addr} (hex: {hex(context.erc20Addr)})")
-        print(f"erc721Addr: {context.erc721Addr} (hex: {hex(context.erc721Addr)})")
-        print(f"accountAddr: {context.accountAddr} (hex: {hex(context.accountAddr)})")
-
-        stop_prank_factory = start_prank(context.accountAddr, context.factoryAddr)
     %}
+    let (erc20Addr, erc721Addr) = deployTokens(
+        erc20Decimals=18,
+        erc20InitialSupply=Uint256(low=1000000000000000000000, high=0),
+        owner=accountAddr
+    );
 
+    let (bondingCurveAddr) = deployCurve(CurveId.Linear);
+    
+    let (factoryAddr) = deployFactory(Uint256(low=0, high=0), accountAddr);
+    %{stop_prank_factory = start_prank(ids.accountAddr, ids.factoryAddr)%}
     INFTPairFactory.setBondingCurveAllowed(factoryAddr, bondingCurveAddr, 1);
     %{stop_prank_factory()%}
 
-    deployPair(
+    %{
+        print(f"factoryAddr: {ids.factoryAddr} (hex: {hex(ids.factoryAddr)})")
+        print(f"bondingCurveAddr: {ids.bondingCurveAddr} (hex: {hex(ids.bondingCurveAddr)})")
+        print(f"erc20Addr: {ids.erc20Addr} (hex: {hex(ids.erc20Addr)})")
+        print(f"erc721Addr: {ids.erc721Addr} (hex: {hex(ids.erc721Addr)})")
+        print(f"accountAddr: {ids.accountAddr} (hex: {hex(ids.accountAddr)})")
+    %}
+
+    let (pairAddress) = deployPair(
         accountAddr,
         factoryAddr,
         erc20Addr,
@@ -86,6 +68,8 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         TOKEN_ID,
         Uint256(low=100, high=0)
     );
+
+    %{context.pairAddress = ids.pairAddress%}
 
     return ();
 }

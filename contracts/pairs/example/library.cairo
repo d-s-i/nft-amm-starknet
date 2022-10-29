@@ -278,7 +278,7 @@ namespace NFTPairLibExample {
         alloc_locals;
 
         if(startIndex == max) {
-            with_attr error_message("NFTPairMissingEnumerable::_removeNFTInEnumeration - Can't remove NFT from enumeration") {
+            with_attr error_message("NFTPairMissingEnumerable::_removeNFTInEnumeration - Couldn't find NFT in enumeration") {
                 assert 1 = 2;
             }
         } 

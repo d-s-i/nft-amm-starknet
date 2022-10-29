@@ -440,6 +440,10 @@
                 "size": 0,
                 "type": "struct"
             },
+            "contracts.interfaces.tokens.IERC721.IERC721.MINT_SELECTOR": {
+                "type": "const",
+                "value": 1329909728320632088402217562277154056711815095720684343816173432540100887380
+            },
             "contracts.interfaces.tokens.IERC721.IERC721.OWNEROF_SELECTOR": {
                 "type": "const",
                 "value": 73122117822990066614852869276021392412342625629800410280609241172256672489

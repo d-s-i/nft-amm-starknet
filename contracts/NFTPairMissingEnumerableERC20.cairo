@@ -913,9 +913,8 @@ func withdrawERC1155{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
     data_len: felt,
     data: felt*
 ) {
-    // with_attr error_message("NFTPair::withdrawERC1155 - Function must be implemented in parent") {
-    //     assert 1 = 2;
-    // }
+    Ownable.assert_only_owner();
+
     NFTPairMissingEnumerableERC20.withdrawERC1155(
         from_,
         to,

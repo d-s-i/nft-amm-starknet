@@ -2,6 +2,7 @@
 
 from starkware.cairo.common.uint256 import (Uint256)
 
+@contract_interface
 namespace INFTPair {
     func initializer(
         factoryAddr: felt,
@@ -13,10 +14,10 @@ namespace INFTPair {
         _fee: felt,
         owner: felt,
         _assetRecipient: felt,
-        _pairVariant: felt
+        _pairVariant: felt,
+        _erc20Address: felt
     ) {
     }
-
     func swapTokenForAnyNFTs(
         numNFTs: Uint256,
         maxExpectedTokenInput: Uint256,
@@ -25,7 +26,6 @@ namespace INFTPair {
         routerCaller: felt
     ) {
     }
-
     func swapTokenForSpecificNFTs(
         nftIds_len: felt,
         nftIds: Uint256*,
@@ -35,7 +35,6 @@ namespace INFTPair {
         routerCaller: felt
     ) {
     }
-
     func swapNFTsForToken(
         nftIds_len: felt,
         nftIds: Uint256*,
@@ -45,7 +44,6 @@ namespace INFTPair {
         routerCaller: felt
     ) {
     }
-
     func getBuyNFTQuote(
         numNFTs: Uint256
     ) -> (
@@ -53,10 +51,9 @@ namespace INFTPair {
         newSpotPrice: Uint256,
         newDelta: Uint256,
         inputAmount: Uint256,
-        protocolFee: felt
+        protocolFee: Uint256
     ) {
     }
-
     func getSellNFTQuote(
         numNFTs: Uint256
     ) -> (
@@ -64,30 +61,26 @@ namespace INFTPair {
         newSpotPrice: Uint256,
         newDelta: Uint256,
         outputAmount: Uint256,
-        protocolFee: felt
+        protocolFee: Uint256
     ) {
     }
-
     func getAssetRecipient() -> (recipient: felt) {
     }
-
     func getPairVariant() -> (_pairVariant: felt) {
     }
-
     func getNFtAddress() -> (_nftAddress: felt) {
     }
-
+    func getAllHeldIds(_nftAddress: felt) -> (tokenIds_len: felt, tokenIds: Uint256*) {
+    }
     func supportsInterface(
         interfaceId: felt
     ) -> (isSupported: felt) {
     }
-
     func setInterfacesSupported(
         interfaceId: felt, 
         isSupported: felt
     ) {
     }
-
     func onERC1155Received(
         operator: felt, 
         from_: felt, 
@@ -97,7 +90,6 @@ namespace INFTPair {
         data: felt*
     ) -> (selector: felt) {
     }
-
     func onERC1155BatchReceived(
         operator: felt, 
         from_: felt, 
@@ -109,14 +101,12 @@ namespace INFTPair {
         data: felt*
     ) -> (selector: felt) {
     }   
-
     func _assertCorrectlyInitializedWithPoolType(
         _poolType: felt,
         _fee: felt,
         _assetRecipient: felt
     ) {
     }
-
     func _calculateBuyInfoAndUpdatePoolParams(
         numNFTs: Uint256,
         maxExpectedTokenInput: Uint256,
@@ -124,7 +114,6 @@ namespace INFTPair {
         _factory: felt
     ) -> (protocolFee: felt, inputAmount: Uint256) {
     }
-
     func _calculateSellInfoAndUpdatePoolParams(
         numNFTs: Uint256,
         minExpectedTokenOutput: Uint256,
@@ -132,7 +121,6 @@ namespace INFTPair {
         _factory: felt
     ) -> (protocolFee: felt, outputAmount: Uint256) {
     }
-
     func _pullTokenInputAndPayProtocolFee(
         inputAmount: Uint256,
         isRouter: felt,
@@ -141,7 +129,6 @@ namespace INFTPair {
         protocolFee: felt
     ) {
     }
-
     func _sendAnyNFTsToRecipient(
         _nftAddress: felt, 
         nftRecipient: felt, 
@@ -149,7 +136,6 @@ namespace INFTPair {
         numNFTs: Uint256
     ) {
     }
-
     func _sendSpecificNFTsToRecipient(
         _nftAddress: felt,
         nftRecipient: felt,
@@ -158,13 +144,11 @@ namespace INFTPair {
         nftIds: Uint256*
     ) {
     }
-
     func _sendTokenOutput(
         tokenRecipient: felt, 
         outputAmount: Uint256
     ) {
     }
-
     func _payProtocolFeeFromPair(
         _factory: felt, 
         protocolFee: felt

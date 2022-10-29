@@ -342,6 +342,70 @@ func swapNFTsForToken{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_chec
     return ();
 }
 
+@external
+func onERC721Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    operator: felt, 
+    from_: felt, 
+    tokenId: Uint256, 
+    data_len: felt,
+    data: felt*
+) -> (selector: felt) {
+    let (collectionAddress) = nftAddress.read();
+    let (selector) = NFTPairLibExample.onERC721Received(
+        collectionAddress,
+        operator, 
+        from_, 
+        tokenId, 
+        data_len,
+        data
+    );
+    return (selector=selector);
+}
+
+@external
+func onERC1155Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    operator: felt, 
+    from_: felt, 
+    token_id: Uint256, 
+    amount: Uint256,
+    data_len: felt, 
+    data: felt*
+) -> (selector: felt) {
+    let (selector) = ERC1155Holder.onERC1155Received(
+        operator,
+        from_,
+        token_id,
+        amount,
+        data_len,
+        data
+    );
+    return (selector=selector);
+}
+
+@external
+func onERC1155BatchReceived{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    operator: felt, 
+    from_: felt, 
+    token_ids_len: felt,
+    token_ids: Uint256*, 
+    amounts_len: felt,
+    amounts: Uint256*,
+    data_len: felt, 
+    data: felt*
+) -> (selector: felt) {
+    let (selector) = ERC1155Holder.onERC1155BatchReceived(
+        operator,
+        from_,
+        token_ids_len,
+        token_ids,
+        amounts_len,
+        amounts,
+        data_len,
+        data
+    );
+    return (selector=selector);
+}
+
 ////////
 // GETTERS
 
@@ -430,6 +494,14 @@ func getSellNFTQuote{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
 func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (ids_len: felt, ids: Uint256*) {
     let (ids_len, ids) = NFTPairLibExample.getAllHeldIds();
     return (ids_len=ids_len, ids=ids);
+}
+
+@view
+func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    interfaceId: felt
+) -> (isSupported: felt) {
+    let (isSupported) = ERC1155Holder.supportsInterface(interfaceId);
+    return (isSupported=isSupported);
 }
 
 @view
@@ -791,31 +863,6 @@ func _pullTokenInputAndPayProtocolFee{syscall_ptr: felt*, pedersen_ptr: HashBuil
     return ();
 }
 
-// func _sendAnyNFTsToRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-//     _nftAddress: felt, 
-//     nftRecipient: felt, 
-//     startIndex: Uint256, 
-//     numNFTs: Uint256
-// ) {
-//     with_attr error_message("NFTPair::_sendAnyNFTsToRecipient - Function must be implemented in parent contract") {
-//         assert 1 = 2;
-//     }
-//     return ();
-// }
-
-// func _sendSpecificNFTsToRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-//     _nftAddress: felt,
-//     nftRecipient: felt,
-//     startIndex: felt,
-//     nftIds_len: felt,
-//     nftIds: Uint256*
-// ) {
-//     with_attr error_message("NFTPair::_sendSpecificNFTsToRecipient - Function must be implemented in parent contract") {
-//         assert 1 = 2;
-//     }
-//     return ();
-// }
-
 func _sendTokenOutput{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     tokenRecipient: felt,
     outputAmount: Uint256
@@ -938,9 +985,8 @@ func withdrawERC1155{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
     data_len: felt,
     data: felt*
 ) {
-    // with_attr error_message("NFTPair::withdrawERC1155 - Function must be implemented in parent") {
-    //     assert 1 = 2;
-    // }
+    Ownable.assert_only_owner();
+
     NFTPairLibExample.withdrawERC1155(
         from_,
         to,
@@ -1056,78 +1102,6 @@ func setInterfacesSupported{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, rang
 // Not implementing call
 // Not implementing multicall
 // Not implementing _getRevertMsg
-
-@view
-func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    interfaceId: felt
-) -> (isSupported: felt) {
-    let (isSupported) = ERC1155Holder.supportsInterface(interfaceId);
-    return (isSupported=isSupported);
-}
-
-@external
-func onERC721Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    operator: felt, 
-    from_: felt, 
-    tokenId: Uint256, 
-    data_len: felt,
-    data: felt*
-) -> (selector: felt) {
-    let (collectionAddress) = nftAddress.read();
-    let (selector) = NFTPairLibExample.onERC721Received(
-        collectionAddress,
-        operator, 
-        from_, 
-        tokenId, 
-        data_len,
-        data
-    );
-    return (selector=selector);
-}
-
-@external
-func onERC1155Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    operator: felt, 
-    from_: felt, 
-    token_id: Uint256, 
-    amount: Uint256,
-    data_len: felt, 
-    data: felt*
-) -> (selector: felt) {
-    let (selector) = ERC1155Holder.onERC1155Received(
-        operator,
-        from_,
-        token_id,
-        amount,
-        data_len,
-        data
-    );
-    return (selector=selector);
-}
-
-@external
-func onERC1155BatchReceived{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    operator: felt, 
-    from_: felt, 
-    token_ids_len: felt,
-    token_ids: Uint256*, 
-    amounts_len: felt,
-    amounts: Uint256*,
-    data_len: felt, 
-    data: felt*
-) -> (selector: felt) {
-    let (selector) = ERC1155Holder.onERC1155BatchReceived(
-        operator,
-        from_,
-        token_ids_len,
-        token_ids,
-        amounts_len,
-        amounts,
-        data_len,
-        data
-    );
-    return (selector=selector);
-}
 
 ////////
 // ADDED FUNCTIONS

@@ -17,12 +17,10 @@ from contracts.interfaces.bonding_curves.ICurve import (ICurve)
 from contracts.interfaces.utils.IERC165 import (IERC165)
 from contracts.interfaces.tokens.IERC20 import (IERC20)
 from contracts.interfaces.tokens.IERC721 import (IERC721)
-from contracts.interfaces.pairs.INFTPairEnumerableERC20 import (INFTPairEnumerableERC20)
-from contracts.interfaces.pairs.INFTPairMissingEnumerableERC20 import (INFTPairMissingEnumerableERC20)
+from contracts.interfaces.pairs.INFTPair import (INFTPair)
 
 const MAX_PROTOCOL_FEE = 10**17;
 
-// Define a storage variable for the salt.
 @storage_var
 func salt() -> (value: felt) {
 }
@@ -38,7 +36,6 @@ func missingEnumerableERC20Template() -> (address: felt) {
 @storage_var
 func bondigCurveAllowed(bondingCurveAddress: felt) -> (isAllowed: felt) {
 }
-
 
 @storage_var
 func protocolFeeMultiplier() -> (res: Uint256) {
@@ -168,8 +165,7 @@ func deployPairEnumerableERC20{
     );
     salt.write(value=currentSalt + 1);
 
-    // let (pairVariants) = PairVariants.value();
-    INFTPairEnumerableERC20.initializer(
+    INFTPair.initializer(
         _pairAddress,
         thisAddress,
         _bondingCurve,
@@ -229,8 +225,7 @@ func deployPairMissingEnumerableERC20{
     );
     salt.write(value=currentSalt + 1);
 
-    // let (pairVariants) = PairVariants.value();
-    INFTPairMissingEnumerableERC20.initializer(
+    INFTPair.initializer(
         _pairAddress,
         thisAddress,
         _bondingCurve,
