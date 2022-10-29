@@ -113,7 +113,7 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
     %{ 
         print("Starting setup")
         # context.accountAddr = ids.accountAddr
-        ids.accountAddr = deploy_contract("./contracts/tests/Account.cairo", [0]).contract_address
+        ids.accountAddr = deploy_contract("./contracts/mocks/Account.cairo", [0]).contract_address
         context.accountAddr = ids.accountAddr
         
         # Deploy factory
@@ -137,12 +137,12 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
 
         # Deploy tokens
         context.erc20Addr = deploy_contract(
-            "./contracts/tests/ERC20.cairo", 
+            "./contracts/mocks/ERC20.cairo", 
             [0, 0, 18, 1000000000000000000000, 0, context.accountAddr, context.accountAddr]
         ).contract_address
         ids.erc20Addr = context.erc20Addr
         context.erc721Addr = deploy_contract(
-            "./contracts/tests/ERC721.cairo",
+            "./contracts/mocks/ERC721.cairo",
             [0, 0, ids.accountAddr]
         ).contract_address
         ids.erc721Addr = context.erc721Addr

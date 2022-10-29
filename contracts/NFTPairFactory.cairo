@@ -9,7 +9,8 @@ from starkware.cairo.common.bool import (TRUE, FALSE)
 
 from contracts.openzeppelin.Ownable import (Ownable)
 
-from contracts.constants.PairVariant import (PairVariants)
+// from contracts.constants.PairVariant import (PairVariants)
+from contracts.constants.structs import (PairVariant)
 
 from contracts.constants.library import (IERC721_ENUMERABLE_ID)
 from contracts.interfaces.bonding_curves.ICurve import (ICurve)
@@ -167,7 +168,7 @@ func deployPairEnumerableERC20{
     );
     salt.write(value=currentSalt + 1);
 
-    let (pairVariants) = PairVariants.value();
+    // let (pairVariants) = PairVariants.value();
     INFTPairEnumerableERC20.initializer(
         _pairAddress,
         thisAddress,
@@ -179,7 +180,7 @@ func deployPairEnumerableERC20{
         _fee,
         thisAddress,
         _assetRecipient,
-        pairVariants.ENUMERABLE_ERC20,
+        PairVariant.ENUMERABLE_ERC20,
         _erc20Address
     );
 
@@ -228,7 +229,7 @@ func deployPairMissingEnumerableERC20{
     );
     salt.write(value=currentSalt + 1);
 
-    let (pairVariants) = PairVariants.value();
+    // let (pairVariants) = PairVariants.value();
     INFTPairMissingEnumerableERC20.initializer(
         _pairAddress,
         thisAddress,
@@ -240,7 +241,7 @@ func deployPairMissingEnumerableERC20{
         _fee,
         thisAddress,
         _assetRecipient,
-        pairVariants.MISSING_ENUMERABLE_ERC20,
+        PairVariant.MISSING_ENUMERABLE_ERC20,
         _erc20Address
     );
 

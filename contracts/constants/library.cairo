@@ -39,10 +39,3 @@ const IACCESSCONTROL_ID = 0x7965db0b;
 //
 
 const DEFAULT_ADMIN_ROLE = 0;
-
-// const PairVariants = PairVariant(
-//     ENUMERABLE_ETH=0,
-//     MISSING_ENUMERABLE_ETH=1,
-//     ENUMERABLE_ERC20=2,
-//     MISSING_ENUMERABLE_ERC20=3
-// );

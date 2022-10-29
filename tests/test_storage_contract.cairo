@@ -19,7 +19,7 @@
 
 //     local contract_address: felt;
 //     // We deploy contract and put its address into a local variable. Second argument is calldata array
-//     %{ ids.contract_address = deploy_contract("./contracts/tests/storage_contract.cairo", [100, 0, 1]).contract_address %}
+//     %{ ids.contract_address = deploy_contract("./contracts/mocks/storage_contract.cairo", [100, 0, 1]).contract_address %}
 
 //     let (res) = StorageContract.get_balance(contract_address=contract_address);
 //     assert res.low = 100;

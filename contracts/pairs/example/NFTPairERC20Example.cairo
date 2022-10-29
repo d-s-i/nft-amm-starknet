@@ -20,7 +20,8 @@ from contracts.openzeppelin.Ownable import (Ownable)
 from contracts.openzeppelin.ReentrancyGuard import (ReentrancyGuard)
 from contracts.libraries.ERC1155Holder import (ERC1155Holder)
 from contracts.libraries.felt_uint import (FeltUint)
-from contracts.library import (NFTPairLibExample)
+// Change this to switch library and switch internal functions
+from contracts.pairs.example.library import (NFTPairLibExample)
 
 from contracts.interfaces.bonding_curves.ICurve import (ICurve)
 from contracts.interfaces.INFTPairFactory import (INFTPairFactory)

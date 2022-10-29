@@ -28,7 +28,8 @@ from contracts.interfaces.tokens.IERC20 import (IERC20)
 from contracts.interfaces.tokens.IERC721 import (IERC721)
 from contracts.interfaces.INFTRouter import (INFTRouter)
 
-from contracts.constants.PoolType import (PoolTypes)
+// from contracts.constants.PoolType import (PoolTypes)
+from contracts.constants.structs import (PoolType)
 from contracts.constants.library import (MAX_UINT_128, IERC721_RECEIVER_ID)
 
 const MAX_FEE = 10**17;
@@ -167,13 +168,13 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
 
     ReentrancyGuard._start();
 
-    let (poolTypes) = PoolTypes.value();
+    // let (poolTypes) = PoolTypes.value();
     let (_factory) = factory.read();
     let (_bondingCurve) = bondingCurve.read();
     let (_nftAddress) = nftAddress.read();
     let (_poolType) = poolType.read();
 
-    if(_poolType == poolTypes.TOKEN) {
+    if(_poolType == PoolType.TOKEN) {
         with_attr error_message("NFTPairMissingEnumerableERC20::swapTokenForAnyNFTs - Wrong Pool type (value: {_poolType})") {
             assert 1 = 2;
         }
@@ -227,13 +228,13 @@ func swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ra
 
     ReentrancyGuard._start();
 
-    let (poolTypes) = PoolTypes.value();
+    // let (poolTypes) = PoolTypes.value();
     let (_factory) = factory.read();
     let (_bondingCurve) = bondingCurve.read();
     let (_nftAddress) = nftAddress.read();
     let (_poolType) = poolType.read();
 
-    if(_poolType == poolTypes.TOKEN) {
+    if(_poolType == PoolType.TOKEN) {
         with_attr error_message("Wrong Pool type") {
             assert 1 = 2;
         }
@@ -297,13 +298,13 @@ func swapNFTsForToken{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_chec
 
     ReentrancyGuard._start();
 
-    let (poolTypes) = PoolTypes.value();
+    // let (poolTypes) = PoolTypes.value();
     let (_factory) = factory.read();
     let (_bondingCurve) = bondingCurve.read();
     let (_poolType) = poolType.read();
     let (_nftAddress) = nftAddress.read();
 
-    if(_poolType == poolTypes.NFT) {
+    if(_poolType == PoolType.NFT) {
         with_attr error_message("NFTPair::swapNFTsForToken - Wrong Pool type") {
             assert 1 = 2;
         }
@@ -433,10 +434,10 @@ func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
 
 @view
 func getAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (recipient: felt) {
-    let (poolTypes) = PoolTypes.value();
+    // let (poolTypes) = PoolTypes.value();
 
     let (_poolType) = poolType.read();
-    if(_poolType == poolTypes.TRADE) {
+    if(_poolType == PoolType.TRADE) {
         let (thisAddress) = get_contract_address();
         return (recipient=thisAddress);
     }
@@ -973,10 +974,10 @@ func changeFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
     Ownable.assert_only_owner();
 
     let (_poolType) = poolType.read();
-    let (poolTypes) = PoolTypes.value();
+    // let (poolTypes) = PoolTypes.value();
     
     with_attr error_message("NFTPair::changeFee - Only for trade pools") {
-        assert _poolType = poolTypes.TRADE;
+        assert _poolType = PoolType.TRADE;
     }
 
     with_attr error_message("NFTPair::changeFee - Trade fee must be less than 90%") {
@@ -996,9 +997,9 @@ func changeAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_
     Ownable.assert_only_owner();
 
     let (_poolType) = poolType.read();
-    let (poolTypes) = PoolTypes.value();
+    // let (poolTypes) = PoolTypes.value();
     
-    if(_poolType == poolTypes.TRADE) {
+    if(_poolType == PoolType.TRADE) {
         with_attr error_message("NFTPair::changeAssetRecipient - Not for trade pools") {
             assert 1 = 2;
         }
@@ -1112,8 +1113,8 @@ func _assertCorrectlyInitializedWithPoolType{syscall_ptr: felt*, pedersen_ptr: H
     _assetRecipient: felt
 ) {
     alloc_locals;
-    let (poolTypes) = PoolTypes.value();
-    if(_poolType == poolTypes.TOKEN) {
+    // let (poolTypes) = PoolTypes.value();
+    if(_poolType == PoolType.TOKEN) {
         with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
             assert _fee = 0;
         }
@@ -1122,7 +1123,7 @@ func _assertCorrectlyInitializedWithPoolType{syscall_ptr: felt*, pedersen_ptr: H
         tempvar syscall_ptr = syscall_ptr;
         tempvar pedersen_ptr = pedersen_ptr;
     } else {
-            if(_poolType == poolTypes.NFT) {
+            if(_poolType == PoolType.NFT) {
                 with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
                     assert _fee = 0;
                 }
@@ -1133,7 +1134,7 @@ func _assertCorrectlyInitializedWithPoolType{syscall_ptr: felt*, pedersen_ptr: H
                 tempvar range_check_ptr = range_check_ptr;
                 tempvar syscall_ptr = syscall_ptr;
                 tempvar pedersen_ptr = pedersen_ptr;
-                    if(_poolType == poolTypes.TRADE) {
+                    if(_poolType == PoolType.TRADE) {
                         assert_lt(_fee, MAX_FEE);
                         with_attr error_message("NFTPair::initializer - Trade pools can't set asset recipient") {
                             assert _assetRecipient = 0;
