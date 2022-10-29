@@ -34,6 +34,12 @@
     {
         "data": [],
         "keys": [],
+        "name": "NFTWithdrawal",
+        "type": "event"
+    },
+    {
+        "data": [],
+        "keys": [],
         "name": "SwapNFTInPair",
         "type": "event"
     },
@@ -110,12 +116,6 @@
         "type": "event"
     },
     {
-        "data": [],
-        "keys": [],
-        "name": "NFTWithdrawal",
-        "type": "event"
-    },
-    {
         "inputs": [
             {
                 "name": "factoryAddr",
@@ -151,6 +151,10 @@
             },
             {
                 "name": "_assetRecipient",
+                "type": "felt"
+            },
+            {
+                "name": "_pairVariant",
                 "type": "felt"
             },
             {
@@ -249,153 +253,6 @@
         ],
         "name": "swapNFTsForToken",
         "outputs": [],
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "operator",
-                "type": "felt"
-            },
-            {
-                "name": "from_",
-                "type": "felt"
-            },
-            {
-                "name": "tokenId",
-                "type": "Uint256"
-            },
-            {
-                "name": "data_len",
-                "type": "felt"
-            },
-            {
-                "name": "data",
-                "type": "felt*"
-            }
-        ],
-        "name": "onERC721Received",
-        "outputs": [
-            {
-                "name": "selector",
-                "type": "felt"
-            }
-        ],
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getAllHeldIds",
-        "outputs": [
-            {
-                "name": "ids_len",
-                "type": "felt"
-            },
-            {
-                "name": "ids",
-                "type": "Uint256*"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "interfaceId",
-                "type": "felt"
-            }
-        ],
-        "name": "supportsInterface",
-        "outputs": [
-            {
-                "name": "isSupported",
-                "type": "felt"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "operator",
-                "type": "felt"
-            },
-            {
-                "name": "from_",
-                "type": "felt"
-            },
-            {
-                "name": "token_id",
-                "type": "Uint256"
-            },
-            {
-                "name": "amount",
-                "type": "Uint256"
-            },
-            {
-                "name": "data_len",
-                "type": "felt"
-            },
-            {
-                "name": "data",
-                "type": "felt*"
-            }
-        ],
-        "name": "onERC1155Received",
-        "outputs": [
-            {
-                "name": "selector",
-                "type": "felt"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "name": "operator",
-                "type": "felt"
-            },
-            {
-                "name": "from_",
-                "type": "felt"
-            },
-            {
-                "name": "token_ids_len",
-                "type": "felt"
-            },
-            {
-                "name": "token_ids",
-                "type": "Uint256*"
-            },
-            {
-                "name": "amounts_len",
-                "type": "felt"
-            },
-            {
-                "name": "amounts",
-                "type": "Uint256*"
-            },
-            {
-                "name": "data_len",
-                "type": "felt"
-            },
-            {
-                "name": "data",
-                "type": "felt*"
-            }
-        ],
-        "name": "onERC1155BatchReceived",
-        "outputs": [
-            {
-                "name": "selector",
-                "type": "felt"
-            }
-        ],
-        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -594,7 +451,7 @@
     {
         "inputs": [
             {
-                "name": "erc20Address",
+                "name": "_erc20Address",
                 "type": "felt"
             },
             {
@@ -603,6 +460,45 @@
             }
         ],
         "name": "withdrawERC20",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "from_",
+                "type": "felt"
+            },
+            {
+                "name": "to",
+                "type": "felt"
+            },
+            {
+                "name": "ids_len",
+                "type": "felt"
+            },
+            {
+                "name": "ids",
+                "type": "Uint256*"
+            },
+            {
+                "name": "amounts_len",
+                "type": "felt"
+            },
+            {
+                "name": "amounts",
+                "type": "Uint256*"
+            },
+            {
+                "name": "data_len",
+                "type": "felt"
+            },
+            {
+                "name": "data",
+                "type": "felt*"
+            }
+        ],
+        "name": "withdrawERC1155",
         "outputs": [],
         "type": "function"
     },
@@ -663,6 +559,135 @@
         ],
         "name": "setInterfacesSupported",
         "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "interfaceId",
+                "type": "felt"
+            }
+        ],
+        "name": "supportsInterface",
+        "outputs": [
+            {
+                "name": "isSupported",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "operator",
+                "type": "felt"
+            },
+            {
+                "name": "from_",
+                "type": "felt"
+            },
+            {
+                "name": "tokenId",
+                "type": "Uint256"
+            },
+            {
+                "name": "data_len",
+                "type": "felt"
+            },
+            {
+                "name": "data",
+                "type": "felt*"
+            }
+        ],
+        "name": "onERC721Received",
+        "outputs": [
+            {
+                "name": "selector",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "operator",
+                "type": "felt"
+            },
+            {
+                "name": "from_",
+                "type": "felt"
+            },
+            {
+                "name": "token_id",
+                "type": "Uint256"
+            },
+            {
+                "name": "amount",
+                "type": "Uint256"
+            },
+            {
+                "name": "data_len",
+                "type": "felt"
+            },
+            {
+                "name": "data",
+                "type": "felt*"
+            }
+        ],
+        "name": "onERC1155Received",
+        "outputs": [
+            {
+                "name": "selector",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "operator",
+                "type": "felt"
+            },
+            {
+                "name": "from_",
+                "type": "felt"
+            },
+            {
+                "name": "token_ids_len",
+                "type": "felt"
+            },
+            {
+                "name": "token_ids",
+                "type": "Uint256*"
+            },
+            {
+                "name": "amounts_len",
+                "type": "felt"
+            },
+            {
+                "name": "amounts",
+                "type": "Uint256*"
+            },
+            {
+                "name": "data_len",
+                "type": "felt"
+            },
+            {
+                "name": "data",
+                "type": "felt*"
+            }
+        ],
+        "name": "onERC1155BatchReceived",
+        "outputs": [
+            {
+                "name": "selector",
+                "type": "felt"
+            }
+        ],
         "type": "function"
     }
 ]

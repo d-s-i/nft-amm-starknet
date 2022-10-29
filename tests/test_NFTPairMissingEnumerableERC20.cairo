@@ -182,7 +182,8 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         
         # Deploy factory
         # NFTPairEnumerableERC20ClassHash = declare("./contracts/NFTPairEnumerableERC20.cairo").class_hash
-        NFTPairMissingEnumerableERC20ClassHash = declare("./contracts/NFTPairMissingEnumerableERC20.cairo").class_hash
+        # NFTPairMissingEnumerableERC20ClassHash = declare("./contracts/NFTPairMissingEnumerableERC20.cairo").class_hash
+        NFTPairMissingEnumerableERC20ClassHash = declare("./contracts/NFTPairExample.cairo").class_hash
         context.factoryAddr = deploy_contract(
             "./contracts/NFTPairFactory.cairo", 
             [
@@ -260,6 +261,7 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
     );
     %{
         context.pairAddressForSpecificSwap = ids.pairAddressForSpecificSwap
+        print(f"pairAddressForSpecificSwap: {ids.pairAddressForSpecificSwap}")
     %}
     let (pairAddressForAnySwap) = deployPair(
         accountAddr=accountAddr,
@@ -273,6 +275,7 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
     );
     %{
         context.pairAddressForAnySwap = ids.pairAddressForAnySwap
+        print(f"pairAddressForAnySwap: {ids.pairAddressForAnySwap}")
     %}
     let (pairAddressForSell) = deployPair(
         accountAddr=accountAddr,
@@ -286,6 +289,7 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
     );
     %{
         context.pairAddressForSell = ids.pairAddressForSell
+        print(f"pairAddressForSell: {ids.pairAddressForSell}")
     %}
     
     return ();

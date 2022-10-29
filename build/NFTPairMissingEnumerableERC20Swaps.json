@@ -170,7 +170,6 @@
             }
         ],
         "builtins": [
-            "pedersen",
             "range_check"
         ],
         "compiler_version": "0.10.0",
@@ -667,29 +666,29 @@
                 "type": "alias"
             },
             "__main__.NFTPairERC20": {
-                "destination": "contracts.NFTPairERC20.NFTPairERC20",
+                "destination": "contracts.pairs.NFTPairERC20.NFTPairERC20",
                 "type": "alias"
             },
-            "__main__.NFTPairMissingEnumerableERC20Swaps": {
+            "__main__.NFTPairMissingEnumerableERC20Lib": {
                 "type": "namespace"
             },
-            "__main__.NFTPairMissingEnumerableERC20Swaps.Args": {
-                "full_name": "__main__.NFTPairMissingEnumerableERC20Swaps.Args",
+            "__main__.NFTPairMissingEnumerableERC20Lib.Args": {
+                "full_name": "__main__.NFTPairMissingEnumerableERC20Lib.Args",
                 "members": {},
                 "size": 0,
                 "type": "struct"
             },
-            "__main__.NFTPairMissingEnumerableERC20Swaps.ImplicitArgs": {
-                "full_name": "__main__.NFTPairMissingEnumerableERC20Swaps.ImplicitArgs",
+            "__main__.NFTPairMissingEnumerableERC20Lib.ImplicitArgs": {
+                "full_name": "__main__.NFTPairMissingEnumerableERC20Lib.ImplicitArgs",
                 "members": {},
                 "size": 0,
                 "type": "struct"
             },
-            "__main__.NFTPairMissingEnumerableERC20Swaps.Return": {
+            "__main__.NFTPairMissingEnumerableERC20Lib.Return": {
                 "cairo_type": "()",
                 "type": "type_definition"
             },
-            "__main__.NFTPairMissingEnumerableERC20Swaps.SIZEOF_LOCALS": {
+            "__main__.NFTPairMissingEnumerableERC20Lib.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 0
             },
@@ -868,883 +867,6 @@
             },
             "__main__.uint256_lt": {
                 "destination": "starkware.cairo.common.uint256.uint256_lt",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.AssetRecipientChange": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.AssetRecipientChange.Args": {
-                "full_name": "contracts.NFTPairERC20.AssetRecipientChange.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.AssetRecipientChange.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.AssetRecipientChange.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.AssetRecipientChange.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.AssetRecipientChange.SELECTOR": {
-                "type": "const",
-                "value": 1787653121547831136081970316025370997024512746615334276680412255596325467693
-            },
-            "contracts.NFTPairERC20.AssetRecipientChange.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.AssetRecipientChange.alloc": {
-                "destination": "starkware.cairo.common.alloc.alloc",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.AssetRecipientChange.emit_event": {
-                "destination": "starkware.starknet.common.syscalls.emit_event",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.AssetRecipientChange.memcpy": {
-                "destination": "starkware.cairo.common.memcpy.memcpy",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.DeltaUpdate": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.DeltaUpdate.Args": {
-                "full_name": "contracts.NFTPairERC20.DeltaUpdate.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.DeltaUpdate.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.DeltaUpdate.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.DeltaUpdate.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.DeltaUpdate.SELECTOR": {
-                "type": "const",
-                "value": 197253212349402702076249215684263687700317253077713538145136812938186765413
-            },
-            "contracts.NFTPairERC20.DeltaUpdate.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.DeltaUpdate.alloc": {
-                "destination": "starkware.cairo.common.alloc.alloc",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.DeltaUpdate.emit_event": {
-                "destination": "starkware.starknet.common.syscalls.emit_event",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.DeltaUpdate.memcpy": {
-                "destination": "starkware.cairo.common.memcpy.memcpy",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.ERC1155Holder": {
-                "destination": "contracts.libraries.ERC1155Holder.ERC1155Holder",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.FALSE": {
-                "destination": "starkware.cairo.common.bool.FALSE",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.FeeUpdate": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.FeeUpdate.Args": {
-                "full_name": "contracts.NFTPairERC20.FeeUpdate.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.FeeUpdate.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.FeeUpdate.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.FeeUpdate.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.FeeUpdate.SELECTOR": {
-                "type": "const",
-                "value": 197945060600006977919595332353281094858456578168587454345022061522768544474
-            },
-            "contracts.NFTPairERC20.FeeUpdate.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.FeeUpdate.alloc": {
-                "destination": "starkware.cairo.common.alloc.alloc",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.FeeUpdate.emit_event": {
-                "destination": "starkware.starknet.common.syscalls.emit_event",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.FeeUpdate.memcpy": {
-                "destination": "starkware.cairo.common.memcpy.memcpy",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.FeltUint": {
-                "destination": "contracts.libraries.felt_uint.FeltUint",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.ICurve": {
-                "destination": "contracts.interfaces.bonding_curves.ICurve.ICurve",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.IERC1155": {
-                "destination": "contracts.interfaces.tokens.IERC1155.IERC1155",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.IERC20": {
-                "destination": "contracts.interfaces.tokens.IERC20.IERC20",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.IERC721": {
-                "destination": "contracts.interfaces.tokens.IERC721.IERC721",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.INFTPairFactory": {
-                "destination": "contracts.interfaces.INFTPairFactory.INFTPairFactory",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.INFTRouter": {
-                "destination": "contracts.interfaces.INFTRouter.INFTRouter",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.MAX_FEE": {
-                "type": "const",
-                "value": 900000000000000000
-            },
-            "contracts.NFTPairERC20.NFTPairERC20": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.NFTPairERC20.Args": {
-                "full_name": "contracts.NFTPairERC20.NFTPairERC20.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.NFTPairERC20.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.NFTPairERC20.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.NFTPairERC20.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.NFTPairERC20.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.Ownable": {
-                "destination": "contracts.openzeppelin.Ownable.Ownable",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.PoolTypes": {
-                "destination": "contracts.constants.PoolType.PoolTypes",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.ReentrancyGuard": {
-                "destination": "contracts.openzeppelin.ReentrancyGuard.ReentrancyGuard",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.SpotPriceUpdate": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.SpotPriceUpdate.Args": {
-                "full_name": "contracts.NFTPairERC20.SpotPriceUpdate.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.SpotPriceUpdate.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.SpotPriceUpdate.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.SpotPriceUpdate.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.SpotPriceUpdate.SELECTOR": {
-                "type": "const",
-                "value": 1699444059818870903625969639066343774443514964889442432656876056521828448909
-            },
-            "contracts.NFTPairERC20.SpotPriceUpdate.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.SpotPriceUpdate.alloc": {
-                "destination": "starkware.cairo.common.alloc.alloc",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.SpotPriceUpdate.emit_event": {
-                "destination": "starkware.starknet.common.syscalls.emit_event",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.SpotPriceUpdate.memcpy": {
-                "destination": "starkware.cairo.common.memcpy.memcpy",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.SwapNFTInPair": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.SwapNFTInPair.Args": {
-                "full_name": "contracts.NFTPairERC20.SwapNFTInPair.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.SwapNFTInPair.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.SwapNFTInPair.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.SwapNFTInPair.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.SwapNFTInPair.SELECTOR": {
-                "type": "const",
-                "value": 376369927240686970312597199694390991086255668243830155578295714836834151519
-            },
-            "contracts.NFTPairERC20.SwapNFTInPair.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.SwapNFTInPair.alloc": {
-                "destination": "starkware.cairo.common.alloc.alloc",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.SwapNFTInPair.emit_event": {
-                "destination": "starkware.starknet.common.syscalls.emit_event",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.SwapNFTInPair.memcpy": {
-                "destination": "starkware.cairo.common.memcpy.memcpy",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.SwapNFTOutPair": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.SwapNFTOutPair.Args": {
-                "full_name": "contracts.NFTPairERC20.SwapNFTOutPair.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.SwapNFTOutPair.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.SwapNFTOutPair.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.SwapNFTOutPair.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.SwapNFTOutPair.SELECTOR": {
-                "type": "const",
-                "value": 131499397726730870898086850357767251369114476503897602350030564802466930003
-            },
-            "contracts.NFTPairERC20.SwapNFTOutPair.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.SwapNFTOutPair.alloc": {
-                "destination": "starkware.cairo.common.alloc.alloc",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.SwapNFTOutPair.emit_event": {
-                "destination": "starkware.starknet.common.syscalls.emit_event",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.SwapNFTOutPair.memcpy": {
-                "destination": "starkware.cairo.common.memcpy.memcpy",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.TRUE": {
-                "destination": "starkware.cairo.common.bool.TRUE",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.TokenDeposit": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.TokenDeposit.Args": {
-                "full_name": "contracts.NFTPairERC20.TokenDeposit.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.TokenDeposit.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.TokenDeposit.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.TokenDeposit.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.TokenDeposit.SELECTOR": {
-                "type": "const",
-                "value": 1593146153481579586122863844888344968926116693944217694493666544540848049516
-            },
-            "contracts.NFTPairERC20.TokenDeposit.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.TokenDeposit.alloc": {
-                "destination": "starkware.cairo.common.alloc.alloc",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.TokenDeposit.emit_event": {
-                "destination": "starkware.starknet.common.syscalls.emit_event",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.TokenDeposit.memcpy": {
-                "destination": "starkware.cairo.common.memcpy.memcpy",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.TokenWithdrawal": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.TokenWithdrawal.Args": {
-                "full_name": "contracts.NFTPairERC20.TokenWithdrawal.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.TokenWithdrawal.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.TokenWithdrawal.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.TokenWithdrawal.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.TokenWithdrawal.SELECTOR": {
-                "type": "const",
-                "value": 1629962081063398881813947581124882313146238652104925936790556817233710604526
-            },
-            "contracts.NFTPairERC20.TokenWithdrawal.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.TokenWithdrawal.alloc": {
-                "destination": "starkware.cairo.common.alloc.alloc",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.TokenWithdrawal.emit_event": {
-                "destination": "starkware.starknet.common.syscalls.emit_event",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.TokenWithdrawal.memcpy": {
-                "destination": "starkware.cairo.common.memcpy.memcpy",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.Uint256": {
-                "destination": "starkware.cairo.common.uint256.Uint256",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.assert_lt": {
-                "destination": "starkware.cairo.common.math.assert_lt",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.assert_not_zero": {
-                "destination": "starkware.cairo.common.math.assert_not_zero",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.assert_uint256_eq": {
-                "destination": "starkware.cairo.common.uint256.assert_uint256_eq",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.assert_uint256_le": {
-                "destination": "starkware.cairo.common.uint256.assert_uint256_le",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.assert_uint256_lt": {
-                "destination": "starkware.cairo.common.uint256.assert_uint256_lt",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.assetRecipient": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.assetRecipient.Args": {
-                "full_name": "contracts.NFTPairERC20.assetRecipient.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.assetRecipient.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.assetRecipient.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.assetRecipient.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.assetRecipient.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.assetRecipient.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.assetRecipient.hash2": {
-                "destination": "starkware.cairo.common.hash.hash2",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.assetRecipient.normalize_address": {
-                "destination": "starkware.starknet.common.storage.normalize_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.assetRecipient.storage_read": {
-                "destination": "starkware.starknet.common.syscalls.storage_read",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.assetRecipient.storage_write": {
-                "destination": "starkware.starknet.common.syscalls.storage_write",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.bondingCurve": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.bondingCurve.Args": {
-                "full_name": "contracts.NFTPairERC20.bondingCurve.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.bondingCurve.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.bondingCurve.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.bondingCurve.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.bondingCurve.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.bondingCurve.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.bondingCurve.hash2": {
-                "destination": "starkware.cairo.common.hash.hash2",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.bondingCurve.normalize_address": {
-                "destination": "starkware.starknet.common.storage.normalize_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.bondingCurve.storage_read": {
-                "destination": "starkware.starknet.common.syscalls.storage_read",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.bondingCurve.storage_write": {
-                "destination": "starkware.starknet.common.syscalls.storage_write",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.delta": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.delta.Args": {
-                "full_name": "contracts.NFTPairERC20.delta.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.delta.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.delta.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.delta.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.delta.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.delta.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.delta.hash2": {
-                "destination": "starkware.cairo.common.hash.hash2",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.delta.normalize_address": {
-                "destination": "starkware.starknet.common.storage.normalize_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.delta.storage_read": {
-                "destination": "starkware.starknet.common.syscalls.storage_read",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.delta.storage_write": {
-                "destination": "starkware.starknet.common.syscalls.storage_write",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.erc20Address": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.erc20Address.Args": {
-                "full_name": "contracts.NFTPairERC20.erc20Address.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.erc20Address.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.erc20Address.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.erc20Address.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.erc20Address.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.erc20Address.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.erc20Address.hash2": {
-                "destination": "starkware.cairo.common.hash.hash2",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.erc20Address.normalize_address": {
-                "destination": "starkware.starknet.common.storage.normalize_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.erc20Address.storage_read": {
-                "destination": "starkware.starknet.common.syscalls.storage_read",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.erc20Address.storage_write": {
-                "destination": "starkware.starknet.common.syscalls.storage_write",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.factory": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.factory.Args": {
-                "full_name": "contracts.NFTPairERC20.factory.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.factory.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.factory.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.factory.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.factory.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.factory.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.factory.hash2": {
-                "destination": "starkware.cairo.common.hash.hash2",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.factory.normalize_address": {
-                "destination": "starkware.starknet.common.storage.normalize_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.factory.storage_read": {
-                "destination": "starkware.starknet.common.syscalls.storage_read",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.factory.storage_write": {
-                "destination": "starkware.starknet.common.syscalls.storage_write",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.fee": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.fee.Args": {
-                "full_name": "contracts.NFTPairERC20.fee.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.fee.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.fee.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.fee.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.fee.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.fee.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.fee.hash2": {
-                "destination": "starkware.cairo.common.hash.hash2",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.fee.normalize_address": {
-                "destination": "starkware.starknet.common.storage.normalize_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.fee.storage_read": {
-                "destination": "starkware.starknet.common.syscalls.storage_read",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.fee.storage_write": {
-                "destination": "starkware.starknet.common.syscalls.storage_write",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.get_caller_address": {
-                "destination": "starkware.starknet.common.syscalls.get_caller_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.get_contract_address": {
-                "destination": "starkware.starknet.common.syscalls.get_contract_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.nftAddress": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.nftAddress.Args": {
-                "full_name": "contracts.NFTPairERC20.nftAddress.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.nftAddress.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.nftAddress.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.nftAddress.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.nftAddress.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.nftAddress.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.nftAddress.hash2": {
-                "destination": "starkware.cairo.common.hash.hash2",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.nftAddress.normalize_address": {
-                "destination": "starkware.starknet.common.storage.normalize_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.nftAddress.storage_read": {
-                "destination": "starkware.starknet.common.syscalls.storage_read",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.nftAddress.storage_write": {
-                "destination": "starkware.starknet.common.syscalls.storage_write",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.pairVariant": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.pairVariant.Args": {
-                "full_name": "contracts.NFTPairERC20.pairVariant.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.pairVariant.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.pairVariant.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.pairVariant.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.pairVariant.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.pairVariant.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.pairVariant.hash2": {
-                "destination": "starkware.cairo.common.hash.hash2",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.pairVariant.normalize_address": {
-                "destination": "starkware.starknet.common.storage.normalize_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.pairVariant.storage_read": {
-                "destination": "starkware.starknet.common.syscalls.storage_read",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.pairVariant.storage_write": {
-                "destination": "starkware.starknet.common.syscalls.storage_write",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.poolType": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.poolType.Args": {
-                "full_name": "contracts.NFTPairERC20.poolType.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.poolType.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.poolType.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.poolType.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.poolType.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.poolType.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.poolType.hash2": {
-                "destination": "starkware.cairo.common.hash.hash2",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.poolType.normalize_address": {
-                "destination": "starkware.starknet.common.storage.normalize_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.poolType.storage_read": {
-                "destination": "starkware.starknet.common.syscalls.storage_read",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.poolType.storage_write": {
-                "destination": "starkware.starknet.common.syscalls.storage_write",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.spotPrice": {
-                "type": "namespace"
-            },
-            "contracts.NFTPairERC20.spotPrice.Args": {
-                "full_name": "contracts.NFTPairERC20.spotPrice.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.spotPrice.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.spotPrice.ImplicitArgs": {
-                "full_name": "contracts.NFTPairERC20.spotPrice.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "contracts.NFTPairERC20.spotPrice.Return": {
-                "cairo_type": "()",
-                "type": "type_definition"
-            },
-            "contracts.NFTPairERC20.spotPrice.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "contracts.NFTPairERC20.spotPrice.hash2": {
-                "destination": "starkware.cairo.common.hash.hash2",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.spotPrice.normalize_address": {
-                "destination": "starkware.starknet.common.storage.normalize_address",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.spotPrice.storage_read": {
-                "destination": "starkware.starknet.common.syscalls.storage_read",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.spotPrice.storage_write": {
-                "destination": "starkware.starknet.common.syscalls.storage_write",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.uint256_add": {
-                "destination": "starkware.cairo.common.uint256.uint256_add",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.uint256_eq": {
-                "destination": "starkware.cairo.common.uint256.uint256_eq",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.uint256_le": {
-                "destination": "starkware.cairo.common.uint256.uint256_le",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.uint256_lt": {
-                "destination": "starkware.cairo.common.uint256.uint256_lt",
-                "type": "alias"
-            },
-            "contracts.NFTPairERC20.uint256_sub": {
-                "destination": "starkware.cairo.common.uint256.uint256_sub",
                 "type": "alias"
             },
             "contracts.constants.PairVariant.HashBuiltin": {
@@ -2578,6 +1700,883 @@
             },
             "contracts.openzeppelin.ReentrancyGuard.TRUE": {
                 "destination": "starkware.cairo.common.bool.TRUE",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.AssetRecipientChange": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.AssetRecipientChange.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.AssetRecipientChange.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.AssetRecipientChange.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.AssetRecipientChange.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.AssetRecipientChange.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.AssetRecipientChange.SELECTOR": {
+                "type": "const",
+                "value": 1787653121547831136081970316025370997024512746615334276680412255596325467693
+            },
+            "contracts.pairs.NFTPairERC20.AssetRecipientChange.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.AssetRecipientChange.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.AssetRecipientChange.emit_event": {
+                "destination": "starkware.starknet.common.syscalls.emit_event",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.AssetRecipientChange.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.DeltaUpdate": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.DeltaUpdate.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.DeltaUpdate.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.DeltaUpdate.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.DeltaUpdate.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.DeltaUpdate.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.DeltaUpdate.SELECTOR": {
+                "type": "const",
+                "value": 197253212349402702076249215684263687700317253077713538145136812938186765413
+            },
+            "contracts.pairs.NFTPairERC20.DeltaUpdate.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.DeltaUpdate.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.DeltaUpdate.emit_event": {
+                "destination": "starkware.starknet.common.syscalls.emit_event",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.DeltaUpdate.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.ERC1155Holder": {
+                "destination": "contracts.libraries.ERC1155Holder.ERC1155Holder",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.FALSE": {
+                "destination": "starkware.cairo.common.bool.FALSE",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.FeeUpdate": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.FeeUpdate.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.FeeUpdate.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.FeeUpdate.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.FeeUpdate.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.FeeUpdate.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.FeeUpdate.SELECTOR": {
+                "type": "const",
+                "value": 197945060600006977919595332353281094858456578168587454345022061522768544474
+            },
+            "contracts.pairs.NFTPairERC20.FeeUpdate.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.FeeUpdate.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.FeeUpdate.emit_event": {
+                "destination": "starkware.starknet.common.syscalls.emit_event",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.FeeUpdate.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.FeltUint": {
+                "destination": "contracts.libraries.felt_uint.FeltUint",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.HashBuiltin": {
+                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.ICurve": {
+                "destination": "contracts.interfaces.bonding_curves.ICurve.ICurve",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.IERC1155": {
+                "destination": "contracts.interfaces.tokens.IERC1155.IERC1155",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.IERC20": {
+                "destination": "contracts.interfaces.tokens.IERC20.IERC20",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.IERC721": {
+                "destination": "contracts.interfaces.tokens.IERC721.IERC721",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.INFTPairFactory": {
+                "destination": "contracts.interfaces.INFTPairFactory.INFTPairFactory",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.INFTRouter": {
+                "destination": "contracts.interfaces.INFTRouter.INFTRouter",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.MAX_FEE": {
+                "type": "const",
+                "value": 900000000000000000
+            },
+            "contracts.pairs.NFTPairERC20.NFTPairERC20": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.NFTPairERC20.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.NFTPairERC20.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.NFTPairERC20.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.NFTPairERC20.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.NFTPairERC20.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.NFTPairERC20.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.Ownable": {
+                "destination": "contracts.openzeppelin.Ownable.Ownable",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.PoolTypes": {
+                "destination": "contracts.constants.PoolType.PoolTypes",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.ReentrancyGuard": {
+                "destination": "contracts.openzeppelin.ReentrancyGuard.ReentrancyGuard",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.SpotPriceUpdate": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.SpotPriceUpdate.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.SpotPriceUpdate.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.SpotPriceUpdate.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.SpotPriceUpdate.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.SpotPriceUpdate.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.SpotPriceUpdate.SELECTOR": {
+                "type": "const",
+                "value": 1699444059818870903625969639066343774443514964889442432656876056521828448909
+            },
+            "contracts.pairs.NFTPairERC20.SpotPriceUpdate.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.SpotPriceUpdate.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.SpotPriceUpdate.emit_event": {
+                "destination": "starkware.starknet.common.syscalls.emit_event",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.SpotPriceUpdate.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTInPair": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTInPair.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.SwapNFTInPair.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTInPair.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.SwapNFTInPair.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTInPair.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTInPair.SELECTOR": {
+                "type": "const",
+                "value": 376369927240686970312597199694390991086255668243830155578295714836834151519
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTInPair.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTInPair.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTInPair.emit_event": {
+                "destination": "starkware.starknet.common.syscalls.emit_event",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTInPair.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTOutPair": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTOutPair.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.SwapNFTOutPair.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTOutPair.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.SwapNFTOutPair.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTOutPair.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTOutPair.SELECTOR": {
+                "type": "const",
+                "value": 131499397726730870898086850357767251369114476503897602350030564802466930003
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTOutPair.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTOutPair.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTOutPair.emit_event": {
+                "destination": "starkware.starknet.common.syscalls.emit_event",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.SwapNFTOutPair.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.TRUE": {
+                "destination": "starkware.cairo.common.bool.TRUE",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.TokenDeposit": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.TokenDeposit.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.TokenDeposit.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.TokenDeposit.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.TokenDeposit.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.TokenDeposit.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.TokenDeposit.SELECTOR": {
+                "type": "const",
+                "value": 1593146153481579586122863844888344968926116693944217694493666544540848049516
+            },
+            "contracts.pairs.NFTPairERC20.TokenDeposit.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.TokenDeposit.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.TokenDeposit.emit_event": {
+                "destination": "starkware.starknet.common.syscalls.emit_event",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.TokenDeposit.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.TokenWithdrawal": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.TokenWithdrawal.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.TokenWithdrawal.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.TokenWithdrawal.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.TokenWithdrawal.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.TokenWithdrawal.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.TokenWithdrawal.SELECTOR": {
+                "type": "const",
+                "value": 1629962081063398881813947581124882313146238652104925936790556817233710604526
+            },
+            "contracts.pairs.NFTPairERC20.TokenWithdrawal.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.TokenWithdrawal.alloc": {
+                "destination": "starkware.cairo.common.alloc.alloc",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.TokenWithdrawal.emit_event": {
+                "destination": "starkware.starknet.common.syscalls.emit_event",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.TokenWithdrawal.memcpy": {
+                "destination": "starkware.cairo.common.memcpy.memcpy",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.Uint256": {
+                "destination": "starkware.cairo.common.uint256.Uint256",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.assert_lt": {
+                "destination": "starkware.cairo.common.math.assert_lt",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.assert_not_zero": {
+                "destination": "starkware.cairo.common.math.assert_not_zero",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.assert_uint256_eq": {
+                "destination": "starkware.cairo.common.uint256.assert_uint256_eq",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.assert_uint256_le": {
+                "destination": "starkware.cairo.common.uint256.assert_uint256_le",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.assert_uint256_lt": {
+                "destination": "starkware.cairo.common.uint256.assert_uint256_lt",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.assetRecipient": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.assetRecipient.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.assetRecipient.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.assetRecipient.HashBuiltin": {
+                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.assetRecipient.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.assetRecipient.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.assetRecipient.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.assetRecipient.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.assetRecipient.hash2": {
+                "destination": "starkware.cairo.common.hash.hash2",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.assetRecipient.normalize_address": {
+                "destination": "starkware.starknet.common.storage.normalize_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.assetRecipient.storage_read": {
+                "destination": "starkware.starknet.common.syscalls.storage_read",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.assetRecipient.storage_write": {
+                "destination": "starkware.starknet.common.syscalls.storage_write",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.bondingCurve": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.bondingCurve.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.bondingCurve.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.bondingCurve.HashBuiltin": {
+                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.bondingCurve.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.bondingCurve.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.bondingCurve.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.bondingCurve.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.bondingCurve.hash2": {
+                "destination": "starkware.cairo.common.hash.hash2",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.bondingCurve.normalize_address": {
+                "destination": "starkware.starknet.common.storage.normalize_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.bondingCurve.storage_read": {
+                "destination": "starkware.starknet.common.syscalls.storage_read",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.bondingCurve.storage_write": {
+                "destination": "starkware.starknet.common.syscalls.storage_write",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.delta": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.delta.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.delta.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.delta.HashBuiltin": {
+                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.delta.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.delta.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.delta.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.delta.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.delta.hash2": {
+                "destination": "starkware.cairo.common.hash.hash2",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.delta.normalize_address": {
+                "destination": "starkware.starknet.common.storage.normalize_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.delta.storage_read": {
+                "destination": "starkware.starknet.common.syscalls.storage_read",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.delta.storage_write": {
+                "destination": "starkware.starknet.common.syscalls.storage_write",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.erc20Address": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.erc20Address.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.erc20Address.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.erc20Address.HashBuiltin": {
+                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.erc20Address.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.erc20Address.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.erc20Address.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.erc20Address.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.erc20Address.hash2": {
+                "destination": "starkware.cairo.common.hash.hash2",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.erc20Address.normalize_address": {
+                "destination": "starkware.starknet.common.storage.normalize_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.erc20Address.storage_read": {
+                "destination": "starkware.starknet.common.syscalls.storage_read",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.erc20Address.storage_write": {
+                "destination": "starkware.starknet.common.syscalls.storage_write",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.factory": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.factory.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.factory.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.factory.HashBuiltin": {
+                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.factory.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.factory.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.factory.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.factory.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.factory.hash2": {
+                "destination": "starkware.cairo.common.hash.hash2",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.factory.normalize_address": {
+                "destination": "starkware.starknet.common.storage.normalize_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.factory.storage_read": {
+                "destination": "starkware.starknet.common.syscalls.storage_read",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.factory.storage_write": {
+                "destination": "starkware.starknet.common.syscalls.storage_write",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.fee": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.fee.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.fee.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.fee.HashBuiltin": {
+                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.fee.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.fee.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.fee.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.fee.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.fee.hash2": {
+                "destination": "starkware.cairo.common.hash.hash2",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.fee.normalize_address": {
+                "destination": "starkware.starknet.common.storage.normalize_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.fee.storage_read": {
+                "destination": "starkware.starknet.common.syscalls.storage_read",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.fee.storage_write": {
+                "destination": "starkware.starknet.common.syscalls.storage_write",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.get_caller_address": {
+                "destination": "starkware.starknet.common.syscalls.get_caller_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.get_contract_address": {
+                "destination": "starkware.starknet.common.syscalls.get_contract_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.nftAddress": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.nftAddress.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.nftAddress.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.nftAddress.HashBuiltin": {
+                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.nftAddress.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.nftAddress.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.nftAddress.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.nftAddress.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.nftAddress.hash2": {
+                "destination": "starkware.cairo.common.hash.hash2",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.nftAddress.normalize_address": {
+                "destination": "starkware.starknet.common.storage.normalize_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.nftAddress.storage_read": {
+                "destination": "starkware.starknet.common.syscalls.storage_read",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.nftAddress.storage_write": {
+                "destination": "starkware.starknet.common.syscalls.storage_write",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.pairVariant": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.pairVariant.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.pairVariant.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.pairVariant.HashBuiltin": {
+                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.pairVariant.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.pairVariant.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.pairVariant.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.pairVariant.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.pairVariant.hash2": {
+                "destination": "starkware.cairo.common.hash.hash2",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.pairVariant.normalize_address": {
+                "destination": "starkware.starknet.common.storage.normalize_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.pairVariant.storage_read": {
+                "destination": "starkware.starknet.common.syscalls.storage_read",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.pairVariant.storage_write": {
+                "destination": "starkware.starknet.common.syscalls.storage_write",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.poolType": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.poolType.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.poolType.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.poolType.HashBuiltin": {
+                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.poolType.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.poolType.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.poolType.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.poolType.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.poolType.hash2": {
+                "destination": "starkware.cairo.common.hash.hash2",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.poolType.normalize_address": {
+                "destination": "starkware.starknet.common.storage.normalize_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.poolType.storage_read": {
+                "destination": "starkware.starknet.common.syscalls.storage_read",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.poolType.storage_write": {
+                "destination": "starkware.starknet.common.syscalls.storage_write",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.spotPrice": {
+                "type": "namespace"
+            },
+            "contracts.pairs.NFTPairERC20.spotPrice.Args": {
+                "full_name": "contracts.pairs.NFTPairERC20.spotPrice.Args",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.spotPrice.HashBuiltin": {
+                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.spotPrice.ImplicitArgs": {
+                "full_name": "contracts.pairs.NFTPairERC20.spotPrice.ImplicitArgs",
+                "members": {},
+                "size": 0,
+                "type": "struct"
+            },
+            "contracts.pairs.NFTPairERC20.spotPrice.Return": {
+                "cairo_type": "()",
+                "type": "type_definition"
+            },
+            "contracts.pairs.NFTPairERC20.spotPrice.SIZEOF_LOCALS": {
+                "type": "const",
+                "value": 0
+            },
+            "contracts.pairs.NFTPairERC20.spotPrice.hash2": {
+                "destination": "starkware.cairo.common.hash.hash2",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.spotPrice.normalize_address": {
+                "destination": "starkware.starknet.common.storage.normalize_address",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.spotPrice.storage_read": {
+                "destination": "starkware.starknet.common.syscalls.storage_read",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.spotPrice.storage_write": {
+                "destination": "starkware.starknet.common.syscalls.storage_write",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.uint256_add": {
+                "destination": "starkware.cairo.common.uint256.uint256_add",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.uint256_eq": {
+                "destination": "starkware.cairo.common.uint256.uint256_eq",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.uint256_le": {
+                "destination": "starkware.cairo.common.uint256.uint256_le",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.uint256_lt": {
+                "destination": "starkware.cairo.common.uint256.uint256_lt",
+                "type": "alias"
+            },
+            "contracts.pairs.NFTPairERC20.uint256_sub": {
+                "destination": "starkware.cairo.common.uint256.uint256_sub",
                 "type": "alias"
             },
             "starkware.cairo.common.alloc.alloc": {

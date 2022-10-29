@@ -14,6 +14,7 @@ namespace INFTPairMissingEnumerableERC20 {
         _fee: felt,
         owner: felt,
         _assetRecipient: felt,
+        _poolVariant: felt,
         _tokenAddress: felt
     ) {
     }

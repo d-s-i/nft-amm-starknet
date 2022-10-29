@@ -24,8 +24,8 @@ from contracts.constants.library import (MAX_UINT_128)
 from contracts.constants.library import (IERC721_RECEIVER_ID)
 from contracts.constants.PairVariant import (PairVariants)
 
-from contracts.NFTPairERC20 import (NFTPairERC20)
-from contracts.NFTPairMissingEnumerableERC20Swaps import (NFTPairMissingEnumerableERC20Swaps)
+from contracts.pairs.NFTPairERC20 import (NFTPairERC20)
+from contracts.pairs.NFTPairEnumerableERC20.library import (NFTPairEnumerableERC20Lib)
 
 @external
 func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
@@ -40,7 +40,7 @@ func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     _assetRecipient: felt,
     _erc20Address: felt
 ) {
-    NFTPairMissingEnumerableERC20Swaps.initializer(
+    NFTPairMissingEnumerableERC20Lib.initializer(
         factoryAddr,
         bondingCurveAddr,
         _poolType,
@@ -66,7 +66,7 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
     isRouter: felt,
     routerCaller: felt
 ) {
-    NFTPairMissingEnumerableERC20Swaps.swapTokenForAnyNFTs(
+    NFTPairMissingEnumerableERC20Lib.swapTokenForAnyNFTs(
         numNFTs,
         maxExpectedTokenInput,
         nftRecipient,
@@ -86,7 +86,7 @@ func swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ra
     isRouter: felt,
     routerCaller: felt
 ) {
-    NFTPairMissingEnumerableERC20Swaps.swapTokenForSpecificNFTs(
+    NFTPairMissingEnumerableERC20Lib.swapTokenForSpecificNFTs(
         nftIds_len,
         nftIds,
         maxExpectedTokenInput,
@@ -127,7 +127,7 @@ func onERC721Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_chec
     data_len: felt,
     data: felt*
 ) -> (selector: felt) {
-    let (selector) = NFTPairMissingEnumerableERC20Swaps.onERC721Received(
+    let (selector) = NFTPairMissingEnumerableERC20Lib.onERC721Received(
         operator, 
         from_, 
         tokenId, 
@@ -137,13 +137,14 @@ func onERC721Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_chec
 
     return (selector=selector);
 }
-    ////////
-    // GETTERS
+
+////////
+// GETTERS
 
 @view
 func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (ids_len: felt, ids: Uint256*) {
     alloc_locals;
-    let (ids_len, ids) = NFTPairMissingEnumerableERC20Swaps.getAllHeldIds();
+    let (ids_len, ids) = NFTPairMissingEnumerableERC20Lib.getAllHeldIds();
     
     return (ids_len=ids_len, ids=ids);
 }
@@ -327,7 +328,7 @@ func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_
     tokenIds_len: felt,
     tokenIds: Uint256*
 ) {
-    NFTPairMissingEnumerableERC20Swaps.withdrawERC721(
+    NFTPairMissingEnumerableERC20Lib.withdrawERC721(
         _nftAddress,
         tokenIds_len,
         tokenIds
