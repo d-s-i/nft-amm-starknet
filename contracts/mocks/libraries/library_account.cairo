@@ -18,8 +18,8 @@ from starkware.starknet.common.syscalls import (
     get_tx_info
 )
 from starkware.cairo.common.cairo_secp.signature import (verify_eth_signature_uint256)
-// from openzeppelin.utils.constants.library import (IACCOUNT_ID, IERC165_ID)
-from contracts.tests.libraries.library_constants import (IACCOUNT_ID, IERC165_ID)
+
+from contracts.mocks.libraries.library_constants import (IACCOUNT_ID, IERC165_ID)
 
 //
 // Storage

@@ -9,11 +9,11 @@ from starkware.cairo.common.math import (assert_not_zero, assert_not_equal)
 from starkware.cairo.common.bool import (TRUE, FALSE)
 from starkware.cairo.common.uint256 import (Uint256, uint256_check)
 
-from contracts.tests.libraries.library_erc165 import (ERC165)
 from contracts.interfaces.utils.IERC165 import (IERC165)
-from contracts.tests.libraries.library_safemath import (SafeUint256)
-from contracts.tests.interfaces.IERC721Receiver import (IERC721Receiver)
-from contracts.tests.libraries.library_constants import (
+from contracts.mocks.libraries.library_erc165 import (ERC165)
+from contracts.mocks.libraries.library_safemath import (SafeUint256)
+from contracts.mocks.interfaces.IERC721Receiver import (IERC721Receiver)
+from contracts.mocks.libraries.library_constants import (
     IERC721_ID,
     IERC721_METADATA_ID,
     IERC721_RECEIVER_ID,

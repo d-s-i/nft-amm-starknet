@@ -18,7 +18,6 @@ namespace INFTPairMissingEnumerableERC20 {
         _tokenAddress: felt
     ) {
     }
-
     func swapTokenForAnyNFTs(
         numNFTs: Uint256,
         maxExpectedTokenInput: Uint256,
@@ -27,7 +26,6 @@ namespace INFTPairMissingEnumerableERC20 {
         routerCaller: felt
     ) {
     }
-
     func swapTokenForSpecificNFTs(
         nftIds_len: felt,
         nftIds: Uint256*,
@@ -37,7 +35,6 @@ namespace INFTPairMissingEnumerableERC20 {
         routerCaller: felt
     ) {
     }
-
     func swapNFTsForToken(
         nftIds_len: felt,
         nftIds: Uint256*,
@@ -46,5 +43,15 @@ namespace INFTPairMissingEnumerableERC20 {
         isRouter: felt,
         routerCaller: felt
     ) {
+    }
+    func getBuyNFTQuote(numNFTs: Uint256) -> (
+        error: felt,
+        newSpotPrice: Uint256,
+        newDelta: Uint256,
+        inputAmount: Uint256,
+        protocolFee: Uint256
+    ) {
+    }
+    func getAllHeldIds() -> (tokenIds_len: felt, tokenIds: Uint256*) {
     }
 }

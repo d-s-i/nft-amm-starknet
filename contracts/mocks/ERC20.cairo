@@ -8,8 +8,7 @@ from starkware.cairo.common.cairo_builtins import (HashBuiltin)
 from starkware.cairo.common.uint256 import (Uint256)
 
 from contracts.openzeppelin.Ownable import (Ownable)
-// from openzeppelin.token.erc20.library import (ERC20)
-from contracts.tests.libraries.library_erc20 import (ERC20)
+from contracts.mocks.libraries.library_erc20 import (ERC20)
 
 @constructor
 func constructor{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(

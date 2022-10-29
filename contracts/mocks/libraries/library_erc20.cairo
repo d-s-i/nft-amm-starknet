@@ -9,10 +9,8 @@ from starkware.cairo.common.math import (assert_not_zero, assert_le)
 from starkware.cairo.common.bool import (TRUE, FALSE)
 from starkware.cairo.common.uint256 import (Uint256, uint256_check, uint256_eq, uint256_not)
 
-// from openzeppelin.security.safemath.library import (SafeUint256)
-from contracts.tests.libraries.library_safemath import (SafeUint256)
-// from openzeppelin.utils.constants.library import (UINT8_MAX)
-from contracts.tests.libraries.library_constants import (UINT8_MAX)
+from contracts.mocks.libraries.library_safemath import (SafeUint256)
+from contracts.mocks.libraries.library_constants import (UINT8_MAX)
 
 //
 // Events

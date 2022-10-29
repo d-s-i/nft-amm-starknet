@@ -7,8 +7,8 @@ from starkware.cairo.common.cairo_builtins import (HashBuiltin)
 from starkware.cairo.common.uint256 import (Uint256)
 
 from contracts.openzeppelin.Ownable import (Ownable)
-from contracts.tests.libraries.library_erc165 import (ERC165)
-from contracts.tests.libraries.library_erc721 import (ERC721)
+from contracts.mocks.libraries.library_erc165 import (ERC165)
+from contracts.mocks.libraries.library_erc721 import (ERC721)
 
 //
 // Constructor

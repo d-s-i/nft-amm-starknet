@@ -12,6 +12,10 @@ from starkware.cairo.common.uint256 import (
 from contracts.constants.library import (MAX_UINT_128)
 from contracts.constants.structs import (PoolType)
 
+from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
+
+from tests.utils.DeployPair import (deployPair)
+
 const TOKEN_ID = 1;
 
 @contract_interface
@@ -30,13 +34,7 @@ namespace NFTPairFactory {
         initialERC20Balance: Uint256
     ) -> (pairAddress: felt) {
     }
-    func setBondingCurveAllowed(
-        bondingCurveAddress: felt,
-        isAllowed: felt
-    ) {
-    }
-    func getProtocolFeeMultiplier() -> (res: Uint256) {
-    }
+
 }
 
 @contract_interface
@@ -236,7 +234,7 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
     %}
 
     %{stop_prank_factory = start_prank(context.accountAddr, context.factoryAddr)%}
-    NFTPairFactory.setBondingCurveAllowed(factoryAddr, bondingCurveAddr, 1);
+    INFTPairFactory.setBondingCurveAllowed(factoryAddr, bondingCurveAddr, 1);
     %{stop_prank_factory()%}
 
     let (pairAddressForSpecificSwap) = deployPair(
@@ -579,55 +577,4 @@ func test_swapNFTsForTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, rang
     let (expectedFinalHolderNFTBalance) = uint256_sub(initialHolderNFTBalance, Uint256(low=nftIds_len, high=0));
     assert_uint256_eq(expectedFinalHolderNFTBalance, finalHolderNFTBalance);
     return ();
-}
-
-
-////////////////
-/// Helpers 
-
-func deployPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    accountAddr: felt,
-    factoryAddr: felt,
-    erc20Addr: felt,
-    erc721Addr: felt,
-    bondingCurveAddr: felt,
-    poolType: felt,
-    initialNFTId: felt,
-    initialERC20Balance: Uint256
-) -> (pairAddress: felt) {
-
-    tempvar MAX_UINT_256 = Uint256(low=MAX_UINT_128, high=MAX_UINT_128);
-
-    let initialNFTIdUint = Uint256(low=initialNFTId, high=0);
-    %{
-        stop_prank_factory = start_prank(ids.accountAddr, ids.factoryAddr)
-        stop_prank_erc721 = start_prank(context.accountAddr, ids.erc721Addr)
-
-        # Set allowances    
-        store(ids.erc20Addr, "ERC20_allowances", [ids.MAX_UINT_256.low, ids.MAX_UINT_256.high], [ids.accountAddr, ids.factoryAddr])
-        store(ids.erc721Addr, "ERC721_operator_approvals", [1], [ids.accountAddr, ids.factoryAddr])
-    %}
-    ERC721.mint(erc721Addr, accountAddr, initialNFTIdUint);
-    
-    let (pairAddress) = NFTPairFactory.createPairERC20(
-        contract_address=factoryAddr,
-        _erc20Address=erc20Addr,
-        _nftAddress=erc721Addr,
-        _bondingCurve=bondingCurveAddr,
-        _assetRecipient=0,
-        _poolType=poolType,
-        _delta=Uint256(low=0, high=0),
-        _fee=0,
-        _spotPrice=Uint256(low=10, high=0),
-        _initialNFTIDs_len=1,
-        _initialNFTIDs=cast(new (initialNFTIdUint,), Uint256*),
-        initialERC20Balance=initialERC20Balance
-    );
-
-    %{
-        stop_prank_factory()
-        stop_prank_erc721()
-    %}
-
-    return (pairAddress=pairAddress);
 }

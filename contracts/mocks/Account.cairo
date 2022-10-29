@@ -6,8 +6,7 @@
 from starkware.cairo.common.cairo_builtins import (HashBuiltin, SignatureBuiltin, BitwiseBuiltin)
 from starkware.starknet.common.syscalls import (get_tx_info)
 
-// from openzeppelin.account.library import (Account, AccountCallArray)
-from contracts.tests.libraries.library_account import (Account, AccountCallArray)
+from contracts.mocks.libraries.library_account import (Account, AccountCallArray)
 
 //
 // Constructor
