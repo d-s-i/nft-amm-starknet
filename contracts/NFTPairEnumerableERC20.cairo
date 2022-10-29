@@ -20,7 +20,7 @@ from contracts.openzeppelin.Ownable import (Ownable)
 from contracts.openzeppelin.ReentrancyGuard import (ReentrancyGuard)
 from contracts.libraries.ERC1155Holder import (ERC1155Holder)
 from contracts.libraries.felt_uint import (FeltUint)
-from contracts.NFTPairLibExample import (NFTPairLibExample)
+from contracts.pairs.NFTPairEnumerableERC20.library import (NFTPairEnumerableERC20)
 
 from contracts.interfaces.bonding_curves.ICurve import (ICurve)
 from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
@@ -174,7 +174,7 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
     let (_poolType) = poolType.read();
 
     if(_poolType == poolTypes.TOKEN) {
-        with_attr error_message("NFTPairMissingEnumerableERC20::swapTokenForAnyNFTs - Wrong Pool type (value: {_poolType})") {
+        with_attr error_message("NFTPairEnumerableERC20::swapTokenForAnyNFTs - Wrong Pool type (value: {_poolType})") {
             assert 1 = 2;
         }
     }
@@ -182,11 +182,11 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
     let (thisAddress) = get_contract_address();
     let (balance) = IERC721.balanceOf(_nftAddress, thisAddress);
 
-    with_attr error_mesage("NFTPairMissingEnumerableERC20::swapTokenForAnyNFTs - Must by at least 1 NFT") {
+    with_attr error_mesage("NFTPairEnumerableERC20::swapTokenForAnyNFTs - Must by at least 1 NFT") {
         assert_uint256_lt(Uint256(low=0, high=0), numNFTs);
     }
 
-    with_attr error_message("NFTPairMissingEnumerableERC20::swapTokenForAnyNFTs - Contract has not enough balances for trade") {
+    with_attr error_message("NFTPairEnumerableERC20::swapTokenForAnyNFTs - Contract has not enough balances for trade") {
         assert_uint256_le(numNFTs, balance);
     }
 
@@ -205,7 +205,7 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
         protocolFee
     );
 
-    NFTPairLibExample._sendAnyNFTsToRecipient(_nftAddress, nftRecipient, Uint256(low=0, high=0), numNFTs);
+    NFTPairEnumerableERC20._sendAnyNFTsToRecipient(_nftAddress, nftRecipient, Uint256(low=0, high=0), numNFTs);
 
     SwapNFTOutPair.emit();
 
@@ -258,7 +258,7 @@ func swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ra
         protocolFee
     );
 
-    NFTPairLibExample._sendSpecificNFTsToRecipient(
+    NFTPairEnumerableERC20._sendSpecificNFTsToRecipient(
         _nftAddress,
         nftRecipient,
         0,
@@ -426,8 +426,8 @@ func getSellNFTQuote{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
 }
 
 @view
-func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (ids_len: felt, ids: Uint256*) {
-    let (ids_len, ids) = NFTPairLibExample.getAllHeldIds();
+func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(_nftAddress: felt) -> (ids_len: felt, ids: Uint256*) {
+    let (ids_len, ids) = NFTPairEnumerableERC20.getAllHeldIds(_nftAddress);
     return (ids_len=ids_len, ids=ids);
 }
 
@@ -790,31 +790,6 @@ func _pullTokenInputAndPayProtocolFee{syscall_ptr: felt*, pedersen_ptr: HashBuil
     return ();
 }
 
-// func _sendAnyNFTsToRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-//     _nftAddress: felt, 
-//     nftRecipient: felt, 
-//     startIndex: Uint256, 
-//     numNFTs: Uint256
-// ) {
-//     with_attr error_message("NFTPair::_sendAnyNFTsToRecipient - Function must be implemented in parent contract") {
-//         assert 1 = 2;
-//     }
-//     return ();
-// }
-
-// func _sendSpecificNFTsToRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-//     _nftAddress: felt,
-//     nftRecipient: felt,
-//     startIndex: felt,
-//     nftIds_len: felt,
-//     nftIds: Uint256*
-// ) {
-//     with_attr error_message("NFTPair::_sendSpecificNFTsToRecipient - Function must be implemented in parent contract") {
-//         assert 1 = 2;
-//     }
-//     return ();
-// }
-
 func _sendTokenOutput{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     tokenRecipient: felt,
     outputAmount: Uint256
@@ -891,7 +866,7 @@ func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_
 ) {
     Ownable.assert_only_owner();
     let (_collectionAddress) = nftAddress.read();
-    NFTPairLibExample.withdrawERC721(
+    NFTPairEnumerableERC20.withdrawERC721(
         _collectionAddress,
         _nftAddress,
         tokenIds_len,
@@ -940,7 +915,7 @@ func withdrawERC1155{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
     // with_attr error_message("NFTPair::withdrawERC1155 - Function must be implemented in parent") {
     //     assert 1 = 2;
     // }
-    NFTPairLibExample.withdrawERC1155(
+    NFTPairEnumerableERC20.withdrawERC1155(
         from_,
         to,
         ids_len,
@@ -1073,7 +1048,7 @@ func onERC721Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_chec
     data: felt*
 ) -> (selector: felt) {
     let (collectionAddress) = nftAddress.read();
-    let (selector) = NFTPairLibExample.onERC721Received(
+    let (selector) = NFTPairEnumerableERC20.onERC721Received(
         collectionAddress,
         operator, 
         from_, 

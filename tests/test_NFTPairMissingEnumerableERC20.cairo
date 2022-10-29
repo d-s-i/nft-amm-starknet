@@ -182,8 +182,7 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         
         # Deploy factory
         # NFTPairEnumerableERC20ClassHash = declare("./contracts/NFTPairEnumerableERC20.cairo").class_hash
-        # NFTPairMissingEnumerableERC20ClassHash = declare("./contracts/NFTPairMissingEnumerableERC20.cairo").class_hash
-        NFTPairMissingEnumerableERC20ClassHash = declare("./contracts/NFTPairExample.cairo").class_hash
+        NFTPairMissingEnumerableERC20ClassHash = declare("./contracts/NFTPairMissingEnumerableERC20.cairo").class_hash
         context.factoryAddr = deploy_contract(
             "./contracts/NFTPairFactory.cairo", 
             [

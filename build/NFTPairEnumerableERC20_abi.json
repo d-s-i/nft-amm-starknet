@@ -34,12 +34,6 @@
     {
         "data": [],
         "keys": [],
-        "name": "NFTWithdrawal",
-        "type": "event"
-    },
-    {
-        "data": [],
-        "keys": [],
         "name": "SwapNFTInPair",
         "type": "event"
     },
