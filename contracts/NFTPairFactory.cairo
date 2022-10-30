@@ -74,8 +74,8 @@ func createPairERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
     _delta: Uint256,
     _fee: felt,
     _spotPrice: Uint256,
-    _initialNFTIDs_len: felt,
-    _initialNFTIDs: Uint256*,
+    _initialNFTIds_len: felt,
+    _initialNFTIds: Uint256*,
     initialERC20Balance: Uint256
 ) -> (pairAddress: felt) {
 
@@ -99,8 +99,8 @@ func createPairERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
             _delta,
             _fee,
             _spotPrice,
-            _initialNFTIDs_len,
-            _initialNFTIDs,
+            _initialNFTIds_len,
+            _initialNFTIds,
             initialERC20Balance
         );
         return (pairAddress=_pairAddress);
@@ -115,8 +115,8 @@ func createPairERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
             _delta,
             _fee,
             _spotPrice,
-            _initialNFTIDs_len,
-            _initialNFTIDs,
+            _initialNFTIds_len,
+            _initialNFTIds,
             initialERC20Balance
         );
         return (pairAddress=_pairAddress);

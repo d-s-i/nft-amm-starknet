@@ -65,8 +65,10 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         erc721Addr,
         bondingCurveAddr,
         PoolType.TRADE,
-        TOKEN_ID,
-        Uint256(low=100, high=0)
+        1,
+        Uint256(low=100, high=0),
+        Uint256(low=10, high=0),
+        Uint256(low=0, high=0)
     );
 
     %{context.pairAddress = ids.pairAddress%}

@@ -72,14 +72,11 @@ namespace INFTPair {
     }
     func getAllHeldIds(_nftAddress: felt) -> (tokenIds_len: felt, tokenIds: Uint256*) {
     }
+    func owner() -> (owner: felt) {
+    }
     func supportsInterface(
         interfaceId: felt
     ) -> (isSupported: felt) {
-    }
-    func setInterfacesSupported(
-        interfaceId: felt, 
-        isSupported: felt
-    ) {
     }
     func onERC1155Received(
         operator: felt, 
@@ -100,7 +97,14 @@ namespace INFTPair {
         data_len: felt, 
         data: felt*
     ) -> (selector: felt) {
-    }   
+    }    
+    func setInterfacesSupported(
+        interfaceId: felt, 
+        isSupported: felt
+    ) {
+    }
+    func transferOwnership(newOwner: felt) {
+    }
     func _assertCorrectlyInitializedWithPoolType(
         _poolType: felt,
         _fee: felt,

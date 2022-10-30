@@ -17,8 +17,8 @@ namespace INFTPairFactory {
         _delta: Uint256,
         _fee: felt,
         _spotPrice: Uint256,
-        _initialNFTIDs_len: felt,
-        _initialNFTIDs: Uint256*,
+        _initialNFTIds_len: felt,
+        _initialNFTIds: Uint256*,
         initialERC20Balance: Uint256
     ) -> (pairAddress: felt) {
     }

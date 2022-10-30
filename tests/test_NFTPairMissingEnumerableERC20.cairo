@@ -77,8 +77,10 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         erc721Addr=erc721AddrForSpecificSwap,
         bondingCurveAddr=bondingCurveAddr,
         poolType=PoolType.TRADE,
-        initialNFTId=1,
-        initialERC20Balance=Uint256(low=100, high=0)
+        initialNFTIds_len=1,
+        initialERC20Balance=Uint256(low=100, high=0),
+        Uint256(low=10, high=0),
+        Uint256(low=0, high=0)
     );
     %{
         context.pairAddressForSpecificSwap = ids.pairAddressForSpecificSwap
@@ -91,8 +93,10 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         erc721Addr=erc721AddrForAnySwap,
         bondingCurveAddr=bondingCurveAddr,
         poolType=PoolType.TRADE,
-        initialNFTId=1,
-        initialERC20Balance=Uint256(low=100, high=0)
+        initialNFTIds_len=1,
+        initialERC20Balance=Uint256(low=100, high=0),
+        Uint256(low=10, high=0),
+        Uint256(low=0, high=0)
     );
     %{
         context.pairAddressForAnySwap = ids.pairAddressForAnySwap
@@ -105,8 +109,10 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         erc721Addr=erc721AddrForSell,
         bondingCurveAddr=bondingCurveAddr,
         poolType=PoolType.TRADE,
-        initialNFTId=1,
-        initialERC20Balance=Uint256(low=100, high=0)
+        initialNFTIds_len=1,
+        initialERC20Balance=Uint256(low=100, high=0),
+        Uint256(low=10, high=0),
+        Uint256(low=0, high=0)
     );
     %{
         context.pairAddressForSell = ids.pairAddressForSell

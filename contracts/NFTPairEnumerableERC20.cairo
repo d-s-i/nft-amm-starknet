@@ -565,6 +565,12 @@ func getFactory{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     return (_factory=_factory);
 }
 
+@view
+func owner{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (owner: felt) {
+    let (owner) = Ownable.owner();
+    return (owner=owner);
+}
+
 ////////
 // INTERNAL
 
@@ -1089,6 +1095,20 @@ func setInterfacesSupported{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, rang
 ) {
     Ownable.assert_only_owner();
     ERC1155Holder.setInterfacesSupported(interfaceId, isSupported);
+    return ();
+}
+
+@external
+func transferOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    newOwner: felt
+) {
+    Ownable.transfer_ownership(newOwner);
+    return ();
+}
+
+@external
+func renounceOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+    Ownable.renounce_ownership();
     return ();
 }
 

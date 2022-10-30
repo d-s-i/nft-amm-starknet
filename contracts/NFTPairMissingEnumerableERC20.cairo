@@ -498,6 +498,20 @@ func getFactory{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     return (_factory=_factory);
 }
 
+@view
+func owner{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (owner: felt) {
+    let (owner) = Ownable.owner();
+    return (owner=owner);
+}
+
+@view
+func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    interfaceId: felt
+) -> (isSupported: felt) {
+    let (isSupported) = ERC1155Holder.supportsInterface(interfaceId);
+    return (isSupported=isSupported);
+}
+
 ////////
 // INTERNAL
 
@@ -1027,17 +1041,23 @@ func setInterfacesSupported{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, rang
     return ();
 }
 
+@external
+func transferOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    newOwner: felt
+) {
+    Ownable.transfer_ownership(newOwner);
+    return ();
+}
+
+@external
+func renounceOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+    Ownable.renounce_ownership();
+    return ();
+}
+
 // Not implementing call
 // Not implementing multicall
 // Not implementing _getRevertMsg
-
-@view
-func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    interfaceId: felt
-) -> (isSupported: felt) {
-    let (isSupported) = ERC1155Holder.supportsInterface(interfaceId);
-    return (isSupported=isSupported);
-}
 
 @external
 func onERC721Received{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
