@@ -165,19 +165,20 @@ func deployPairEnumerableERC20{
     );
     salt.write(value=currentSalt + 1);
 
+    let (caller) = get_caller_address();
     INFTPair.initializer(
-        _pairAddress,
-        thisAddress,
-        _bondingCurve,
-        _poolType,
-        _nftAddress,
-        _spotPrice,
-        _delta,
-        _fee,
-        thisAddress,
-        _assetRecipient,
-        PairVariant.ENUMERABLE_ERC20,
-        _erc20Address
+        contract_address=_pairAddress,
+        factoryAddr=thisAddress,
+        bondingCurveAddr=_bondingCurve,
+        _poolType=_poolType,
+        _nftAddress=_nftAddress,
+        _spotPrice=_spotPrice,
+        _delta=_delta,
+        _fee=_fee,
+        owner=caller,
+        _assetRecipient=_assetRecipient,
+        _pairVariant=PairVariant.ENUMERABLE_ERC20,
+        _erc20Address=_erc20Address
     );
 
     _transferInitialLiquidity(
@@ -225,19 +226,20 @@ func deployPairMissingEnumerableERC20{
     );
     salt.write(value=currentSalt + 1);
 
+    let (caller) = get_caller_address();
     INFTPair.initializer(
-        _pairAddress,
-        thisAddress,
-        _bondingCurve,
-        _poolType,
-        _nftAddress,
-        _spotPrice,
-        _delta,
-        _fee,
-        thisAddress,
-        _assetRecipient,
-        PairVariant.MISSING_ENUMERABLE_ERC20,
-        _erc20Address
+        contract_address=_pairAddress,
+        factoryAddr=thisAddress,
+        bondingCurveAddr=_bondingCurve,
+        _poolType=_poolType,
+        _nftAddress=_nftAddress,
+        _spotPrice=_spotPrice,
+        _delta=_delta,
+        _fee=_fee,
+        owner=caller,
+        _assetRecipient=_assetRecipient,
+        _pairVariant=PairVariant.MISSING_ENUMERABLE_ERC20,
+        _erc20Address=_erc20Address
     );
 
     _transferInitialLiquidity(
@@ -288,7 +290,7 @@ func _transferInitialNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_
         return ();
     }
     IERC721.safeTransferFrom(nftAddress, from_, to, [tokenIds], 0, cast(new (0,), felt*)); 
-    return _transferInitialNFTs(start + 1, end, from_, to, nftAddress, tokenIds + 1);
+    return _transferInitialNFTs(start + 1, end, from_, to, nftAddress, tokenIds + 2);
 }
 
 @view

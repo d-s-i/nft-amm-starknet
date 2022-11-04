@@ -148,7 +148,8 @@ func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     pairVariant.write(_pairVariant);
     erc20Address.write(_erc20Address);
 
-    setInterfacesSupported(IERC721_RECEIVER_ID, TRUE);
+    // setInterfacesSupported(IERC721_RECEIVER_ID, TRUE);
+    ERC1155Holder.initializer(IERC721_RECEIVER_ID, TRUE);
     let (thisAddress) = get_contract_address();
     IERC721.setApprovalForAll(_nftAddress, thisAddress, TRUE);
     IERC20.approve(_erc20Address, thisAddress, Uint256(low=MAX_UINT_128, high=MAX_UINT_128));

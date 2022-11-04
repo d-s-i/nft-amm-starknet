@@ -67,7 +67,10 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         spotPrice=Uint256(low=spotPrice, high=0),
         delta=Uint256(low=delta, high=0)
     );
-    %{context.pairAddr = ids.pairAddr%}
+    %{
+        context.pairAddr = ids.pairAddr
+        print(f"pairAddr: {ids.pairAddr}")
+    %}
     return ();
 }
 
@@ -75,19 +78,29 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
 func test_transferOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
     alloc_locals;
     
-    tempvar pairAddress;
-    %{ids.pairAddress = context.pairAddress%}
-    let (initialOwner) = INFTPair.owner(pairAddress);
+    tempvar pairAddr;
+    %{ids.pairAddr = context.pairAddr%}
+    let (initialOwner) = INFTPair.owner(pairAddr);
     let newOwner = 58;
 
-    INFTPair.transferOwnership(pairAddress, newOwner);
+    %{stop_pair_prank = start_prank(context.accountAddr, context.pairAddr)%}
+    INFTPair.transferOwnership(pairAddr, newOwner);
 
-    let (finalOwner) = INFTPair.owner(pairAddress);
+    let (finalOwner) = INFTPair.owner(pairAddr);
     if(newOwner != finalOwner) {
-        with_attr error_mesage("PairAndFactory::transferOwnership - Owner not set correctly") {
+        with_attr error_mesage("PairAndFactory::transferOwnership - Owner did not change") {
             assert 1 = 2;
         }
     }
 
+    with_attr error_mesage("PairAndFactory::transferOwnership - Owner not set correctly") {
+        assert finalOwner = newOwner;
+    }
+
     return ();
 }
+
+// @external
+// func test_rescueTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+    
+// }

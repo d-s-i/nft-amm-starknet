@@ -8,6 +8,13 @@ from contracts.libraries.ERC1155Receiver import (ERC1155Receiver)
 from contracts.constants.library import (ON_ERC1155_RECEIVED_SELECTOR, ON_ERC1155_BATCH_RECEIVED_SELECTOR)
 
 namespace ERC1155Holder {
+    func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        interfaceId: felt, 
+        isSupported: felt
+    ) {
+        setInterfacesSupported(interfaceId, isSupported);
+        return ();
+    }
     func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         interfaceId: felt
     ) -> (isSupported: felt) {

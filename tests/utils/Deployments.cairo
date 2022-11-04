@@ -135,28 +135,30 @@ func deployPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     IERC20.mint(erc20Addr, accountAddr, initialERC20Balance);
     %{stop_prank_erc20()%}
     
-    // let (pairAddress) = INFTPairFactory.createPairERC20(
-    //     contract_address=factoryAddr,
-    //     _erc20Address=erc20Addr,
-    //     _nftAddress=erc721Addr,
-    //     _bondingCurve=bondingCurveAddr,
-    //     _assetRecipient=0,
-    //     _poolType=poolType,
-    //     _delta=delta,
-    //     _fee=0,
-    //     _spotPrice=spotPrice,
-    //     _initialNFTIds_len=initialNFTIds_len,
-    //     _initialNFTIds=nftIds,
-    //     initialERC20Balance=initialERC20Balance
-    // );
+    displayIds(nftIds, 0, initialNFTIds_len);
+
+    let (pairAddress) = INFTPairFactory.createPairERC20(
+        contract_address=factoryAddr,
+        _erc20Address=erc20Addr,
+        _nftAddress=erc721Addr,
+        _bondingCurve=bondingCurveAddr,
+        _assetRecipient=0,
+        _poolType=poolType,
+        _delta=delta,
+        _fee=0,
+        _spotPrice=spotPrice,
+        _initialNFTIds_len=initialNFTIds_len,
+        _initialNFTIds=nftIds,
+        initialERC20Balance=initialERC20Balance
+    );
 
     %{
         stop_prank_factory()
         stop_prank_erc721()
     %}
 
-    // return (pairAddress=pairAddress);
-    return (pairAddress=0);
+    return (pairAddress=pairAddress);
+    // return (pairAddress=0);
 }
 
 func _mintERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
@@ -164,7 +166,7 @@ func _mintERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     start: felt,
     nftIds_len: felt,
     nftIds: Uint256*,
-    mintTo: felt,
+    mintTo: felt
 ) {
     if(start == nftIds_len) {
         return ();
@@ -172,6 +174,27 @@ func _mintERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
 
     let id = Uint256(low=start + 1, high=0);
     assert [nftIds] = id;
+
     IERC721.mint(erc721Addr, mintTo, id);
     return _mintERC721(erc721Addr, start + 1, nftIds_len, nftIds + 2, mintTo);
 }
+
+func displayIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    nftIds: Uint256*, 
+    start: felt, 
+    end: felt
+) {
+    alloc_locals;
+
+    if(start == end) {
+        return ();
+    }
+
+    local currentId: Uint256 = [nftIds];
+    %{
+        print(f"id: {ids.currentId.low + ids.currentId.high}")
+    %}
+
+    return displayIds(nftIds + 1, start + 1, end);
+}
+
