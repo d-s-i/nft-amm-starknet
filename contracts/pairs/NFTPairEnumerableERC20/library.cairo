@@ -55,17 +55,6 @@ namespace NFTPairEnumerableERC20 {
         let (thisAddress) = get_contract_address();
         let (caller) = get_caller_address();
 
-        if(collectionAddress != erc721Address) {
-            IERC721Enumerable.setApprovalForAll(erc721Address, thisAddress, TRUE);
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-            tempvar range_check_ptr = range_check_ptr;
-        } else {
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-            tempvar range_check_ptr = range_check_ptr;
-        }        
-
         withdrawERC721_loop(
             _nftAddress=erc721Address, 
             from_=thisAddress, 
