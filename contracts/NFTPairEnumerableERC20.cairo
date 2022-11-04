@@ -28,7 +28,6 @@ from contracts.interfaces.tokens.IERC20 import (IERC20)
 from contracts.interfaces.tokens.IERC721 import (IERC721)
 from contracts.interfaces.INFTRouter import (INFTRouter)
 
-// from contracts.constants.PoolType import (PoolTypes)
 from contracts.constants.structs import (PoolType)
 from contracts.constants.library import (MAX_UINT_128, IERC721_RECEIVER_ID)
 
@@ -148,7 +147,6 @@ func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     pairVariant.write(_pairVariant);
     erc20Address.write(_erc20Address);
 
-    // setInterfacesSupported(IERC721_RECEIVER_ID, TRUE);
     ERC1155Holder.initializer(IERC721_RECEIVER_ID, TRUE);
     let (thisAddress) = get_contract_address();
     IERC721.setApprovalForAll(_nftAddress, thisAddress, TRUE);
@@ -959,15 +957,18 @@ func withdrawERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
 
     let (caller) = get_caller_address();
     let (thisAddress) = get_contract_address();
-    IERC20.transferFrom(_erc20Address, thisAddress, caller, amount);
 
     let (pairErc20) = erc20Address.read();
     if(_erc20Address == pairErc20) {
+        IERC20.transferFrom(_erc20Address, thisAddress, caller, amount);
         TokenWithdrawal.emit(amount);
         tempvar range_check_ptr = range_check_ptr;
         tempvar syscall_ptr = syscall_ptr;
         tempvar pedersen_ptr = pedersen_ptr;
     } else {
+        IERC20.approve(_erc20Address, thisAddress, amount);
+        IERC20.transferFrom(_erc20Address, thisAddress, caller, amount);
+
         tempvar range_check_ptr = range_check_ptr;
         tempvar syscall_ptr = syscall_ptr;
         tempvar pedersen_ptr = pedersen_ptr;

@@ -44,6 +44,28 @@ namespace INFTPair {
         routerCaller: felt
     ) {
     }
+    func withdrawERC721(
+        _nftAddress: felt,
+        tokenIds_len: felt,
+        tokenIds: Uint256*
+    ) {
+    }
+    func withdrawERC20(
+        _erc20Address: felt,
+        amount: Uint256
+    ) {
+    }
+    func withdrawERC1155(
+        from_: felt,
+        to: felt,
+        ids_len: felt,
+        ids: Uint256*,
+        amounts_len: felt,
+        amounts: Uint256*,
+        data_len: felt,
+        data: felt*
+    ) {
+    }    
     func getBuyNFTQuote(
         numNFTs: Uint256
     ) -> (

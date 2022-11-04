@@ -92,18 +92,18 @@ namespace NFTPairMissingEnumerableERC20 {
             tempvar syscall_ptr = syscall_ptr;
             tempvar pedersen_ptr = pedersen_ptr;
             tempvar range_check_ptr = range_check_ptr;
-        } else {
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
-            tempvar range_check_ptr = range_check_ptr;          
+        } else {        
             _withdrawERC721_loop(
                 0,
                 tokenIds_len,
-                erc721Address,
+                _collectionAddress,
                 thisAddress,
                 caller,
                 tokenIds
             );
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+            tempvar range_check_ptr = range_check_ptr;              
         }
 
         return ();
@@ -133,7 +133,7 @@ namespace NFTPairMissingEnumerableERC20 {
         assert [_ids] = currentId;
 
         return _getAllHeldIds_loop(
-            _ids + 2,
+            _ids + Uint256.SIZE,
             start + 1,
             end
         );
@@ -157,14 +157,20 @@ namespace NFTPairMissingEnumerableERC20 {
             tempvar pedersen_ptr = pedersen_ptr;
             tempvar range_check_ptr = range_check_ptr;  
         }
-        IERC721.transferFrom(erc721Address, from_, to, [tokenIds]);
+
+        IERC721.transferFrom(
+            contract_address=erc721Address, 
+            from_=from_, 
+            to=to, 
+            tokenId=[tokenIds]
+        );
         return _withdrawExternalERC721_loop(
             start + 1,
             end,
             erc721Address,
             from_,
             to,
-            tokenIds + 1
+            tokenIds + Uint256.SIZE
         );
     }
 
@@ -181,7 +187,12 @@ namespace NFTPairMissingEnumerableERC20 {
             return ();
         }    
          
-        IERC721.transferFrom(collectionAddress, from_, to, [tokenIds]);
+        IERC721.transferFrom(
+            contract_address=collectionAddress, 
+            from_=from_, 
+            to=to, 
+            tokenId=[tokenIds]
+        );
 
         let (maxIndex) = idSet_len.read();
         _removeNFTInEnumeration([tokenIds], 0, maxIndex);
@@ -193,7 +204,7 @@ namespace NFTPairMissingEnumerableERC20 {
             collectionAddress,
             from_,
             to,
-            tokenIds + 1
+            tokenIds + Uint256.SIZE
         );
     }
 
@@ -258,7 +269,7 @@ namespace NFTPairMissingEnumerableERC20 {
             nftRecipient,
             startIndex + 1,
             nftIds_len,
-            nftIds + 1
+            nftIds + Uint256.SIZE
         );
     }
 

@@ -599,6 +599,10 @@
                 "cairo_type": "()",
                 "type": "type_definition"
             },
+            "contracts.interfaces.tokens.IERC721Enumerable.IERC721Enumerable.SETAPPROVALFORALL_SELECTOR": {
+                "type": "const",
+                "value": 1280583940859288259579061247154630474140520431395903753515491282704959909530
+            },
             "contracts.interfaces.tokens.IERC721Enumerable.IERC721Enumerable.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 0

@@ -451,6 +451,35 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "name": "owner",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "interfaceId",
+                "type": "felt"
+            }
+        ],
+        "name": "supportsInterface",
+        "outputs": [
+            {
+                "name": "isSupported",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "name": "_nftAddress",
@@ -585,18 +614,18 @@
     {
         "inputs": [
             {
-                "name": "interfaceId",
+                "name": "newOwner",
                 "type": "felt"
             }
         ],
-        "name": "supportsInterface",
-        "outputs": [
-            {
-                "name": "isSupported",
-                "type": "felt"
-            }
-        ],
-        "stateMutability": "view",
+        "name": "transferOwnership",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
         "type": "function"
     },
     {

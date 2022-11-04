@@ -48,19 +48,31 @@ namespace NFTPairEnumerableERC20 {
     func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         collectionAddress: felt,
         erc721Address: felt,
-        tokenIds_len,
+        tokenIds_len: felt,
         tokenIds: Uint256*
     ) {
+        alloc_locals;
         let (thisAddress) = get_contract_address();
         let (caller) = get_caller_address();
 
+        if(collectionAddress != erc721Address) {
+            IERC721Enumerable.setApprovalForAll(erc721Address, thisAddress, TRUE);
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+            tempvar range_check_ptr = range_check_ptr;
+        } else {
+            tempvar syscall_ptr = syscall_ptr;
+            tempvar pedersen_ptr = pedersen_ptr;
+            tempvar range_check_ptr = range_check_ptr;
+        }        
+
         withdrawERC721_loop(
-            erc721Address, 
-            thisAddress, 
-            caller,
-            tokenIds_len,
-            tokenIds,
-            0
+            _nftAddress=erc721Address, 
+            from_=thisAddress, 
+            to=caller,
+            tokenIds_len=tokenIds_len,
+            tokenIds=tokenIds,
+            start=0
         );
         
         return ();
@@ -102,7 +114,7 @@ namespace NFTPairEnumerableERC20 {
             end,
             collectionAddress,
             ownerAddress,
-            tokenIds + 1
+            tokenIds + Uint256.SIZE
         );
     }
 
@@ -118,14 +130,19 @@ namespace NFTPairEnumerableERC20 {
             return ();
         }
 
-        IERC721Enumerable.transferFrom(_nftAddress, from_, to, [tokenIds]);
+        IERC721Enumerable.transferFrom(
+            contract_address=_nftAddress, 
+            from_=from_, 
+            to=to, 
+            tokenId=[tokenIds]
+        );
 
         return withdrawERC721_loop(
             _nftAddress,
             from_,
             to,
             tokenIds_len,
-            tokenIds + 1,
+            tokenIds + Uint256.SIZE,
             start + 1
         );
     }
@@ -171,7 +188,7 @@ namespace NFTPairEnumerableERC20 {
             nftRecipient,
             startIndex + 1,
             nftIds_len,
-            nftIds + 1
+            nftIds + Uint256.SIZE
         );
     }
 }

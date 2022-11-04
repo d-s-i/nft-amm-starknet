@@ -115,11 +115,11 @@
                 "type": "Uint256"
             },
             {
-                "name": "_initialNFTIDs_len",
+                "name": "_initialNFTIds_len",
                 "type": "felt"
             },
             {
-                "name": "_initialNFTIDs",
+                "name": "_initialNFTIds",
                 "type": "Uint256*"
             },
             {

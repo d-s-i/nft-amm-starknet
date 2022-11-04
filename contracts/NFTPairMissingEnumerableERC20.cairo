@@ -28,7 +28,6 @@ from contracts.interfaces.tokens.IERC20 import (IERC20)
 from contracts.interfaces.tokens.IERC721 import (IERC721)
 from contracts.interfaces.INFTRouter import (INFTRouter)
 
-// from contracts.constants.PoolType import (PoolTypes)
 from contracts.constants.structs import (PoolType)
 from contracts.constants.library import (MAX_UINT_128, IERC721_RECEIVER_ID)
 
@@ -228,7 +227,6 @@ func swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ra
 
     ReentrancyGuard._start();
 
-    // let (poolTypes) = PoolTypes.value();
     let (_factory) = factory.read();
     let (_bondingCurve) = bondingCurve.read();
     let (_nftAddress) = nftAddress.read();
@@ -298,7 +296,6 @@ func swapNFTsForToken{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_chec
 
     ReentrancyGuard._start();
 
-    // let (poolTypes) = PoolTypes.value();
     let (_factory) = factory.read();
     let (_bondingCurve) = bondingCurve.read();
     let (_poolType) = poolType.read();
@@ -434,7 +431,6 @@ func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
 
 @view
 func getAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (recipient: felt) {
-    // let (poolTypes) = PoolTypes.value();
 
     let (_poolType) = poolType.read();
     if(_poolType == PoolType.TRADE) {
@@ -881,11 +877,12 @@ func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_
 ) {
     Ownable.assert_only_owner();
     let (_collectionAddress) = nftAddress.read();
+
     NFTPairMissingEnumerableERC20.withdrawERC721(
-        _collectionAddress,
-        _nftAddress,
-        tokenIds_len,
-        tokenIds
+        _collectionAddress=_collectionAddress,
+        erc721Address=_nftAddress,
+        tokenIds_len=tokenIds_len,
+        tokenIds=tokenIds
     );
     return ();
 }
@@ -899,15 +896,18 @@ func withdrawERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
 
     let (caller) = get_caller_address();
     let (thisAddress) = get_contract_address();
-    IERC20.transferFrom(_erc20Address, thisAddress, caller, amount);
 
     let (pairErc20) = erc20Address.read();
     if(_erc20Address == pairErc20) {
+        IERC20.transferFrom(_erc20Address, thisAddress, caller, amount);
         TokenWithdrawal.emit(amount);
         tempvar range_check_ptr = range_check_ptr;
         tempvar syscall_ptr = syscall_ptr;
         tempvar pedersen_ptr = pedersen_ptr;
     } else {
+        IERC20.approve(_erc20Address, thisAddress, amount);
+        IERC20.transferFrom(_erc20Address, thisAddress, caller, amount);
+
         tempvar range_check_ptr = range_check_ptr;
         tempvar syscall_ptr = syscall_ptr;
         tempvar pedersen_ptr = pedersen_ptr;
@@ -987,7 +987,6 @@ func changeFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
     Ownable.assert_only_owner();
 
     let (_poolType) = poolType.read();
-    // let (poolTypes) = PoolTypes.value();
     
     with_attr error_message("NFTPair::changeFee - Only for trade pools") {
         assert _poolType = PoolType.TRADE;
@@ -1010,7 +1009,6 @@ func changeAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_
     Ownable.assert_only_owner();
 
     let (_poolType) = poolType.read();
-    // let (poolTypes) = PoolTypes.value();
     
     if(_poolType == PoolType.TRADE) {
         with_attr error_message("NFTPair::changeAssetRecipient - Not for trade pools") {
@@ -1132,7 +1130,6 @@ func _assertCorrectlyInitializedWithPoolType{syscall_ptr: felt*, pedersen_ptr: H
     _assetRecipient: felt
 ) {
     alloc_locals;
-    // let (poolTypes) = PoolTypes.value();
     if(_poolType == PoolType.TOKEN) {
         with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
             assert _fee = 0;

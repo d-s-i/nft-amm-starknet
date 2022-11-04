@@ -11,6 +11,8 @@ from contracts.interfaces.tokens.IERC721 import (IERC721)
 from contracts.interfaces.tokens.IERC20 import (IERC20)
 from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
 
+from tests.utils.library import (_mintERC721, _mintERC20)
+
 namespace CurveId {
     const Linear = 1;
     const Exponential = 2;
@@ -115,28 +117,18 @@ func deployPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
 
     %{
         stop_prank_factory = start_prank(ids.accountAddr, ids.factoryAddr)
-        stop_prank_erc721 = start_prank(ids.accountAddr, ids.erc721Addr)
-        stop_prank_erc20 = start_prank(ids.accountAddr, ids.erc20Addr)
 
         # Set allowances on factory for tokens
         store(ids.erc20Addr, "ERC20_allowances", [ids.MAX_UINT_256.low, ids.MAX_UINT_256.high], [ids.accountAddr, ids.factoryAddr])
         store(ids.erc721Addr, "ERC721_operator_approvals", [1], [ids.accountAddr, ids.factoryAddr])
     %}
     let (nftIds: Uint256*) = alloc();
-    _mintERC721(erc721Addr, 0, initialNFTIds_len, nftIds, accountAddr);
-    let (accBalance) = IERC721.balanceOf(erc721Addr, accountAddr);
-    let (ownerId1) = IERC721.ownerOf(erc721Addr, Uint256(low=1, high=0));
-    let (ownerId2) = IERC721.ownerOf(erc721Addr, Uint256(low=1, high=0));
-    %{
-        print(f"owner of id 1 {hex(ids.ownerId1)}")
-        print(f"owner of id 2 {hex(ids.ownerId2)}")
-        print(f"acc nft balance: {ids.accBalance.low + ids.accBalance.high}")
-    %}
-    IERC20.mint(erc20Addr, accountAddr, initialERC20Balance);
-    %{stop_prank_erc20()%}
+    _mintERC721(erc721Addr, 0, initialNFTIds_len, nftIds, accountAddr, accountAddr);
+    _mintERC20(erc20Addr, initialERC20Balance, accountAddr, accountAddr);
     
-    displayIds(nftIds, 0, initialNFTIds_len);
+    // displayIds(nftIds, 0, initialNFTIds_len);
 
+    %{stop_prank_erc721 = start_prank(ids.accountAddr, ids.erc721Addr)%}
     let (pairAddress) = INFTPairFactory.createPairERC20(
         contract_address=factoryAddr,
         _erc20Address=erc20Addr,
@@ -158,25 +150,6 @@ func deployPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     %}
 
     return (pairAddress=pairAddress);
-    // return (pairAddress=0);
-}
-
-func _mintERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    erc721Addr: felt,
-    start: felt,
-    nftIds_len: felt,
-    nftIds: Uint256*,
-    mintTo: felt
-) {
-    if(start == nftIds_len) {
-        return ();
-    }
-
-    let id = Uint256(low=start + 1, high=0);
-    assert [nftIds] = id;
-
-    IERC721.mint(erc721Addr, mintTo, id);
-    return _mintERC721(erc721Addr, start + 1, nftIds_len, nftIds + 2, mintTo);
 }
 
 func displayIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
@@ -195,6 +168,6 @@ func displayIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
         print(f"id: {ids.currentId.low + ids.currentId.high}")
     %}
 
-    return displayIds(nftIds + 1, start + 1, end);
+    return displayIds(nftIds + Uint256.SIZE, start + 1, end);
 }
 
