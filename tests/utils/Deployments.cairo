@@ -151,23 +151,3 @@ func deployPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
 
     return (pairAddress=pairAddress);
 }
-
-func displayIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    nftIds: Uint256*, 
-    start: felt, 
-    end: felt
-) {
-    alloc_locals;
-
-    if(start == end) {
-        return ();
-    }
-
-    local currentId: Uint256 = [nftIds];
-    %{
-        print(f"id: {ids.currentId.low + ids.currentId.high}")
-    %}
-
-    return displayIds(nftIds + Uint256.SIZE, start + 1, end);
-}
-
