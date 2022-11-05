@@ -309,12 +309,7 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "name": "_nftAddress",
-                "type": "felt"
-            }
-        ],
+        "inputs": [],
         "name": "getAllHeldIds",
         "outputs": [
             {

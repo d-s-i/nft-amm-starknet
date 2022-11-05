@@ -58,6 +58,28 @@
         "type": "event"
     },
     {
+        "data": [
+            {
+                "name": "newProtocolFeeRecipientUpdate",
+                "type": "felt"
+            }
+        ],
+        "keys": [],
+        "name": "ProtocolFeeRecipientUpdate",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "newProtocolFeeMultiplierUpdate",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "ProtocolFeeMultiplierUpdate",
+        "type": "event"
+    },
+    {
         "inputs": [
             {
                 "name": "_enumerableERC20Template",
@@ -152,12 +174,61 @@
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "name": "newProtocolFeeRecipient",
+                "type": "felt"
+            }
+        ],
+        "name": "changeProtocolFeeRecipient",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "newProtocolFeeMultiplier",
+                "type": "Uint256"
+            }
+        ],
+        "name": "changeProtocolFeeMultiplier",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "erc20Addr",
+                "type": "felt"
+            },
+            {
+                "name": "amount",
+                "type": "Uint256"
+            }
+        ],
+        "name": "withdrawERC20ProtocolFees",
+        "outputs": [],
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "getProtocolFeeMultiplier",
         "outputs": [
             {
                 "name": "protocolFeeMultiplier",
                 "type": "Uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getProtocolFeeRecipient",
+        "outputs": [
+            {
+                "name": "protocolFeeRecipient",
+                "type": "felt"
             }
         ],
         "stateMutability": "view",

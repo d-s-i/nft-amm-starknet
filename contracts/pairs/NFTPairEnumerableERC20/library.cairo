@@ -10,7 +10,7 @@ from starkware.cairo.common.uint256 import (
 )
 from starkware.cairo.common.alloc import (alloc)
 from starkware.starknet.common.syscalls import (get_contract_address, get_caller_address)
-from starkware.cairo.common.bool import (TRUE)
+from starkware.cairo.common.bool import (TRUE, FALSE)
 
 from contracts.constants.library import (IERC721_RECEIVER_ID)
 from contracts.libraries.felt_uint import (FeltUint) 
@@ -124,21 +124,22 @@ namespace NFTPairEnumerableERC20 {
         _nftAddress: felt,
         nftRecipient: felt,
         startIndex: Uint256,
+        lastIndex: Uint256,
         numNFTs: Uint256
     ) {
-        let (contractAddress) = get_contract_address();
-        let (balance) = IERC721Enumerable.balanceOf(_nftAddress, contractAddress);
-        let (lastIndex) = uint256_sub(balance, Uint256(low=1, high=0));
-
-        let (isLower) = uint256_lt(startIndex, numNFTs);
-        if(isLower == TRUE) {
-            let (nftId) = IERC721Enumerable.tokenOfOwnerByIndex(_nftAddress, contractAddress, startIndex);
-            IERC721Enumerable.transferFrom(_nftAddress, contractAddress, nftRecipient, nftId);
-            let (newStartIndex, carry) = uint256_add(startIndex, Uint256(low=1, high=0));
-            return _sendAnyNFTsToRecipient(_nftAddress, nftRecipient, newStartIndex, numNFTs);
+       let (isLower) = uint256_lt(startIndex, numNFTs);
+        if(isLower == FALSE) {
+            return (); 
         } 
 
-        return (); 
+        let (thisAddress) = get_contract_address();
+        let (nftId) = IERC721Enumerable.tokenOfOwnerByIndex(_nftAddress, thisAddress, lastIndex);
+        IERC721Enumerable.transferFrom(_nftAddress, thisAddress, nftRecipient, nftId);
+
+        let (newStartIndex, carry) = uint256_add(startIndex, Uint256(low=1, high=0));
+        let (newlastIndex) = uint256_sub(lastIndex, Uint256(low=1, high=0));
+        return _sendAnyNFTsToRecipient(_nftAddress, nftRecipient, newStartIndex, newlastIndex, numNFTs);
+
     }
 
 

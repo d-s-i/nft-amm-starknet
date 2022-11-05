@@ -46,6 +46,41 @@ func _mintERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     return _mintERC721(erc721Addr, start + 1, nftIds_len, nftIds + 2, mintTo, contractOwner);
 }
 
+func setERC20Allowance{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    erc20Addr: felt,
+    spender: felt,
+    operator: felt,
+    allowance: Uint256
+) {
+    %{
+        store(
+            ids.erc20Addr, 
+            "ERC20_allowances", 
+            [ids.allowance.low, ids.allowance.high], 
+            [ids.spender, ids.operator]
+        )
+    %}
+    return ();
+}
+
+func setERC721Allowance{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    erc721Addr: felt,
+    spender: felt,
+    operator: felt
+) {
+    %{
+        store(
+            ids.erc721Addr, 
+            "ERC721_operator_approvals", 
+            [1], 
+            [ids.spender, ids.operator]
+        )
+    %}
+    return ();
+}
+
+
+
 func _mintERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     erc20Addr: felt,
     amount: Uint256,

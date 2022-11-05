@@ -50,20 +50,25 @@ namespace INFTPair {
     ) {
     }
     func withdrawERC1155(
-    erc1155Addr: felt,
-    ids_len: felt,
-    ids: Uint256*,
-    amounts_len: felt,
-    amounts: Uint256*
+        erc1155Addr: felt,
+        ids_len: felt,
+        ids: Uint256*,
+        amounts_len: felt,
+        amounts: Uint256*
     ) {
     }
+    func withdrawERC20(
+        erc20Address: felt,
+        amount: Uint256
+    ) {
+    }    
     func transferOwnership(
         newOwner: felt
     ) {
     }
     func renounceOwnership() {
     }
-    func getAllHeldIds(_nftAddress: felt) -> (ids_len: felt, ids: Uint256*) {
+    func getAllHeldIds() -> (ids_len: felt, ids: Uint256*) {
     }
     func owner() -> (owner: felt) {
     }
@@ -74,11 +79,6 @@ namespace INFTPair {
         tokenRecipient: felt,
         isRouter: felt,
         routerCaller: felt
-    ) {
-    }
-    func withdrawERC20(
-        erc20Address: felt,
-        amount: Uint256
     ) {
     }
     func setInterfacesSupported(

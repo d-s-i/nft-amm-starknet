@@ -9,8 +9,8 @@ from starkware.cairo.common.bool import (TRUE, FALSE)
 
 from contracts.openzeppelin.Ownable import (Ownable)
 
-// from contracts.constants.PairVariant import (PairVariants)
 from contracts.constants.structs import (PairVariant)
+from contracts.constants.library import (MAX_UINT_128)
 
 from contracts.constants.library import (IERC721_ENUMERABLE_ID)
 from contracts.interfaces.bonding_curves.ICurve import (ICurve)
@@ -41,12 +41,26 @@ func bondigCurveAllowed(bondingCurveAddress: felt) -> (isAllowed: felt) {
 func protocolFeeMultiplier() -> (res: Uint256) {
 }
 
+@storage_var
+func protocolFeeRecipient() -> (res: felt) {
+}
+
+// EVENTS
+
 @event
 func NewPair(contractAddress: felt) {
 }
 
 @event
 func BondingCurveStatusUpdate(bondingCurveAddress: felt, isAllowed: felt) {
+}
+
+@event
+func ProtocolFeeRecipientUpdate(newProtocolFeeRecipientUpdate: felt) {
+}
+
+@event
+func ProtocolFeeMultiplierUpdate(newProtocolFeeMultiplierUpdate: Uint256) {
 }
 
 @constructor
@@ -121,17 +135,6 @@ func createPairERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
         );
         return (pairAddress=_pairAddress);
     }
-}
-
-@external
-func setBondingCurveAllowed{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    bondingCurveAddress: felt,
-    isAllowed: felt
-) {
-    Ownable.assert_only_owner();
-    bondigCurveAllowed.write(bondingCurveAddress, isAllowed);
-    BondingCurveStatusUpdate.emit(bondingCurveAddress, isAllowed);
-    return ();
 }
 
 func deployPairEnumerableERC20{
@@ -256,6 +259,69 @@ func deployPairMissingEnumerableERC20{
     return (pairAddress=_pairAddress);
 }
 
+// ADMIN
+
+@external
+func setBondingCurveAllowed{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    bondingCurveAddress: felt,
+    isAllowed: felt
+) {
+    Ownable.assert_only_owner();
+    bondigCurveAllowed.write(bondingCurveAddress, isAllowed);
+    BondingCurveStatusUpdate.emit(bondingCurveAddress, isAllowed);
+    return ();
+}
+
+@external
+func changeProtocolFeeRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    newProtocolFeeRecipient: felt
+) {
+    Ownable.assert_only_owner();
+    protocolFeeRecipient.write(newProtocolFeeRecipient);
+    ProtocolFeeRecipientUpdate.emit(newProtocolFeeRecipient);
+    return ();
+}
+
+@external
+func changeProtocolFeeMultiplier{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    newProtocolFeeMultiplier: Uint256
+) {
+    Ownable.assert_only_owner();
+    protocolFeeMultiplier.write(newProtocolFeeMultiplier);
+    ProtocolFeeMultiplierUpdate.emit(newProtocolFeeMultiplier);
+    return ();
+}
+
+@external
+func withdrawERC20ProtocolFees{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    erc20Addr: felt,
+    amount: Uint256
+) {
+    Ownable.assert_only_owner();
+
+    let (thisAddress) = get_contract_address();
+    let (_protocolFeeRecipient) = protocolFeeRecipient.read();
+    IERC20.approve(erc20Addr, thisAddress, Uint256(low=MAX_UINT_128, high=MAX_UINT_128));
+    IERC20.transferFrom(erc20Addr, thisAddress, _protocolFeeRecipient, amount);
+    return ();
+}
+
+// VIEW
+
+@view
+func getProtocolFeeMultiplier{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (protocolFeeMultiplier: Uint256) {
+    let (_protocolFeeMultiplier) = protocolFeeMultiplier.read();
+    return (protocolFeeMultiplier=_protocolFeeMultiplier);
+}
+
+@view
+func getProtocolFeeRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (protocolFeeRecipient: felt) {
+    let (_protocolFeeRecipient) = protocolFeeRecipient.read();
+    return (protocolFeeRecipient=_protocolFeeRecipient);
+}
+
+// INTERNAL
+
 func _transferInitialLiquidity{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     pairAddress: felt,
     erc20Address: felt,
@@ -291,10 +357,4 @@ func _transferInitialNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_
     }
     IERC721.safeTransferFrom(nftAddress, from_, to, [tokenIds], 0, cast(new (0,), felt*)); 
     return _transferInitialNFTs(start + 1, end, from_, to, nftAddress, tokenIds + 2);
-}
-
-@view
-func getProtocolFeeMultiplier{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (protocolFeeMultiplier: Uint256) {
-    let (_protocolFeeMultiplier) = protocolFeeMultiplier.read();
-    return (protocolFeeMultiplier=_protocolFeeMultiplier);
 }

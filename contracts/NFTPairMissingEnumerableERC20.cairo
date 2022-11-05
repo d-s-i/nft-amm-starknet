@@ -44,6 +44,11 @@ func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     _erc20Address: felt
 ) {
     alloc_locals;
+
+    with_attr error_mesage("initializer - Pair already initialized") {
+        let (_owner) = Ownable.owner();
+        assert _owner = 0;
+    }
     Ownable.initializer(owner);
     NFTPairERC20.initializer(
         factoryAddr=factoryAddr,
@@ -83,7 +88,7 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
     let (_poolType) = NFTPairERC20.getPoolType();
 
     if(_poolType == PoolType.TOKEN) {
-        with_attr error_message("NFTPairMissingEnumerableERC20::swapTokenForAnyNFTs - Wrong Pool type (value: {_poolType})") {
+        with_attr error_message("swapTokenForAnyNFTs - Wrong Pool type (value: {_poolType})") {
             assert 1 = 2;
         }
     }
@@ -91,11 +96,11 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
     let (thisAddress) = get_contract_address();
     let (balance) = IERC721.balanceOf(_nftAddress, thisAddress);
 
-    with_attr error_mesage("NFTPairMissingEnumerableERC20::swapTokenForAnyNFTs - Must by at least 1 NFT") {
+    with_attr error_mesage("swapTokenForAnyNFTs - Must buy at least 1 NFT") {
         assert_uint256_lt(Uint256(low=0, high=0), numNFTs);
     }
 
-    with_attr error_message("NFTPairMissingEnumerableERC20::swapTokenForAnyNFTs - Contract has not enough balances for trade") {
+    with_attr error_message("swapTokenForAnyNFTs - Contract has not enough balances for trade") {
         assert_uint256_le(numNFTs, balance);
     }
 
@@ -259,8 +264,8 @@ func renounceOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
 // Getters
 
 @view
-func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(_nftAddress: felt) -> (ids_len: felt, ids: Uint256*) {
-    let (ids_len, ids) = NFTPairMissingEnumerableERC20.getAllHeldIds(_nftAddress);
+func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (ids_len: felt, ids: Uint256*) {
+    let (ids_len, ids) = NFTPairMissingEnumerableERC20.getAllHeldIds();
     return (ids_len=ids_len, ids=ids);
 }
 

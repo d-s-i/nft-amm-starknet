@@ -117,11 +117,11 @@ namespace NFTPairERC20 {
         _assertCorrectlyInitializedWithPoolType(_poolType, _fee, _assetRecipient);
 
         let (deltaSuccess) = ICurve.validateDelta(bondingCurveAddr, _delta);
-        with_attr error_message("NFTPair::initializer - Invalid delta for curve") {
+        with_attr error_message("initializer - Invalid delta for curve") {
             assert deltaSuccess = TRUE;
         }
         let (spotPriceSuccess) = ICurve.validateSpotPrice(bondingCurveAddr, _spotPrice);
-        with_attr error_message("NFTPair::initializer - Invalid new spot price for curve") {
+        with_attr error_message("initializer - Invalid new spot price for curve") {
             assert spotPriceSuccess = TRUE;
         }
         
@@ -170,11 +170,11 @@ namespace NFTPairERC20 {
         let (_nftAddress) = nftAddress.read();
 
         if(_poolType == PoolType.NFT) {
-            with_attr error_message("NFTPair::swapNFTsForToken - Wrong Pool type") {
+            with_attr error_message("swapNFTsForToken - Wrong Pool type") {
                 assert 1 = 2;
             }
         }
-        with_attr error_message("NFTPair::swapNFTsForToken - Must ask for more than 0 NFTs") {
+        with_attr error_message("swapNFTsForToken - Must ask for more than 0 NFTs") {
             assert_lt(0, nftIds_len);
         }
 
@@ -268,7 +268,7 @@ namespace NFTPairERC20 {
         let (_bondingCurve) = bondingCurve.read();
         let (spotPriceValid) = ICurve.validateSpotPrice(_bondingCurve, newSpotPrice);
         
-        with_attr error_message("NFTPair::changeSpotPrice - Invalid new spot price for curve") {
+        with_attr error_message("changeSpotPrice - Invalid new spot price for curve") {
             assert spotPriceValid = TRUE;
         }
 
@@ -284,7 +284,7 @@ namespace NFTPairERC20 {
         let (_bondingCurve) = bondingCurve.read();
         let (deltaValid) = ICurve.validateDelta(_bondingCurve, newDelta);
         
-        with_attr error_message("NFTPair::changeDelta - Invalid new delta for curve") {
+        with_attr error_message("changeDelta - Invalid new delta for curve") {
             assert deltaValid = TRUE;
         }
 
@@ -299,11 +299,11 @@ namespace NFTPairERC20 {
     ) {
         let (_poolType) = poolType.read();
         
-        with_attr error_message("NFTPair::changeFee - Only for trade pools") {
+        with_attr error_message("changeFee - Only for trade pools") {
             assert _poolType = PoolType.TRADE;
         }
 
-        with_attr error_message("NFTPair::changeFee - Trade fee must be less than 90%") {
+        with_attr error_message("changeFee - Trade fee must be less than 90%") {
             assert_lt(newFee, MAX_FEE);
         }
 
@@ -319,7 +319,7 @@ namespace NFTPairERC20 {
         let (_poolType) = poolType.read();
         
         if(_poolType == PoolType.TRADE) {
-            with_attr error_message("NFTPair::changeAssetRecipient - Not for trade pools") {
+            with_attr error_message("changeAssetRecipient - Not for trade pools") {
                 assert 1 = 2;
             }
             tempvar syscall_ptr = syscall_ptr;
@@ -605,7 +605,7 @@ namespace NFTPairERC20 {
 
         if(isRouter == TRUE) {
             let (routerAllowed) = INFTPairFactory.routerStatus(_factory, routerCaller);
-            with_attr error_message("NFTPair::_takeNFTsFromSender - Router Not Allowed") {
+            with_attr error_message("_takeNFTsFromSender - Router Not Allowed") {
                 assert routerAllowed = 1;
             }
             let (_pairVariant) = pairVariant.read();
@@ -627,7 +627,7 @@ namespace NFTPairERC20 {
                 );
                 let (afterBalance) = IERC721.balanceOf(_nftAddress, _assetRecipient);
                 let (expectedAfterBalance, expectedAfterBalanceCarry) = uint256_add(beforeBalance, Uint256(low=1, high=0));
-                with_attr error_mesage("NFTPair::_takeNFTsFromSender - One NFT not transfered") {
+                with_attr error_mesage("_takeNFTsFromSender - One NFT not transfered") {
                     assert_uint256_eq(afterBalance, expectedAfterBalance);
                 }
 
@@ -655,7 +655,7 @@ namespace NFTPairERC20 {
                     _pairVariant
                 );
                 let (owner) = IERC721.ownerOf(_nftAddress, [nftIds]);
-                with_attr error_mesage("NFTPair::_takeNFTsFromSender - NFT not transferred") {
+                with_attr error_mesage("_takeNFTsFromSender - NFT not transferred") {
                     assert owner = _assetRecipient;
                 }
                 tempvar range_check_ptr = range_check_ptr;
@@ -714,7 +714,7 @@ namespace NFTPairERC20 {
                 _factory,
                 routerCaller
             );
-            with_attr error_message("NFTPair::_pullTokenInputAndPayProtocolFee - Router not allowed") {
+            with_attr error_message("_pullTokenInputAndPayProtocolFee - Router not allowed") {
                 assert_not_zero(routerCaller);
             }
             let (beforeBalance) = IERC20.balanceOf(
@@ -737,7 +737,7 @@ namespace NFTPairERC20 {
             let (transferedAmount) = uint256_sub(currentBalance, beforeBalance);
             let (supposedAmount) = uint256_sub(inputAmount, protocolFee);
 
-            with_attr error_message("NFTPair::_pullTokenInputAndPayProtocolFee - ERC20 not transfered in") {
+            with_attr error_message("_pullTokenInputAndPayProtocolFee - ERC20 not transfered in") {
                 uint256_eq(transferedAmount, supposedAmount);
             }
 
@@ -865,7 +865,7 @@ namespace NFTPairERC20 {
 
         _revertIfError(error);
 
-        with_attr error_message("NFTPair::_calculateSellInfoAndUpdatePoolParams - Out too little tokens") {
+        with_attr error_message("_calculateSellInfoAndUpdatePoolParams - Out too little tokens") {
             let (isLower) = uint256_lt(minExpectedTokenOutput, outputAmount);
             assert isLower = TRUE;
         }
@@ -886,7 +886,7 @@ namespace NFTPairERC20 {
     ) {
         alloc_locals;
         if(_poolType == PoolType.TOKEN) {
-            with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
+            with_attr error_message("initializer - Only Trade Pools can have non zero fees") {
                 assert _fee = 0;
             }
             assetRecipient.write(_assetRecipient);
@@ -895,7 +895,7 @@ namespace NFTPairERC20 {
             tempvar pedersen_ptr = pedersen_ptr;
         } else {
                 if(_poolType == PoolType.NFT) {
-                    with_attr error_message("NFTPair::initializer - Only Trade Pools can have non zero fees") {
+                    with_attr error_message("initializer - Only Trade Pools can have non zero fees") {
                         assert _fee = 0;
                     }
                     tempvar range_check_ptr = range_check_ptr;
@@ -907,7 +907,7 @@ namespace NFTPairERC20 {
                     tempvar pedersen_ptr = pedersen_ptr;
                         if(_poolType == PoolType.TRADE) {
                             assert_lt(_fee, MAX_FEE);
-                            with_attr error_message("NFTPair::initializer - Trade pools can't set asset recipient") {
+                            with_attr error_message("initializer - Trade pools can't set asset recipient") {
                                 assert _assetRecipient = 0;
                             }
                             fee.write(_fee);
@@ -915,7 +915,7 @@ namespace NFTPairERC20 {
                             tempvar syscall_ptr = syscall_ptr;
                             tempvar pedersen_ptr = pedersen_ptr;
                         } else {
-                            with_attr error_message("NFTPair::initializer - Wrong pool type (value: {_poolType})") {
+                            with_attr error_message("initializer - Wrong pool type (value: {_poolType})") {
                                 assert 1 = 2;
                             }
                             tempvar range_check_ptr = range_check_ptr;

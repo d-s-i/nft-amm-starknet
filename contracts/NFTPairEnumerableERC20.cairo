@@ -5,6 +5,7 @@ from starkware.starknet.common.syscalls import (get_contract_address)
 from starkware.cairo.common.math import (assert_lt)
 from starkware.cairo.common.uint256 import (
     Uint256, 
+    uint256_sub,
     uint256_lt, 
     uint256_le,
     assert_uint256_lt,
@@ -44,6 +45,11 @@ func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     _erc20Address: felt
 ) {
     alloc_locals;
+
+    with_attr error_mesage("initializer - Pair already initialized") {
+        let (_owner) = Ownable.owner();
+        assert _owner = 0;
+    }
     Ownable.initializer(owner);
     NFTPairERC20.initializer(
         factoryAddr=factoryAddr,
@@ -93,7 +99,7 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
     let (thisAddress) = get_contract_address();
     let (balance) = IERC721.balanceOf(_nftAddress, thisAddress);
 
-    with_attr error_mesage("NFTPairEnumerableERC20::swapTokenForAnyNFTs - Must by at least 1 NFT") {
+    with_attr error_mesage("NFTPairEnumerableERC20::swapTokenForAnyNFTs - Must buy at least 1 NFT") {
         assert_uint256_lt(Uint256(low=0, high=0), numNFTs);
     }
 
@@ -116,7 +122,21 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
         protocolFee
     );
 
-    NFTPairEnumerableERC20._sendAnyNFTsToRecipient(_nftAddress, nftRecipient, Uint256(low=0, high=0), numNFTs);
+    let (lastIndex) = uint256_sub(balance, Uint256(low=1, high=0));
+    NFTPairEnumerableERC20._sendAnyNFTsToRecipient(
+        _nftAddress=_nftAddress, 
+        nftRecipient=nftRecipient, 
+        startIndex=Uint256(low=0, high=0), 
+        lastIndex=lastIndex,
+        numNFTs=numNFTs
+    );
+
+    // NFTPairEnumerableERC20._sendAnyNFTsToRecipient(
+    //     _nftAddress=_nftAddress, 
+    //     nftRecipient=nftRecipient, 
+    //     startIndex=Uint256(low=0, high=0), 
+    //     numNFTs=numNFTs
+    // );    
 
     SwapNFTOutPair.emit();
 
@@ -242,7 +262,7 @@ func withdrawERC1155{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
     return ();
 }
 
-// @dev assert_only_owner alreach checked within the Ownable function
+// @dev assert_only_owner alreach checked within the Ownable function already
 @external
 func transferOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     newOwner: felt
@@ -251,7 +271,7 @@ func transferOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
     return ();
 }
 
-// @dev assert_only_owner alreach checked within the Ownable function
+// @dev assert_only_owner alreach checked within the Ownable function already
 @external
 func renounceOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
     Ownable.renounce_ownership();
@@ -261,7 +281,8 @@ func renounceOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
 // Getters
 
 @view
-func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(_nftAddress: felt) -> (ids_len: felt, ids: Uint256*) {
+func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (ids_len: felt, ids: Uint256*) {
+    let (_nftAddress) = NFTPairERC20.getNFTAddress();
     let (ids_len, ids) = NFTPairEnumerableERC20.getAllHeldIds(_nftAddress);
     return (ids_len=ids_len, ids=ids);
 }

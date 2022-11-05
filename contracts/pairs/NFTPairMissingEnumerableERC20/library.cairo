@@ -93,7 +93,7 @@ namespace NFTPairMissingEnumerableERC20 {
         return ();
     }
 
-    func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(collectionAddress: felt) -> (ids_len: felt, ids: Uint256*) {
+    func getAllHeldIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (ids_len: felt, ids: Uint256*) {
         alloc_locals;
         let (ids: Uint256*) = alloc();
         let (end) = idSet_len.read();

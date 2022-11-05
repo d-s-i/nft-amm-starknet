@@ -129,9 +129,3 @@ func renounceOwnership{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
     Ownable.renounce_ownership();
     return ();
 }
-
-@external
-func test{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (caller: felt) {
-    let (caller) = get_caller_address();
-    return (caller=caller);
-}

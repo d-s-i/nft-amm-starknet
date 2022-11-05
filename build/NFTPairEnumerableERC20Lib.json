@@ -449,6 +449,10 @@
             ]
         },
         "identifiers": {
+            "__main__.FALSE": {
+                "destination": "starkware.cairo.common.bool.FALSE",
+                "type": "alias"
+            },
             "__main__.FeltUint": {
                 "destination": "contracts.libraries.felt_uint.FeltUint",
                 "type": "alias"
