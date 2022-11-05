@@ -53,22 +53,6 @@ namespace NFTPairMissingEnumerableERC20 {
 
         return (selector=IERC721_RECEIVER_ID);
     }
-
-    func withdrawERC1155{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        from_: felt,
-        to: felt,
-        ids_len: felt,
-        ids: Uint256*,
-        amounts_len: felt,
-        amounts: Uint256*,
-        data_len: felt,
-        data: felt*
-    ) {
-        with_attr error_mesage("NFTPairLibExample::withdrawERC1155 - Can't withdraw ERC1155") {
-            assert 1 = 2;
-        }
-        return ();
-    }
     
     func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         _collectionAddress: felt,

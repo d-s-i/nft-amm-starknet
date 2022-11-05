@@ -82,9 +82,10 @@ func deployTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_pt
     erc20Decimals: felt,
     erc20InitialSupply: Uint256,
     owner: felt
-) -> (erc20Addr: felt, erc721Addr: felt) {
+) -> (erc20Addr: felt, erc721Addr: felt, erc1155Addr: felt) {
     tempvar erc20Addr;
     tempvar erc721Addr;
+    tempvar erc1155Addr;
     %{
         ids.erc20Addr = deploy_contract(
             "./contracts/mocks/ERC20.cairo", 
@@ -94,9 +95,13 @@ func deployTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_pt
             "./contracts/mocks/ERC721.cairo",
             [0, 0, ids.owner]
         ).contract_address
+        ids.erc1155Addr = deploy_contract(
+            "./contracts/mocks/ERC1155.cairo",
+            [0, ids.owner]
+        ).contract_address        
     %}
 
-    return (erc20Addr=erc20Addr, erc721Addr=erc721Addr);
+    return (erc20Addr=erc20Addr, erc721Addr=erc721Addr, erc1155Addr=erc1155Addr);
 }
 
 func deployPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(

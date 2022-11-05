@@ -1,17 +1,19 @@
 %lang starknet
 
 from starkware.cairo.common.cairo_builtins import (HashBuiltin)
+from starkware.cairo.common.bool import (TRUE)
 from starkware.cairo.common.uint256 import (Uint256)
 
 from contracts.libraries.ERC1155Receiver import (ERC1155Receiver)
 
-from contracts.constants.library import (ON_ERC1155_RECEIVED_SELECTOR, ON_ERC1155_BATCH_RECEIVED_SELECTOR)
+from contracts.constants.library import (ON_ERC1155_RECEIVED_SELECTOR, ON_ERC1155_BATCH_RECEIVED_SELECTOR, IERC1155_RECEIVER_ID)
 
 namespace ERC1155Holder {
     func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         interfaceId: felt, 
         isSupported: felt
     ) {
+        setInterfacesSupported(IERC1155_RECEIVER_ID, TRUE);
         setInterfacesSupported(interfaceId, isSupported);
         return ();
     }

@@ -369,6 +369,18 @@
                 "type": "const",
                 "value": 2792084853
             },
+            "contracts.constants.library.IERC1155_ID": {
+                "type": "const",
+                "value": 3652614694
+            },
+            "contracts.constants.library.IERC1155_METADATA_ID": {
+                "type": "const",
+                "value": 243872796
+            },
+            "contracts.constants.library.IERC1155_RECEIVER_ID": {
+                "type": "const",
+                "value": 1310921440
+            },
             "contracts.constants.library.IERC165_ID": {
                 "type": "const",
                 "value": 33540519

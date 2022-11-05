@@ -222,26 +222,20 @@ func withdrawERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_
 
 @external
 func withdrawERC1155{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    from_: felt,
-    to: felt,
+    erc1155Addr: felt,
     ids_len: felt,
     ids: Uint256*,
     amounts_len: felt,
-    amounts: Uint256*,
-    data_len: felt,
-    data: felt*
+    amounts: Uint256*
 ) {
     Ownable.assert_only_owner();
 
-    NFTPairMissingEnumerableERC20.withdrawERC1155(
-        from_,
-        to,
+    NFTPairERC20.withdrawERC1155(
+        erc1155Addr,
         ids_len,
         ids,
         amounts_len,
-        amounts,
-        data_len,
-        data,
+        amounts
     );
     return ();
 }
@@ -487,6 +481,12 @@ func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
 func getAssetRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (recipient: felt) {
     let (recipient) = NFTPairERC20.getAssetRecipient();
     return (recipient=recipient);
+}
+
+@view
+func getAssetRecipientStorage{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (recipient: felt) {
+    let (_assetRecipient) = NFTPairERC20.getAssetRecipientStorage();
+    return (recipient=_assetRecipient);
 }
 
 @view

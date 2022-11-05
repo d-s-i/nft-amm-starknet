@@ -19,6 +19,7 @@ from contracts.interfaces.bonding_curves.ICurve import (ICurve)
 from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
 from contracts.interfaces.tokens.IERC20 import (IERC20)
 from contracts.interfaces.tokens.IERC721 import (IERC721)
+from contracts.interfaces.tokens.IERC1155 import (IERC1155)
 
 from contracts.constants.library import (MAX_UINT_128, IERC721_RECEIVER_ID)
 from contracts.constants.structs import (PoolType)
@@ -27,7 +28,7 @@ from contracts.libraries.ERC1155Holder import (ERC1155Holder)
 from contracts.libraries.felt_uint import (FeltUint)
 
 
-const MAX_FEE = 10**17;
+const MAX_FEE = 9*10**17;
 
 @storage_var
 func factory() -> (address: felt) {
@@ -203,6 +204,29 @@ namespace NFTPairERC20 {
 
         return ();
     }
+
+    func withdrawERC1155{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        erc1155Address: felt,
+        tokenIds_len: felt,
+        tokenIds: Uint256*,
+        amounts_len: felt,
+        amounts: Uint256*
+    ) {
+        let (thisAddress) = get_contract_address();
+        let (caller) = get_caller_address();
+        IERC1155.safeBatchTransferFrom(
+            contract_address=erc1155Address,
+            from_=thisAddress,
+            to=caller,
+            ids_len=tokenIds_len,
+            ids=tokenIds,
+            amounts_len=amounts_len,
+            amounts=amounts,
+            data_len=0,
+            data=cast(new (0,), felt*),
+        );
+        return ();
+    }    
 
     func withdrawERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         _erc20Address: felt,
@@ -455,6 +479,11 @@ namespace NFTPairERC20 {
         }
         return (recipient=_assetRecipient);
     }
+
+    func getAssetRecipientStorage{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (recipient: felt) {
+        let (_assetRecipient) = assetRecipient.read();
+        return (recipient=_assetRecipient);
+    }  
     
     func getFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (_fee: felt) {
         let (_fee) = fee.read();

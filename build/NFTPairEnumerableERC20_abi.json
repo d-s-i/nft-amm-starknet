@@ -261,11 +261,7 @@
     {
         "inputs": [
             {
-                "name": "from_",
-                "type": "felt"
-            },
-            {
-                "name": "to",
+                "name": "erc1155Addr",
                 "type": "felt"
             },
             {
@@ -283,14 +279,6 @@
             {
                 "name": "amounts",
                 "type": "Uint256*"
-            },
-            {
-                "name": "data_len",
-                "type": "felt"
-            },
-            {
-                "name": "data",
-                "type": "felt*"
             }
         ],
         "name": "withdrawERC1155",
@@ -618,6 +606,18 @@
     {
         "inputs": [],
         "name": "getAssetRecipient",
+        "outputs": [
+            {
+                "name": "recipient",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAssetRecipientStorage",
         "outputs": [
             {
                 "name": "recipient",

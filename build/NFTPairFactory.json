@@ -9062,6 +9062,18 @@
                 "type": "const",
                 "value": 2792084853
             },
+            "contracts.constants.library.IERC1155_ID": {
+                "type": "const",
+                "value": 3652614694
+            },
+            "contracts.constants.library.IERC1155_METADATA_ID": {
+                "type": "const",
+                "value": 243872796
+            },
+            "contracts.constants.library.IERC1155_RECEIVER_ID": {
+                "type": "const",
+                "value": 1310921440
+            },
             "contracts.constants.library.IERC165_ID": {
                 "type": "const",
                 "value": 33540519
@@ -9244,29 +9256,73 @@
                 "size": 0,
                 "type": "struct"
             },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.CHANGEASSETRECIPIENT_SELECTOR": {
+                "type": "const",
+                "value": 401320972517793377088246731472803389798463054531711052841543407713461972495
+            },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.CHANGEDELTA_SELECTOR": {
+                "type": "const",
+                "value": 1241378885374723689070936399996852628552835722731777719607670920523430841442
+            },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.CHANGEFEE_SELECTOR": {
+                "type": "const",
+                "value": 902518078296974344944071614621549823834811709032444500102149169530238608370
+            },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.CHANGESPOTPRICE_SELECTOR": {
+                "type": "const",
+                "value": 133859673825396279696911438865729639044230626822145923232146786750351689655
+            },
             "contracts.interfaces.pairs.INFTPair.INFTPair.GETALLHELDIDS_SELECTOR": {
                 "type": "const",
                 "value": 542388382135235006833006638239600675211309977429607578422499219046355871274
+            },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.GETASSETRECIPIENTSTORAGE_SELECTOR": {
+                "type": "const",
+                "value": 1082727208877371319943527368329576684866165087002915517493770064960816294510
             },
             "contracts.interfaces.pairs.INFTPair.INFTPair.GETASSETRECIPIENT_SELECTOR": {
                 "type": "const",
                 "value": 1544283695314509500209738512234058688317955615870496337578507384264572178257
             },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.GETBONDINGCURVE_SELECTOR": {
+                "type": "const",
+                "value": 1530386420423862962353033986224337107500386202408729895798287585253345945049
+            },
             "contracts.interfaces.pairs.INFTPair.INFTPair.GETBUYNFTQUOTE_SELECTOR": {
                 "type": "const",
                 "value": 1635607459320730371171628059447743477048427899630564716505842490554979682979
             },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.GETDELTA_SELECTOR": {
+                "type": "const",
+                "value": 1251625335118711608699672353662129274300150633339758371333814587369166767649
+            },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.GETFACTORY_SELECTOR": {
+                "type": "const",
+                "value": 1398347236525453617119732714544395438038703363453746266606119774772655272361
+            },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.GETFEE_SELECTOR": {
+                "type": "const",
+                "value": 1805480975874851675955040954569032806442077897258518644718556234983407421677
+            },
             "contracts.interfaces.pairs.INFTPair.INFTPair.GETNFTADDRESS_SELECTOR": {
                 "type": "const",
-                "value": 794033723078076503962470061424876681758625061457318171127825055251734631021
+                "value": 1728730733473870523412687557155762646689888044552079947758912725396968851786
             },
             "contracts.interfaces.pairs.INFTPair.INFTPair.GETPAIRVARIANT_SELECTOR": {
                 "type": "const",
                 "value": 484571530890620851433535409807716151745217254801240006758442428183778698419
             },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.GETPOOLTYPE_SELECTOR": {
+                "type": "const",
+                "value": 1595018124028238729961462008652382826976442478209538070741070624205441393804
+            },
             "contracts.interfaces.pairs.INFTPair.INFTPair.GETSELLNFTQUOTE_SELECTOR": {
                 "type": "const",
                 "value": 1510671982535686951451901523182702147533432509182363594932872477744785921583
+            },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.GETSPOTPRICE_SELECTOR": {
+                "type": "const",
+                "value": 1013028912724660720942399635798154847093448084577272623315240511783516563134
             },
             "contracts.interfaces.pairs.INFTPair.INFTPair.INITIALIZER_SELECTOR": {
                 "type": "const",
@@ -9286,9 +9342,17 @@
                 "type": "const",
                 "value": 1058604908644785912842808803488791941304420319380528410486576393521136952768
             },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.ONERC721RECEIVED_SELECTOR": {
+                "type": "const",
+                "value": 441833262846246486607087847804043886170335009155803575450536462761436446875
+            },
             "contracts.interfaces.pairs.INFTPair.INFTPair.OWNER_SELECTOR": {
                 "type": "const",
                 "value": 907111799109225873672206001743429201758838553092777504370151546632448000192
+            },
+            "contracts.interfaces.pairs.INFTPair.INFTPair.RENOUNCEOWNERSHIP_SELECTOR": {
+                "type": "const",
+                "value": 377796347212433105349700972280275487785058939282960306260937738415426830005
             },
             "contracts.interfaces.pairs.INFTPair.INFTPair.Return": {
                 "cairo_type": "()",
@@ -9333,38 +9397,6 @@
             "contracts.interfaces.pairs.INFTPair.INFTPair.WITHDRAWERC721_SELECTOR": {
                 "type": "const",
                 "value": 1522118681730056623571419974479612056461903133495391446890428981564924371205
-            },
-            "contracts.interfaces.pairs.INFTPair.INFTPair._ASSERTCORRECTLYINITIALIZEDWITHPOOLTYPE_SELECTOR": {
-                "type": "const",
-                "value": 17999469316427943736612893325451559046492755912719631202525762794165555573
-            },
-            "contracts.interfaces.pairs.INFTPair.INFTPair._CALCULATEBUYINFOANDUPDATEPOOLPARAMS_SELECTOR": {
-                "type": "const",
-                "value": 1652174168513009289608902501954995829427152925197729601288437058013884976812
-            },
-            "contracts.interfaces.pairs.INFTPair.INFTPair._CALCULATESELLINFOANDUPDATEPOOLPARAMS_SELECTOR": {
-                "type": "const",
-                "value": 1303951154086147006473545424018042502489664079872499150343597346474412840099
-            },
-            "contracts.interfaces.pairs.INFTPair.INFTPair._PAYPROTOCOLFEEFROMPAIR_SELECTOR": {
-                "type": "const",
-                "value": 941527625529908530031076354822833487178742525732640728843855956190783505851
-            },
-            "contracts.interfaces.pairs.INFTPair.INFTPair._PULLTOKENINPUTANDPAYPROTOCOLFEE_SELECTOR": {
-                "type": "const",
-                "value": 1312759089438065830803933580523463426899011499452687223337500826331552126997
-            },
-            "contracts.interfaces.pairs.INFTPair.INFTPair._SENDANYNFTSTORECIPIENT_SELECTOR": {
-                "type": "const",
-                "value": 307297524963732824862568307127959388341133971237468965534504877416472911533
-            },
-            "contracts.interfaces.pairs.INFTPair.INFTPair._SENDSPECIFICNFTSTORECIPIENT_SELECTOR": {
-                "type": "const",
-                "value": 296212665125406785408211715448115552436626510683291675271259636392462380888
-            },
-            "contracts.interfaces.pairs.INFTPair.INFTPair._SENDTOKENOUTPUT_SELECTOR": {
-                "type": "const",
-                "value": 897916233466833154381713982389282805754297129569323020130490580640807868229
             },
             "contracts.interfaces.pairs.INFTPair.INFTPair.alloc": {
                 "destination": "starkware.cairo.common.alloc.alloc",

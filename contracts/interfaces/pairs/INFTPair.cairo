@@ -35,6 +35,38 @@ namespace INFTPair {
         routerCaller: felt
     ) {
     }
+    func onERC721Received(
+        operator: felt, 
+        from_: felt, 
+        tokenId: Uint256, 
+        data_len: felt,
+        data: felt*
+    ) -> (selector: felt) {
+    }
+    func withdrawERC721(
+        _nftAddress: felt,
+        tokenIds_len: felt,
+        tokenIds: Uint256*
+    ) {
+    }
+    func withdrawERC1155(
+    erc1155Addr: felt,
+    ids_len: felt,
+    ids: Uint256*,
+    amounts_len: felt,
+    amounts: Uint256*
+    ) {
+    }
+    func transferOwnership(
+        newOwner: felt
+    ) {
+    }
+    func renounceOwnership() {
+    }
+    func getAllHeldIds(_nftAddress: felt) -> (ids_len: felt, ids: Uint256*) {
+    }
+    func owner() -> (owner: felt) {
+    }
     func swapNFTsForToken(
         nftIds_len: felt,
         nftIds: Uint256*,
@@ -44,61 +76,31 @@ namespace INFTPair {
         routerCaller: felt
     ) {
     }
-    func withdrawERC721(
-        _nftAddress: felt,
-        tokenIds_len: felt,
-        tokenIds: Uint256*
-    ) {
-    }
     func withdrawERC20(
-        _erc20Address: felt,
+        erc20Address: felt,
         amount: Uint256
     ) {
     }
-    func withdrawERC1155(
-        from_: felt,
-        to: felt,
-        ids_len: felt,
-        ids: Uint256*,
-        amounts_len: felt,
-        amounts: Uint256*,
-        data_len: felt,
-        data: felt*
-    ) {
-    }    
-    func getBuyNFTQuote(
-        numNFTs: Uint256
-    ) -> (
-        error: felt,
-        newSpotPrice: Uint256,
-        newDelta: Uint256,
-        inputAmount: Uint256,
-        protocolFee: Uint256
+    func setInterfacesSupported(
+        interfaceId: felt, 
+        isSupported: felt
     ) {
     }
-    func getSellNFTQuote(
-        numNFTs: Uint256
-    ) -> (
-        error: felt,
-        newSpotPrice: Uint256,
-        newDelta: Uint256,
-        outputAmount: Uint256,
-        protocolFee: Uint256
+    func changeSpotPrice(
+        newSpotPrice: Uint256
     ) {
     }
-    func getAssetRecipient() -> (recipient: felt) {
+    func changeDelta(
+        newDelta: Uint256
+    ) {
     }
-    func getPairVariant() -> (_pairVariant: felt) {
+    func changeFee(
+        newFee: felt
+    ) {
     }
-    func getNFtAddress() -> (_nftAddress: felt) {
-    }
-    func getAllHeldIds(_nftAddress: felt) -> (tokenIds_len: felt, tokenIds: Uint256*) {
-    }
-    func owner() -> (owner: felt) {
-    }
-    func supportsInterface(
-        interfaceId: felt
-    ) -> (isSupported: felt) {
+    func changeAssetRecipient(
+        newRecipient: felt
+    ) {
     }
     func onERC1155Received(
         operator: felt, 
@@ -119,65 +121,49 @@ namespace INFTPair {
         data_len: felt, 
         data: felt*
     ) -> (selector: felt) {
-    }    
-    func setInterfacesSupported(
-        interfaceId: felt, 
-        isSupported: felt
-    ) {
     }
-    func transferOwnership(newOwner: felt) {
-    }
-    func _assertCorrectlyInitializedWithPoolType(
-        _poolType: felt,
-        _fee: felt,
-        _assetRecipient: felt
-    ) {
-    }
-    func _calculateBuyInfoAndUpdatePoolParams(
-        numNFTs: Uint256,
-        maxExpectedTokenInput: Uint256,
-        _bondingCurve: felt,
-        _factory: felt
-    ) -> (protocolFee: felt, inputAmount: Uint256) {
-    }
-    func _calculateSellInfoAndUpdatePoolParams(
-        numNFTs: Uint256,
-        minExpectedTokenOutput: Uint256,
-        _bondingCurve: felt,
-        _factory: felt
-    ) -> (protocolFee: felt, outputAmount: Uint256) {
-    }
-    func _pullTokenInputAndPayProtocolFee(
-        inputAmount: Uint256,
-        isRouter: felt,
-        routerCaller: felt,
-        _factory: felt,
-        protocolFee: felt
-    ) {
-    }
-    func _sendAnyNFTsToRecipient(
-        _nftAddress: felt, 
-        nftRecipient: felt, 
-        startIndex: Uint256, 
+    func getBuyNFTQuote(
         numNFTs: Uint256
+    ) -> (
+        error: felt,
+        newSpotPrice: Uint256,
+        newDelta: Uint256,
+        inputAmount: Uint256,
+        protocolFee: Uint256
     ) {
     }
-    func _sendSpecificNFTsToRecipient(
-        _nftAddress: felt,
-        nftRecipient: felt,
-        startIndex: felt,
-        nftIds_len: felt,
-        nftIds: Uint256*
+    func getSellNFTQuote(
+        numNFTs: Uint256
+    ) -> (
+        error: felt,
+        newSpotPrice: Uint256,
+        newDelta: Uint256,
+        outputAmount: Uint256,
+        protocolFee: Uint256
     ) {
     }
-    func _sendTokenOutput(
-        tokenRecipient: felt, 
-        outputAmount: Uint256
-    ) {
+    func supportsInterface(
+        interfaceId: felt
+    ) -> (isSupported: felt) {
     }
-    func _payProtocolFeeFromPair(
-        _factory: felt, 
-        protocolFee: felt
-    ) {
-    } 
+    func getAssetRecipient() -> (recipient: felt) {
+    }
+    func getAssetRecipientStorage() -> (recipient: felt) {
+    }    
+    func getFee() -> (_fee: felt) {
+    }
+    func getSpotPrice() -> (_spotPrice: Uint256) {
+    }
+    func getDelta() -> (_delta: Uint256) {
+    }    
+    func getPairVariant() -> (_pairVariant: felt) {
+    }
+    func getPoolType() -> (_poolType: felt) {
+    }
+    func getNFTAddress() -> (_nftAddress: felt) {
+    }
+    func getBondingCurve() -> (_bondingCurve: felt) {
+    }
+    func getFactory() -> (_factory: felt) {
+    }
 }

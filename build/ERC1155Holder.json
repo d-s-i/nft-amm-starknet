@@ -46,12 +46,20 @@
                 "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
                 "type": "alias"
             },
+            "__main__.IERC1155_RECEIVER_ID": {
+                "destination": "contracts.constants.library.IERC1155_RECEIVER_ID",
+                "type": "alias"
+            },
             "__main__.ON_ERC1155_BATCH_RECEIVED_SELECTOR": {
                 "destination": "contracts.constants.library.ON_ERC1155_BATCH_RECEIVED_SELECTOR",
                 "type": "alias"
             },
             "__main__.ON_ERC1155_RECEIVED_SELECTOR": {
                 "destination": "contracts.constants.library.ON_ERC1155_RECEIVED_SELECTOR",
+                "type": "alias"
+            },
+            "__main__.TRUE": {
+                "destination": "starkware.cairo.common.bool.TRUE",
                 "type": "alias"
             },
             "__main__.Uint256": {
@@ -69,6 +77,18 @@
             "contracts.constants.library.IACCOUNT_ID": {
                 "type": "const",
                 "value": 2792084853
+            },
+            "contracts.constants.library.IERC1155_ID": {
+                "type": "const",
+                "value": 3652614694
+            },
+            "contracts.constants.library.IERC1155_METADATA_ID": {
+                "type": "const",
+                "value": 243872796
+            },
+            "contracts.constants.library.IERC1155_RECEIVER_ID": {
+                "type": "const",
+                "value": 1310921440
             },
             "contracts.constants.library.IERC165_ID": {
                 "type": "const",
