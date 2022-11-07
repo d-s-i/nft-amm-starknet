@@ -60,6 +60,11 @@ func test_toStruct{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
     assert nftIds_ptrs[11] = Uint256(low=11, high=0);
     assert nftIds_ptrs[12] = Uint256(low=12, high=0);
 
+    //           ||
+    //           ||
+    //           ||
+    //           \/
+
     // [
     //     PairSwapSpecific(
     //         pair=1,
@@ -90,10 +95,6 @@ func test_toStruct{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
 
     assert nftIds_len[0] + nftIds_len[1] + nftIds_len[2] + nftIds_len[3] + nftIds_len[4] = nftIds_ptrs_len;
 
-    // %{print(f"\n --- ALL IDS --- ")%}
-    // displayIds(nftIds_ptrs, 0, nftIds_ptrs_len);
-    // %{print(f"\n")%}
-
     toPairSwapSpecificArr(
         swapList_len=swapList_len,
         swapList=swapList,
@@ -105,7 +106,6 @@ func test_toStruct{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
         nftIds_ptrs_len=nftIds_ptrs_len,
         nftIds_ptrs=nftIds_ptrs
     );
-
 
     local _swapList: PairSwapSpecific* = swapList;
     displaySwapList(0, swapList_len, _swapList);

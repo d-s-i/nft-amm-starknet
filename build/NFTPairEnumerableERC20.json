@@ -26595,6 +26595,10 @@
                 "type": "const",
                 "value": 715940992860831855910883660374101364995164880108324015177505877525489228301
             },
+            "contracts.interfaces.INFTPairFactory.INFTPairFactory.ISPAIR_SELECTOR": {
+                "type": "const",
+                "value": 376364162166151949156115527910156310914337853435916351293451165610750350298
+            },
             "contracts.interfaces.INFTPairFactory.INFTPairFactory.ImplicitArgs": {
                 "full_name": "contracts.interfaces.INFTPairFactory.INFTPairFactory.ImplicitArgs",
                 "members": {},
