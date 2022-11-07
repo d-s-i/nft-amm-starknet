@@ -13,7 +13,7 @@ from starkware.cairo.common.uint256 import (
     uint256_unsigned_div_rem
 )
 
-from contracts.bonding_curves.CurveErrorCodes import (CurveErrorCodes)
+from contracts.bonding_curves.CurveErrorCodes import (Error)
 from contracts.bonding_curves.FixedPointMathLib import (FixedPointMathLib)
 from contracts.libraries.felt_uint import (FeltUint)
 
@@ -46,13 +46,12 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     protocolFee: Uint256
 ) {
     alloc_locals;
-    let (error) = CurveErrorCodes.ERROR(); 
     let (WAD) = FixedPointMathLib.WAD();
     
     // We only calculate changes for buying 1 or more NFTs
     let (isNoItem) = uint256_eq(numItems, Uint256(low=0, high=0));
     if(isNoItem == TRUE) {
-        return _returnInputError(error.INVALID_NUMITEMS);
+        return _returnInputError(Error.INVALID_NUMITEMS);
     }
 
     // get the pair's virtual nft and eth/erc20 reserves
@@ -62,7 +61,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     // If numItems is too large, we will get divide by zero error
     let (moreItemsThanBalance) = uint256_lt(tokenBalance, numItems);
     if(moreItemsThanBalance == TRUE) {
-        return _returnInputError(error.INVALID_NUMITEMS);
+        return _returnInputError(Error.INVALID_NUMITEMS);
     }
 
     // calculate the amount to send in
@@ -81,7 +80,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     let (newDelta) = uint256_sub(nftBalance, numItems);
 
     return (
-        error.OK,
+        Error.OK,
         newSpotPrice,
         newDelta,
         inputValue,
@@ -106,13 +105,12 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
 ) {
 
     alloc_locals;
-    let (error) = CurveErrorCodes.ERROR(); 
     let (WAD) = FixedPointMathLib.WAD();
     
     // We only calculate changes for buying 1 or more NFTs
     let (isNoItem) = uint256_eq(numItems, Uint256(low=0, high=0));
     if(isNoItem == TRUE) {
-        return _returnOutputError(error.INVALID_NUMITEMS);
+        return _returnOutputError(Error.INVALID_NUMITEMS);
     }
 
     // get the pair's virtual nft and eth/erc20 balance
@@ -135,7 +133,7 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     let (newDelta, newDeltaCarry) = uint256_add(nftBalance, numItems);
 
     return (
-        error.OK,
+        Error.OK,
         newSpotPrice,
         newDelta,
         outputValue,

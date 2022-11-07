@@ -24,7 +24,7 @@ namespace INFTPair {
         nftRecipient: felt,
         isRouter: felt,
         routerCaller: felt
-    ) {
+    ) -> (inputAmount: Uint256) {
     }
     func swapTokenForSpecificNFTs(
         nftIds_len: felt,
@@ -33,7 +33,7 @@ namespace INFTPair {
         nftRecipient: felt,
         isRouter: felt,
         routerCaller: felt
-    ) {
+    ) -> (inputAmount: Uint256) {
     }
     func onERC721Received(
         operator: felt, 
@@ -79,7 +79,7 @@ namespace INFTPair {
         tokenRecipient: felt,
         isRouter: felt,
         routerCaller: felt
-    ) {
+    ) -> (outputAmount: Uint256) {
     }
     func setInterfacesSupported(
         interfaceId: felt, 

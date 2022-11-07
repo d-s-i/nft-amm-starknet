@@ -233,5 +233,22 @@
         ],
         "stateMutability": "view",
         "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "potentialPair",
+                "type": "felt"
+            }
+        ],
+        "name": "isPair",
+        "outputs": [
+            {
+                "name": "_isPair",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
     }
 ]

@@ -1,5 +1,8 @@
 %lang starknet
 
+// Changed createPairERC20 to keep track of all deployed pairs in storage (inneficient)
+// Changed isPair to read deployedPairStorage instead of checking contract_address or class_hash
+
 from starkware.cairo.common.alloc import (alloc)
 from starkware.starknet.common.syscalls import (deploy, get_contract_address, get_caller_address)
 from starkware.cairo.common.cairo_builtins import (HashBuiltin)
@@ -44,6 +47,11 @@ func protocolFeeMultiplier() -> (res: Uint256) {
 @storage_var
 func protocolFeeRecipient() -> (res: felt) {
 }
+
+@storage_var
+func pairDeployed(address: felt) -> (isPair: felt) {
+}
+
 
 // EVENTS
 
@@ -117,6 +125,7 @@ func createPairERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
             _initialNFTIds,
             initialERC20Balance
         );
+        pairDeployed.write(_pairAddress, TRUE);
         return (pairAddress=_pairAddress);
     } else {
         let (_pairAddress) = deployPairMissingEnumerableERC20(
@@ -133,6 +142,7 @@ func createPairERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check
             _initialNFTIds,
             initialERC20Balance
         );
+        pairDeployed.write(_pairAddress, TRUE);
         return (pairAddress=_pairAddress);
     }
 }
@@ -319,6 +329,30 @@ func getProtocolFeeRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ran
     let (_protocolFeeRecipient) = protocolFeeRecipient.read();
     return (protocolFeeRecipient=_protocolFeeRecipient);
 }
+
+// Instead of checking the generated address like in LSSVM contracts
+// checking if the class hash match
+@view
+func isPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    potentialPair: felt
+) -> (_isPair: felt) {
+
+    // if(variant == PairVariant.ENUMERABLE_ERC20) {
+    //     // get class hash of potential pair
+    //     // if is equal return true else return faldr
+    // }  
+
+    // if(variant == PairVariant.MISSING_ENUMERABLE_ERC20) {
+    //     // get class hash of potential pair
+    //     // if is equal return true else return faldr
+    // }
+
+    // return (FALSE);
+
+    let (isPair_) = pairDeployed.read(potentialPair);
+    return (_isPair=isPair_);
+}
+
 
 // INTERNAL
 

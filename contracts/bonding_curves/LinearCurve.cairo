@@ -14,7 +14,7 @@ from starkware.cairo.common.uint256 import (
     uint256_unsigned_div_rem
 )
 
-from contracts.bonding_curves.CurveErrorCodes import (CurveErrorCodes)
+from contracts.bonding_curves.CurveErrorCodes import (Error)
 from contracts.bonding_curves.FixedPointMathLib import (FixedPointMathLib)
 from contracts.libraries.felt_uint import (FeltUint)
 from contracts.constants.library import (MAX_UINT_128)
@@ -49,25 +49,24 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
 ) {
     alloc_locals;
 
-    let (error) = CurveErrorCodes.ERROR(); 
     let (WAD) = FixedPointMathLib.WAD();
     
     // We only calculate changes for buying 1 or more NFTs
     let (isNoItem) = uint256_eq(numItems, Uint256(low=0, high=0));
     if(isNoItem == TRUE) {
-        return _returnErrorInput(error.INVALID_NUMITEMS);
+        return _returnErrorInput(Error.INVALID_NUMITEMS);
     }
 
     let (deltaPerNumItemsLow, deltaPerNumItemsHigh) = uint256_mul(delta, numItems);
     // if 0 < delta == true -> delta > 0 -> overflow
     let (deltaPerNumItemsOverflow) = uint256_lt(Uint256(low=0, high=0), deltaPerNumItemsHigh);
     if(deltaPerNumItemsOverflow == TRUE) {
-        return _returnErrorInput(error.SPOT_PRICE_OVERFLOW);
+        return _returnErrorInput(Error.SPOT_PRICE_OVERFLOW);
     }
     let (newSpotPrice, newSpotPriceCarry) = uint256_add(spotPrice, deltaPerNumItemsLow);
     let (newSpotPriceOverflow) = uint256_lt(Uint256(low=MAX_UINT_128, high=0), newSpotPrice);
     if(newSpotPriceOverflow == TRUE) {
-        return _returnErrorInput(error.SPOT_PRICE_OVERFLOW);
+        return _returnErrorInput(Error.SPOT_PRICE_OVERFLOW);
     }
 
     // Spot price is assumed to be the instant sell price. To avoid arbitraging LPs, we adjust the buy price upwards.
@@ -98,7 +97,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     // Keep delta the same
     // and return with error.OK (= no errors)
     return (
-        error.OK,
+        Error.OK,
         newSpotPrice,
         delta,
         inputValue,
@@ -123,20 +122,19 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
 ) {
 
     alloc_locals;
-    let (error) = CurveErrorCodes.ERROR(); 
     let (WAD) = FixedPointMathLib.WAD();
     
     // We only calculate changes for buying 1 or more NFTs
     let (isNoItem) = uint256_eq(numItems, Uint256(low=0, high=0));
     if(isNoItem == TRUE) {
-        return _returnErrorOutput(error.INVALID_NUMITEMS);
+        return _returnErrorOutput(Error.INVALID_NUMITEMS);
     }
 
     let (totalPriceDecrease, totalPriceDecreaseHigh) = uint256_mul(delta, numItems);
     // if 0 < priceDecrease == true -> priceDecrease > 0 -> overflow
     let (priceDecreaseOverflow) = uint256_lt(Uint256(low=0, high=0), totalPriceDecreaseHigh);
     if(priceDecreaseOverflow == TRUE) {
-        return _returnErrorOutput(error.SPOT_PRICE_OVERFLOW);
+        return _returnErrorOutput(Error.SPOT_PRICE_OVERFLOW);
     }
 
     // If the current spot price is less than the total amount that the spot price should change by...
@@ -166,7 +164,7 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     // Keep delta the same
     // and return with error.OK (= no errors)
     return (
-        error.OK,
+        Error.OK,
         newSpotPrice,
         delta,
         outputValue,

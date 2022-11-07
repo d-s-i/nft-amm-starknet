@@ -161,7 +161,7 @@ namespace NFTPairERC20 {
         tokenRecipient: felt,
         isRouter: felt,
         routerCaller: felt
-    ) {
+    ) -> (outputAmount: Uint256) {
         alloc_locals;
 
         let (_factory) = factory.read();
@@ -202,7 +202,7 @@ namespace NFTPairERC20 {
 
         SwapNFTInPair.emit();
 
-        return ();
+        return (outputAmount=outputAmount);
     }
 
     func withdrawERC1155{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(

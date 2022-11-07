@@ -15,6 +15,7 @@ LinearCurve = ["contracts/bonding_curves/LinearCurve.cairo"]
 XykCurve = ["contracts/bonding_curves/XykCurve.cairo"]
 
 NFTPairFactory = ["contracts/NFTPairFactory.cairo"]
+Router = ["contracts/Router.cairo"]
 NFTPairMissingEnumerableERC20 = ["contracts//NFTPairMissingEnumerableERC20.cairo"]
 NFTPairMissingEnumerableERC20Lib = ["contracts/pairs/NFTPairMissingEnumerableERC20/library.cairo"]
 NFTPairEnumerableERC20 = ["contracts//NFTPairEnumerableERC20.cairo"]

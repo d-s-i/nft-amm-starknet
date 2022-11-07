@@ -77,7 +77,7 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
     nftRecipient: felt,
     isRouter: felt,
     routerCaller: felt
-) {
+) -> (inputAmount: Uint256) {
     alloc_locals;
 
     ReentrancyGuard._start();
@@ -125,7 +125,7 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
 
     ReentrancyGuard._end();
     
-    return ();
+    return (inputAmount=inputAmount);
 }
 
 @external
@@ -136,7 +136,7 @@ func swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ra
     nftRecipient: felt,
     isRouter: felt,
     routerCaller: felt
-) {
+) -> (inputAmount: Uint256) {
     alloc_locals;
 
     ReentrancyGuard._start();
@@ -183,7 +183,7 @@ func swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ra
 
     ReentrancyGuard._end();
 
-    return ();
+    return (inputAmount=inputAmount);
 }
 
 @external
@@ -298,11 +298,11 @@ func swapNFTsForToken{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_chec
     tokenRecipient: felt,
     isRouter: felt,
     routerCaller: felt
-) {
+) -> (outputAmount: Uint256) {
 
     ReentrancyGuard._start();
 
-    NFTPairERC20.swapNFTsForToken(
+    let (outputAmount) = NFTPairERC20.swapNFTsForToken(
         nftIds_len,
         nftIds,
         minExpectedTokenOutput,
@@ -313,7 +313,7 @@ func swapNFTsForToken{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_chec
 
     ReentrancyGuard._end();
 
-    return ();
+    return (outputAmount=outputAmount);
 }
 
 // Only owner functions

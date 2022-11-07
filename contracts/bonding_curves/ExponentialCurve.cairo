@@ -13,7 +13,7 @@ from starkware.cairo.common.uint256 import (
 
 from contracts.libraries.felt_uint import (FeltUint)
 from contracts.bonding_curves.FixedPointMathLib import (FixedPointMathLib)
-from contracts.bonding_curves.CurveErrorCodes import (CurveErrorCodes)
+from contracts.bonding_curves.CurveErrorCodes import (Error)
 from contracts.constants.library import (MAX_UINT_128)
 
 // 1 gwei
@@ -54,13 +54,12 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     alloc_locals;
     // NOTE: we assume delta is > 1, as checked by validateDelta()
     // We only calculate changes for buying 1 or more NFTs
-    let (error) = CurveErrorCodes.ERROR();
     let (WAD) = FixedPointMathLib.WAD();
 
     let (numItemsZero) = uint256_eq(numItems, Uint256(low=0, high=0));
     if(numItemsZero == TRUE) {
         return (
-            error.INVALID_NUMITEMS, 
+            Error.INVALID_NUMITEMS, 
             Uint256(low=0, high=0), 
             Uint256(low=0, high=0), 
             Uint256(low=0, high=0), 
@@ -76,7 +75,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     let (Lt_MAX_UINT_128) = uint256_lt(newSpotPrice, Uint256(low=MAX_UINT_128, high=0));
     if(Lt_MAX_UINT_128 == FALSE) {
         return (
-            error.SPOT_PRICE_OVERFLOW, 
+            Error.SPOT_PRICE_OVERFLOW, 
             Uint256(low=0, high=0), 
             Uint256(low=0, high=0), 
             Uint256(low=0, high=0), 
@@ -122,7 +121,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     // Keep delta the same
     // and return with error.OK (= no errors)
     return (
-        error.OK,
+        Error.OK,
         newSpotPrice,
         delta,
         inputValue,
@@ -148,13 +147,12 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     alloc_locals;
     // NOTE: we assume delta is > 1, as checked by validateDelta()
     // We only calculate changes for buying 1 or more NFTs
-    let (error) = CurveErrorCodes.ERROR();
     let (WAD) = FixedPointMathLib.WAD();
 
     let (numItemsZero) = uint256_eq(numItems, Uint256(low=0, high=0));
     if(numItemsZero == TRUE) {
         return (
-            error.INVALID_NUMITEMS, 
+            Error.INVALID_NUMITEMS, 
             Uint256(low=0, high=0), 
             Uint256(low=0, high=0), 
             Uint256(low=0, high=0), 
@@ -194,7 +192,7 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     // Keep delta the same
     // and return with error.OK (= no errors)
     return (
-        error.OK,
+        Error.OK,
         newSpotPrice,
         delta,
         outputValue,

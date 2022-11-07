@@ -15,51 +15,40 @@
         "debug_info": null,
         "hints": {},
         "identifiers": {
-            "__main__.CurveErrorCodes": {
+            "__main__.Error": {
                 "type": "namespace"
             },
-            "__main__.CurveErrorCodes.Args": {
-                "full_name": "__main__.CurveErrorCodes.Args",
+            "__main__.Error.Args": {
+                "full_name": "__main__.Error.Args",
                 "members": {},
                 "size": 0,
                 "type": "struct"
             },
-            "__main__.CurveErrorCodes.Error": {
-                "full_name": "__main__.CurveErrorCodes.Error",
-                "members": {
-                    "INVALID_NUMITEMS": {
-                        "cairo_type": "felt",
-                        "offset": 1
-                    },
-                    "OK": {
-                        "cairo_type": "felt",
-                        "offset": 0
-                    },
-                    "SPOT_PRICE_OVERFLOW": {
-                        "cairo_type": "felt",
-                        "offset": 2
-                    }
-                },
-                "size": 3,
-                "type": "struct"
+            "__main__.Error.INVALID_NUMITEMS": {
+                "type": "const",
+                "value": 2
             },
-            "__main__.CurveErrorCodes.ImplicitArgs": {
-                "full_name": "__main__.CurveErrorCodes.ImplicitArgs",
+            "__main__.Error.ImplicitArgs": {
+                "full_name": "__main__.Error.ImplicitArgs",
                 "members": {},
                 "size": 0,
                 "type": "struct"
             },
-            "__main__.CurveErrorCodes.Return": {
+            "__main__.Error.OK": {
+                "type": "const",
+                "value": 1
+            },
+            "__main__.Error.Return": {
                 "cairo_type": "()",
                 "type": "type_definition"
             },
-            "__main__.CurveErrorCodes.SIZEOF_LOCALS": {
+            "__main__.Error.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 0
             },
-            "__main__.HashBuiltin": {
-                "destination": "starkware.cairo.common.cairo_builtins.HashBuiltin",
-                "type": "alias"
+            "__main__.Error.SPOT_PRICE_OVERFLOW": {
+                "type": "const",
+                "value": 3
             },
             "starkware.cairo.common.bool.FALSE": {
                 "type": "const",

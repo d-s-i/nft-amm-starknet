@@ -37,5 +37,7 @@ namespace INFTPairFactory {
     func getProtocolFeeRecipient() -> (protocolFeeRecipient: felt) {
     }
     func getProtocolFeeMultiplier() -> (res: Uint256) {
-    }    
+    }
+    func isPair(potentialPair: felt) -> (_isPair: felt) {
+    }
 }

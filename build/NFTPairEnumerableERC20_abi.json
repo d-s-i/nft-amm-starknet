@@ -173,7 +173,12 @@
             }
         ],
         "name": "swapTokenForAnyNFTs",
-        "outputs": [],
+        "outputs": [
+            {
+                "name": "inputAmount",
+                "type": "Uint256"
+            }
+        ],
         "type": "function"
     },
     {
@@ -204,7 +209,12 @@
             }
         ],
         "name": "swapTokenForSpecificNFTs",
-        "outputs": [],
+        "outputs": [
+            {
+                "name": "inputAmount",
+                "type": "Uint256"
+            }
+        ],
         "type": "function"
     },
     {
@@ -358,7 +368,12 @@
             }
         ],
         "name": "swapNFTsForToken",
-        "outputs": [],
+        "outputs": [
+            {
+                "name": "outputAmount",
+                "type": "Uint256"
+            }
+        ],
         "type": "function"
     },
     {
