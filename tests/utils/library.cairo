@@ -2,6 +2,7 @@
 
 from starkware.cairo.common.cairo_builtins import (HashBuiltin)
 from starkware.cairo.common.uint256 import (Uint256)
+from starkware.cairo.common.bool import (TRUE)
 
 from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
 from contracts.interfaces.tokens.IERC721 import (IERC721)
@@ -14,7 +15,19 @@ func setBondingCurveAllowed{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, rang
     factoryOwnerAddr: felt
 ) {
     %{stop_prank_factory = start_prank(ids.factoryOwnerAddr, ids.factoryAddr)%}
-    INFTPairFactory.setBondingCurveAllowed(factoryAddr, bondingCurveAddr, 1);
+    INFTPairFactory.setBondingCurveAllowed(factoryAddr, bondingCurveAddr, TRUE);
+    %{stop_prank_factory()%}
+    return ();
+}
+
+@external
+func setRouterAllowed{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    factoryAddr: felt,
+    factoryOwnerAddr: felt,
+    routerAddr: felt
+) {
+    %{stop_prank_factory = start_prank(ids.factoryOwnerAddr, ids.factoryAddr)%}
+    INFTPairFactory.setRouterAllowed(factoryAddr, routerAddr, TRUE);
     %{stop_prank_factory()%}
     return ();
 }
@@ -29,7 +42,7 @@ func _mintERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     erc721Addr: felt,
     start: felt,
     nftIds_len: felt,
-    nftIds: Uint256*,
+    nftIds_ptr: Uint256*,
     mintTo: felt,
     contractOwner: felt
 ) {
@@ -38,12 +51,19 @@ func _mintERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     }
     
     let id = Uint256(low=start + 1, high=0);
-    assert [nftIds] = id;
+    assert [nftIds_ptr] = id;
 
     %{stop_prank_erc721 = start_prank(ids.contractOwner, ids.erc721Addr)%}
     IERC721.mint(erc721Addr, mintTo, id);
     %{stop_prank_erc721()%}
-    return _mintERC721(erc721Addr, start + 1, nftIds_len, nftIds + 2, mintTo, contractOwner);
+    return _mintERC721(
+        erc721Addr=erc721Addr, 
+        start=start + 1, 
+        nftIds_len=nftIds_len, 
+        nftIds_ptr=nftIds_ptr + Uint256.SIZE, 
+        mintTo=mintTo, 
+        contractOwner=contractOwner
+    );
 }
 
 func setERC20Allowance{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(

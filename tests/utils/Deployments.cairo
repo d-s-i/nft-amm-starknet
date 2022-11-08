@@ -64,7 +64,7 @@ func deployFactory{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
         NFTPairMissingEnumerableERC20ClassHash = declare("./contracts/NFTPairMissingEnumerableERC20.cairo").class_hash
 
         ids.factoryAddr = deploy_contract(
-            "./contracts/NFTPairFactory.cairo", 
+            "./contracts/factory/NFTPairFactory.cairo", 
             [
                 NFTPairEnumerableERC20ClassHash,
                 NFTPairMissingEnumerableERC20ClassHash, 
@@ -76,6 +76,19 @@ func deployFactory{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
     %}
     
     return (factoryAddr=factoryAddr);
+}
+
+func deployRouter{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    factoryAddr: felt
+) -> (routerAddr: felt) {
+    tempvar routerAddr;
+    %{
+        ids.routerAddr = deploy_contract(
+            "./contracts/router/Router.cairo", 
+            [ids.factoryAddr]
+        ).contract_address
+    %}
+    return (routerAddr=routerAddr);
 }
 
 func deployTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(

@@ -2,6 +2,7 @@
 
 // Changed createPairERC20 to keep track of all deployed pairs in storage (inneficient)
 // Changed isPair to read deployedPairStorage instead of checking contract_address or class_hash
+// Didn't implement yet setCallAllowed as arbitrary calls are not implemented on pairs and routers
 
 from starkware.cairo.common.alloc import (alloc)
 from starkware.starknet.common.syscalls import (deploy, get_contract_address, get_caller_address)
@@ -22,7 +23,11 @@ from contracts.interfaces.tokens.IERC20 import (IERC20)
 from contracts.interfaces.tokens.IERC721 import (IERC721)
 from contracts.interfaces.pairs.INFTPair import (INFTPair)
 
+from contracts.factory.structs import (RouterStatus)
+
 const MAX_PROTOCOL_FEE = 10**17;
+
+// Storage
 
 @storage_var
 func salt() -> (value: felt) {
@@ -52,8 +57,11 @@ func protocolFeeRecipient() -> (res: felt) {
 func pairDeployed(address: felt) -> (isPair: felt) {
 }
 
+@storage_var
+func routerStatus(routerAddr: felt) -> (status: RouterStatus) {
+}
 
-// EVENTS
+// Events
 
 @event
 func NewPair(contractAddress: felt) {
@@ -69,6 +77,10 @@ func ProtocolFeeRecipientUpdate(newProtocolFeeRecipientUpdate: felt) {
 
 @event
 func ProtocolFeeMultiplierUpdate(newProtocolFeeMultiplierUpdate: Uint256) {
+}
+
+@event
+func RouterStatusUpdate(routerAddr: felt, isAllowed: felt) {
 }
 
 @constructor
@@ -283,6 +295,24 @@ func setBondingCurveAllowed{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, rang
 }
 
 @external
+func setRouterAllowed{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    routerAddr: felt,
+    isAllowed: felt
+) {
+    Ownable.assert_only_owner();
+
+    let status = RouterStatus(
+        allowed=isAllowed,
+        wasEverAllowed=TRUE
+    );
+
+    routerStatus.write(routerAddr, status);
+
+    RouterStatusUpdate.emit(routerAddr, isAllowed);
+    return ();
+}
+
+@external
 func changeProtocolFeeRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     newProtocolFeeRecipient: felt
 ) {
@@ -332,6 +362,8 @@ func getProtocolFeeRecipient{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ran
 
 // Instead of checking the generated address like in LSSVM contracts
 // checking if the class hash match
+// Since checking the class hash match isn't possible, storing all
+// deployed addresses directly
 @view
 func isPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     potentialPair: felt
@@ -353,6 +385,13 @@ func isPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: fel
     return (_isPair=isPair_);
 }
 
+@view
+func getRouterStatus{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    routerAddress: felt
+) -> (routerStatus: RouterStatus) {
+    let (_routerStatus) = routerStatus.read(routerAddress);
+    return (routerStatus=_routerStatus);
+}
 
 // INTERNAL
 

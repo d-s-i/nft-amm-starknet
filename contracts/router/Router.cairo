@@ -28,62 +28,16 @@ from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
 
 from contracts.bonding_curves.CurveErrorCodes import (Error)
 from contracts.libraries.felt_uint import (FeltUint)
-
-struct PairSwapAny {
-    pair: felt,
-    numItems_len: felt,
-    numItems: Uint256,
-}
-
-struct PairSwapSpecific {
-    pair: felt,
-    nftIds_len: felt,
-    nftIds: Uint256*,
-}
-
-struct NFTsForAnyNFTsTrade {
-    nftToTokenTrades_len: felt,
-    nftToTokenTrades: PairSwapSpecific*,
-
-    tokenToNFTTrades_len: felt,
-    tokenToNFTTrades: PairSwapAny*,
-}
-
-struct NFTsForSpecificNFTsTrade {
-    nftToTokenTrades_len: felt,
-    nftToTokenTrades: PairSwapSpecific*,
-
-    tokenToNFTTrades_len: felt,
-    tokenToNFTTrades: PairSwapSpecific*,
-}
-
-struct RobustPairSwapAny {
-    swapInfo: PairSwapAny,
-    maxCost: Uint256,
-}
-
-struct RobustPairSwapSpecific {
-    swapInfo: PairSwapSpecific,
-    maxCost: Uint256,
-}
-
-struct RobustPairSwapSpecificForToken {
-    swapInfo: PairSwapSpecific,
-    minOutput: Uint256,
-}
-
-struct RobustPairNFTsForTokenAndTokenForNFTsTrade {
-    tokenToNFTTrades_len: felt,
-    tokenToNFTTrades: RobustPairSwapSpecific*,
-
-    nftToTokenTrades_len: felt,
-    nftToTokenTrades: RobustPairSwapSpecificForToken*,
-
-    inputAmount: Uint256,
-    tokenRecipient: felt,
-    nftRecipient: felt,
-    deadline: felt,
-}
+from contracts.router.structs import (
+    PairSwapAny,
+    PairSwapSpecific,
+    NFTsForAnyNFTsTrade,
+    NFTsForSpecificNFTsTrade,
+    RobustPairSwapAny,
+    RobustPairSwapSpecific,
+    RobustPairSwapSpecificForToken,
+    RobustPairNFTsForTokenAndTokenForNFTsTrade
+)
 
 @storage_var
 func factory() -> (res: felt) {
@@ -629,12 +583,12 @@ func pairTransferERC20From{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range
 ) {
     let (_factory) = factory.read();
     let (caller) = get_caller_address();
-    let (isPair) = INFTPairFactory.isPair(
+    let (_isPair) = INFTPairFactory.isPair(
         contract_address=_factory,
         potentialPair=caller
     );
     with_attr error_mesage("Router::pairTransferERC20From - Not pair") {
-        assert isPair = TRUE;
+        assert _isPair = TRUE;
     }
 
     // No need to check if ERC20 as ONLY ERC20 pair can be deployed from factory

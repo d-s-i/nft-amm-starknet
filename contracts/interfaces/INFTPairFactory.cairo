@@ -1,11 +1,10 @@
 %lang starknet
 
 from starkware.cairo.common.uint256 import (Uint256)
+from contracts.factory.structs import (RouterStatus)
 
 @contract_interface
 namespace INFTPairFactory {
-    func routerStatus(routerAddress: felt) -> (success: felt) {
-    }
     func createPairERC20(
         _erc20Address: felt,
         _nftAddress: felt,
@@ -25,6 +24,11 @@ namespace INFTPairFactory {
         isAllowed: felt
     ) {
     }
+    func setRouterAllowed(
+        routerAddr: felt,
+        isAllowed: felt
+    ) {
+    }
     func changeProtocolFeeRecipient(newProtocolFeeRecipient: felt) {
     }
     func changeProtocolFeeMultiplier(newProtocolFeeMultiplier: Uint256) {
@@ -38,6 +42,10 @@ namespace INFTPairFactory {
     }
     func getProtocolFeeMultiplier() -> (res: Uint256) {
     }
+    func getRouterStatus(
+        routerAddress: felt
+    ) -> (routerStatus: RouterStatus) {
+    }   
     func isPair(potentialPair: felt) -> (_isPair: felt) {
     }
 }

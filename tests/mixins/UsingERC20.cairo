@@ -8,7 +8,19 @@ from contracts.constants.library import (MAX_UINT_128)
 
 from contracts.interfaces.tokens.IERC20 import (IERC20)
 from contracts.interfaces.pairs.INFTPair import (INFTPair)
+from contracts.interfaces.IRouter import (IRouter)
 from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
+
+from contracts.router.structs import (
+    PairSwapAny,
+    PairSwapSpecific,
+    NFTsForAnyNFTsTrade,
+    NFTsForSpecificNFTsTrade,
+    RobustPairSwapAny,
+    RobustPairSwapSpecific,
+    RobustPairSwapSpecificForToken,
+    RobustPairNFTsForTokenAndTokenForNFTsTrade
+)
 
 from tests.utils.library import (_mintERC721, _mintERC20)
 
@@ -127,137 +139,318 @@ namespace TokenStandard {
     }
 
     func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        senderAddr: felt,
-        pairAddr: felt,
-        numNFTs: Uint256,
-        maxExpectedTokenInput: Uint256,
+        callerAddr: felt,
+        routerAddr: felt,
+        swapList_len: felt,
+        swapList: PairSwapAny*,
+        inputAmount: Uint256,
         nftRecipient: felt,
-        isRouter: felt,
-        routerCaller: felt
-    ) {
-        %{stop_pair_prank = start_prank(ids.senderAddr, ids.pairAddr)%}
-        INFTPair.swapTokenForAnyNFTs(
-            contract_address=pairAddr,
-            numNFTs=numNFTs,
-            maxExpectedTokenInput=maxExpectedTokenInput,
-            nftRecipient=senderAddr,
-            isRouter=isRouter,
-            routerCaller=routerCaller
+        deadline: felt
+    ) -> (remainingValue: Uint256) {
+        let (remainingValue) = IRouter.swapERC20ForAnyNFTs(
+            contract_address=routerAddr,
+            swapList_len=swapList_len,
+            swapList=swapList,
+            inputAmount=inputAmount,
+            nftRecipient=nftRecipient,
+            deadline=deadline
         );
-        %{stop_pair_prank()%}
-        return ();
+        return (remainingValue=remainingValue);
+    }
+
+    func swapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        callerAddr: felt,
+        routerAddr: felt,
+        swapList_len: felt,
+        // swapList: PairSwapSpecific*,
+        // PairSwapSpecific.pairs*
+        pairs_len: felt,
+        pairs: felt*,
+        // PairSwapSpecific.nftIds_len*
+        nftIds_len_len: felt,
+        nftIds_len: felt*,    
+        // PairSwapSpecific.nftIds
+        nftIds_ptrs_len: felt,
+        nftIds_ptrs: Uint256*,
+
+        inputAmount: Uint256,
+        nftRecipient: felt,
+        deadline: felt
+    ) -> (remainingValue: Uint256) {
+        let (remainingValue) = IRouter.swapERC20ForSpecificNFTs(
+            contract_address=routerAddr,
+            swapList_len=swapList_len,
+            // swapList: PairSwapSpecific*,
+            // PairSwapSpecific.pairs*
+            pairs_len=pairs_len,
+            pairs=pairs,
+            // PairSwapSpecific.nftIds_len*
+            nftIds_len_len=nftIds_len_len,
+            nftIds_len=nftIds_len,    
+            // PairSwapSpecific.nftIds
+            nftIds_ptrs_len=nftIds_ptrs_len,
+            nftIds_ptrs=nftIds_ptrs,
+
+            inputAmount=inputAmount,
+            nftRecipient=nftRecipient,
+            deadline=deadline
+        );
+        return (remainingValue=remainingValue); 
+    }
+
+    func swapNFTsForAnyNFTsThroughToken{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        callerAddr: felt,
+        routerAddr: felt,
+        nftToTokenTrades_len: felt,
+        // PairSwapSpecific.pairs*
+        pairs_len: felt,
+        pairs: felt*,
+        // PairSwapSpecific.nftIds_len*
+        nftIds_len_len: felt,
+        nftIds_len: felt*,    
+        // PairSwapSpecific.nftIds
+        nftIds_ptrs_len: felt,
+        nftIds_ptrs: Uint256*,
+
+        tokenToNFTTrades_len: felt,
+        tokenToNFTTrades: PairSwapAny*,
+
+        inputAmount: Uint256,
+        minOutput: Uint256,
+        nftRecipient: felt,
+        deadline: felt
+    ) -> (remainingValue: Uint256) {
+        let (remainingValue) = IRouter.swapNFTsForAnyNFTsThroughERC20(
+            contract_address=routerAddr,
+            nftToTokenTrades_len=nftToTokenTrades_len,
+            // PairSwapSpecific.pairs*
+            pairs_len=pairs_len,
+            pairs=pairs,
+            // PairSwapSpecific.nftIds_len*
+            nftIds_len_len=nftIds_len_len,
+            nftIds_len=nftIds_len,    
+            // PairSwapSpecific.nftIds
+            nftIds_ptrs_len=nftIds_ptrs_len,
+            nftIds_ptrs=nftIds_ptrs,
+
+            tokenToNFTTrades_len=tokenToNFTTrades_len,
+            tokenToNFTTrades=tokenToNFTTrades,
+
+            inputAmount=inputAmount,
+            minOutput=minOutput,
+            nftRecipient=nftRecipient,
+            deadline=deadline
+        );
+        return (remainingValue=remainingValue);     
+    }
+
+    func swapNFTsForSpecificNFTsThroughToken{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        callerAddr: felt,
+        routerAddr: felt,
+        // trade: NFTsForSpecificNFTsTrade,
+        nftToTokenTrades_len: felt,
+        // nftToTokenTrades: PairSwapSpecific*,
+        // PairSwapSpecific.pairs*
+        nftToTokenTrades_pairs_len: felt,
+        nftToTokenTrades_pairs: felt*,
+        // PairSwapSpecific.nftIds_len*
+        nftToTokenTrades_nftIds_len_len: felt,
+        nftToTokenTrades_nftIds_len: felt*,    
+        // PairSwapSpecific.nftIds
+        nftToTokenTrades_nftIds_ptrs_len: felt,
+        nftToTokenTrades_nftIds_ptrs: Uint256*,
+
+        tokenToNFTTrades_len: felt,
+        // tokenToNFTTrades: PairSwapSpecific*,
+        // PairSwapSpecific.pairs*
+        tokenToNFTTrades_pairs_len: felt,
+        tokenToNFTTrades_pairs: felt*,
+        // PairSwapSpecific.nftIds_len*
+        tokenToNFTTrades_nftIds_len_len: felt,
+        tokenToNFTTrades_nftIds_len: felt*,    
+        // PairSwapSpecific.nftIds
+        tokenToNFTTrades_nftIds_ptrs_len: felt,
+        tokenToNFTTrades_nftIds_ptrs: Uint256*,
+
+        inputAmount: Uint256,
+        minOutput: Uint256,
+        nftRecipient: felt,
+        deadline: felt
+    ) -> (remainingValue: Uint256) {
+        let (remainingValue) = IRouter.swapNFTsForSpecificNFTsThroughERC20(
+            contract_address=routerAddr,
+            // trade: NFTsForSpecificNFTsTrade,
+            nftToTokenTrades_len=nftToTokenTrades_len,
+            // nftToTokenTrades: PairSwapSpecific*,
+            // PairSwapSpecific.pairs*
+            nftToTokenTrades_pairs_len=nftToTokenTrades_pairs_len,
+            nftToTokenTrades_pairs=nftToTokenTrades_pairs,
+            // PairSwapSpecific.nftIds_len*
+            nftToTokenTrades_nftIds_len_len=nftToTokenTrades_nftIds_len_len,
+            nftToTokenTrades_nftIds_len=nftToTokenTrades_nftIds_len,    
+            // PairSwapSpecific.nftIds
+            nftToTokenTrades_nftIds_ptrs_len=nftToTokenTrades_nftIds_ptrs_len,
+            nftToTokenTrades_nftIds_ptrs=nftToTokenTrades_nftIds_ptrs,
+
+            tokenToNFTTrades_len=tokenToNFTTrades_len,
+            // tokenToNFTTrades: PairSwapSpecific*,
+            // PairSwapSpecific.pairs*
+            tokenToNFTTrades_pairs_len=tokenToNFTTrades_pairs_len,
+            tokenToNFTTrades_pairs=tokenToNFTTrades_pairs,
+            // PairSwapSpecific.nftIds_len*
+            tokenToNFTTrades_nftIds_len_len=tokenToNFTTrades_nftIds_len_len,
+            tokenToNFTTrades_nftIds_len=tokenToNFTTrades_nftIds_len,    
+            // PairSwapSpecific.nftIds
+            tokenToNFTTrades_nftIds_ptrs_len=tokenToNFTTrades_nftIds_ptrs_len,
+            tokenToNFTTrades_nftIds_ptrs=tokenToNFTTrades_nftIds_ptrs,
+
+            inputAmount=inputAmount,
+            minOutput=minOutput,
+            nftRecipient=nftRecipient,
+            deadline=deadline
+        );
+        return (remainingValue=remainingValue);     
+    }
+
+    func robustSwapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        callerAddr: felt,
+        routerAddr: felt,
+        swapList_len: felt,
+        swapList: RobustPairSwapAny*,
+        inputAmount: Uint256,
+        nftRecipient: felt,
+        deadline: felt
+    ) -> (remainingValue: Uint256) {
+        let (remainingValue) = IRouter.robustSwapERC20ForAnyNFTs(
+            contract_address=routerAddr,
+            swapList_len=swapList_len,
+            swapList=swapList,
+            inputAmount=inputAmount,
+            nftRecipient=nftRecipient,
+            deadline=deadline
+        );
+        return (remainingValue=remainingValue);     
+    }
+
+    func robustSwapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        callerAddr: felt,
+        routerAddr: felt,
+        swapList_len: felt,
+        // swapList: RobustPairSwapSpecific*,
+        // swapInfos: PairSwapSpecific*,
+        // PairSwapSpecific.pairs*
+        pairs_len: felt,
+        pairs: felt*,
+        // PairSwapSpecific.nftIds_len*
+        nftIds_len_len: felt,
+        nftIds_len: felt*,    
+        // PairSwapSpecific.nftIds
+        nftIds_ptrs_len: felt,
+        nftIds_ptrs: Uint256*,
+        maxCosts_len: felt,
+        maxCosts: Uint256*,
+
+        inputAmount: Uint256,
+        nftRecipient: felt,
+        deadline: felt        
+    ) -> (remainingValue: Uint256) {
+        let (remainingValue) = IRouter.robustSwapERC20ForSpecificNFTs(
+            contract_address=routerAddr,
+            swapList_len=swapList_len,
+            // swapList: RobustPairSwapSpecific*,
+            // swapInfos: PairSwapSpecific*,
+            // PairSwapSpecific.pairs*
+            pairs_len=pairs_len,
+            pairs=pairs,
+            // PairSwapSpecific.nftIds_len*
+            nftIds_len_len=nftIds_len_len,
+            nftIds_len=nftIds_len,    
+            // PairSwapSpecific.nftIds
+            nftIds_ptrs_len=nftIds_ptrs_len,
+            nftIds_ptrs=nftIds_ptrs,
+            maxCosts_len=maxCosts_len,
+            maxCosts=maxCosts,
+
+            inputAmount=inputAmount,
+            nftRecipient=nftRecipient,
+            deadline=deadline
+        );
+        return (remainingValue=remainingValue);   
+    }
+
+    func robustSwapTokenForSpecificNFTsAndNFTsForTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+        callerAddr: felt,
+        routerAddr: felt,
+        // params: RobustPairNFTsForTokenAndTokenForNFTsTrade
+        tokenToNFTTrades_len: felt,
+        // tokenToNFTTrades: RobustPairSwapSpecific*,
+        // PairSwapSpecific.pairs*
+        tokenToNFTTrades_pairs_len: felt,
+        tokenToNFTTrades_pairs: felt*,
+        // PairSwapSpecific.nftIds_len*
+        tokenToNFTTrades_nftIds_len_len: felt,
+        tokenToNFTTrades_nftIds_len: felt*,    
+        // PairSwapSpecific.nftIds
+        tokenToNFTTrades_nftIds_ptrs_len: felt,
+        tokenToNFTTrades_nftIds_ptrs: Uint256*,
+        maxCosts_len: felt,
+        maxCosts: Uint256*,    
+
+        nftToTokenTrades_len: felt,
+        // nftToTokenTrades: RobustPairSwapSpecificForToken*,
+        // PairSwapSpecific.pairs*
+        nftToTokenTrades_pairs_len: felt,
+        nftToTokenTrades_pairs: felt*,
+        // PairSwapSpecific.nftIds_len*
+        nftToTokenTrades_nftIds_len_len: felt,
+        nftToTokenTrades_nftIds_len: felt*,    
+        // PairSwapSpecific.nftIds
+        nftToTokenTrades_nftIds_ptrs_len: felt,
+        nftToTokenTrades_nftIds_ptrs: Uint256*,    
+        minOutputs_len: felt,
+        minOutputs: Uint256*,    
+
+        inputAmount: Uint256,
+        tokenRecipient: felt,
+        nftRecipient: felt,
+        deadline: felt  
+    ) -> (remainingValue: Uint256) {
+        let (remainingValue) = IRouter.robustSwapERC20ForSpecificNFTs(
+            contract_address=routerAddr,
+            // params: RobustPairNFTsForTokenAndTokenForNFTsTrade
+            tokenToNFTTrades_len=tokenToNFTTrades_len,
+            // tokenToNFTTrades: RobustPairSwapSpecific*,
+            // PairSwapSpecific.pairs*
+            tokenToNFTTrades_pairs_len=tokenToNFTTrades_pairs_len,
+            tokenToNFTTrades_pairs=tokenToNFTTrades_pairs,
+            // PairSwapSpecific.nftIds_len*
+            tokenToNFTTrades_nftIds_len_len=tokenToNFTTrades_nftIds_len_len,
+            tokenToNFTTrades_nftIds_len=tokenToNFTTrades_nftIds_len,    
+            // PairSwapSpecific.nftIds
+            tokenToNFTTrades_nftIds_ptrs_len=tokenToNFTTrades_nftIds_ptrs_len,
+            tokenToNFTTrades_nftIds_ptrs=tokenToNFTTrades_nftIds_ptrs,
+            maxCosts_len=maxCosts_len,
+            maxCosts=maxCosts,    
+
+            nftToTokenTrades_len=nftToTokenTrades_len,
+            // nftToTokenTrades: RobustPairSwapSpecificForToken*,
+            // PairSwapSpecific.pairs*
+            nftToTokenTrades_pairs_len=nftToTokenTrades_pairs_len,
+            nftToTokenTrades_pairs=nftToTokenTrades_pairs,
+            // PairSwapSpecific.nftIds_len*
+            nftToTokenTrades_nftIds_len_len=nftToTokenTrades_nftIds_len_len,
+            nftToTokenTrades_nftIds_len=nftToTokenTrades_nftIds_len,    
+            // PairSwapSpecific.nftIds
+            nftToTokenTrades_nftIds_ptrs_len=nftToTokenTrades_nftIds_ptrs_len,
+            nftToTokenTrades_nftIds_ptrs=nftToTokenTrades_nftIds_ptrs,    
+            minOutputs_len=minOutputs_len,
+            minOutputs=minOutputs,    
+
+            inputAmount=inputAmount,
+            tokenRecipient=tokenRecipient,
+            nftRecipient=nftRecipient,
+            deadline=deadline  
+        );
+        return (remainingValue=remainingValue);     
     }
 }
-
-    // function swapTokenForAnyNFTs(
-    //     LSSVMRouter router,
-    //     LSSVMRouter.PairSwapAny[] calldata swapList,
-    //     address payable,
-    //     address nftRecipient,
-    //     uint256 deadline,
-    //     uint256 inputAmount
-    // ) public payable override returns (uint256) {
-    //     return
-    //         router.swapERC20ForAnyNFTs(
-    //             swapList,
-    //             inputAmount,
-    //             nftRecipient,
-    //             deadline
-    //         );
-    // }
-
-    // function swapTokenForSpecificNFTs(
-    //     LSSVMRouter router,
-    //     LSSVMRouter.PairSwapSpecific[] calldata swapList,
-    //     address payable,
-    //     address nftRecipient,
-    //     uint256 deadline,
-    //     uint256 inputAmount
-    // ) public payable override returns (uint256) {
-    //     return
-    //         router.swapERC20ForSpecificNFTs(
-    //             swapList,
-    //             inputAmount,
-    //             nftRecipient,
-    //             deadline
-    //         );
-    // }
-
-    // function swapNFTsForAnyNFTsThroughToken(
-    //     LSSVMRouter router,
-    //     LSSVMRouter.NFTsForAnyNFTsTrade calldata trade,
-    //     uint256 minOutput,
-    //     address payable,
-    //     address nftRecipient,
-    //     uint256 deadline,
-    //     uint256 inputAmount
-    // ) public payable override returns (uint256) {
-    //     return
-    //         router.swapNFTsForAnyNFTsThroughERC20(
-    //             trade,
-    //             inputAmount,
-    //             minOutput,
-    //             nftRecipient,
-    //             deadline
-    //         );
-    // }
-
-    // function swapNFTsForSpecificNFTsThroughToken(
-    //     LSSVMRouter router,
-    //     LSSVMRouter.NFTsForSpecificNFTsTrade calldata trade,
-    //     uint256 minOutput,
-    //     address payable,
-    //     address nftRecipient,
-    //     uint256 deadline,
-    //     uint256 inputAmount
-    // ) public payable override returns (uint256) {
-    //     return
-    //         router.swapNFTsForSpecificNFTsThroughERC20(
-    //             trade,
-    //             inputAmount,
-    //             minOutput,
-    //             nftRecipient,
-    //             deadline
-    //         );
-    // }
-
-    // function robustSwapTokenForAnyNFTs(
-    //     LSSVMRouter router,
-    //     LSSVMRouter.RobustPairSwapAny[] calldata swapList,
-    //     address payable,
-    //     address nftRecipient,
-    //     uint256 deadline,
-    //     uint256 inputAmount
-    // ) public payable override returns (uint256) {
-    //     return
-    //         router.robustSwapERC20ForAnyNFTs(
-    //             swapList,
-    //             inputAmount,
-    //             nftRecipient,
-    //             deadline
-    //         );
-    // }
-
-    // function robustSwapTokenForSpecificNFTs(
-    //     LSSVMRouter router,
-    //     LSSVMRouter.RobustPairSwapSpecific[] calldata swapList,
-    //     address payable,
-    //     address nftRecipient,
-    //     uint256 deadline,
-    //     uint256 inputAmount
-    // ) public payable override returns (uint256) {
-    //     return
-    //         router.robustSwapERC20ForSpecificNFTs(
-    //             swapList,
-    //             inputAmount,
-    //             nftRecipient,
-    //             deadline
-    //         );
-    // }
-
-    // function robustSwapTokenForSpecificNFTsAndNFTsForTokens(
-    //     LSSVMRouter router,
-    //     LSSVMRouter.RobustPairNFTsFoTokenAndTokenforNFTsTrade calldata params
-    // ) public payable override returns (uint256, uint256) {
-    //     return router.robustSwapERC20ForSpecificNFTsAndNFTsToToken(params);
-    // }

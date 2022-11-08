@@ -17,6 +17,23 @@
         "type": "struct"
     },
     {
+        "members": [
+            {
+                "name": "allowed",
+                "offset": 0,
+                "type": "felt"
+            },
+            {
+                "name": "wasEverAllowed",
+                "offset": 1,
+                "type": "felt"
+            }
+        ],
+        "name": "RouterStatus",
+        "size": 2,
+        "type": "struct"
+    },
+    {
         "data": [
             {
                 "name": "previousOwner",
@@ -77,6 +94,21 @@
         ],
         "keys": [],
         "name": "ProtocolFeeMultiplierUpdate",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "routerAddr",
+                "type": "felt"
+            },
+            {
+                "name": "isAllowed",
+                "type": "felt"
+            }
+        ],
+        "keys": [],
+        "name": "RouterStatusUpdate",
         "type": "event"
     },
     {
@@ -176,6 +208,21 @@
     {
         "inputs": [
             {
+                "name": "routerAddr",
+                "type": "felt"
+            },
+            {
+                "name": "isAllowed",
+                "type": "felt"
+            }
+        ],
+        "name": "setRouterAllowed",
+        "outputs": [],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "name": "newProtocolFeeRecipient",
                 "type": "felt"
             }
@@ -246,6 +293,23 @@
             {
                 "name": "_isPair",
                 "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "routerAddress",
+                "type": "felt"
+            }
+        ],
+        "name": "getRouterStatus",
+        "outputs": [
+            {
+                "name": "routerStatus",
+                "type": "RouterStatus"
             }
         ],
         "stateMutability": "view",

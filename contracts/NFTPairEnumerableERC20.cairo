@@ -115,11 +115,11 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
     );
 
     NFTPairERC20._pullTokenInputAndPayProtocolFee(
-        inputAmount,
-        isRouter,
-        routerCaller,
-        _factory,
-        protocolFee
+        inputAmount=inputAmount,
+        isRouter=isRouter,
+        routerCaller=routerCaller,
+        _factory=_factory,
+        protocolFee=protocolFee
     );
 
     let (lastIndex) = uint256_sub(balance, Uint256(low=1, high=0));

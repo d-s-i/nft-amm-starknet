@@ -5349,7 +5349,7 @@
             "0x208b7fff7fff7ffe",
             "0x480a7ffc7fff8000",
             "0x480680017fff8000",
-            "0x0",
+            "0x1",
             "0x480680017fff8000",
             "0x0",
             "0x480a7ffd7fff8000",
@@ -26739,6 +26739,10 @@
                 "type": "const",
                 "value": 374290004301806117744456128549676011161689882922482469616341288889714959126
             },
+            "contracts.interfaces.INFTPairFactory.INFTPairFactory.SETROUTERALLOWED_SELECTOR": {
+                "type": "const",
+                "value": 592105056376073916579433147940230394905375386835881705287794037751839111404
+            },
             "contracts.interfaces.INFTPairFactory.INFTPairFactory.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 0
@@ -27265,60 +27269,96 @@
                 "destination": "starkware.cairo.common.uint256.Uint256",
                 "type": "alias"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter": {
+            "contracts.interfaces.IRouter.IRouter": {
                 "type": "namespace"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.Args": {
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.Args",
+            "contracts.interfaces.IRouter.IRouter.Args": {
+                "full_name": "contracts.interfaces.IRouter.IRouter.Args",
                 "members": {},
                 "size": 0,
                 "type": "struct"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.ImplicitArgs": {
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.ImplicitArgs",
+            "contracts.interfaces.IRouter.IRouter.ImplicitArgs": {
+                "full_name": "contracts.interfaces.IRouter.IRouter.ImplicitArgs",
                 "members": {},
                 "size": 0,
                 "type": "struct"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.PAIRTRANSFERERC20FROM_SELECTOR": {
+            "contracts.interfaces.IRouter.IRouter.PAIRTRANSFERERC20FROM_SELECTOR": {
                 "type": "const",
                 "value": 1020679921811931392917646169103180731688022873735458298229888266256423202003
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.PAIRTRANSFERNFTFROM_SELECTOR": {
+            "contracts.interfaces.IRouter.IRouter.PAIRTRANSFERNFTFROM_SELECTOR": {
                 "type": "const",
                 "value": 1550324342683966757894511808200289650827479667954620714238028446550042739023
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.Return": {
+            "contracts.interfaces.IRouter.IRouter.ROBUSTSWAPERC20FORANYNFTS_SELECTOR": {
+                "type": "const",
+                "value": 1777032502713605155640644923003339142257351038883901896015960221054417617160
+            },
+            "contracts.interfaces.IRouter.IRouter.ROBUSTSWAPERC20FORSPECIFICNFTSANDNFTSTOTOKEN_SELECTOR": {
+                "type": "const",
+                "value": 455371013968276567925219504516287307147137114638331483961021378287867380301
+            },
+            "contracts.interfaces.IRouter.IRouter.ROBUSTSWAPERC20FORSPECIFICNFTS_SELECTOR": {
+                "type": "const",
+                "value": 499599658083502210197219970390420637650668574353953799630642681567192754163
+            },
+            "contracts.interfaces.IRouter.IRouter.ROBUSTSWAPNFTSFORTOKEN_SELECTOR": {
+                "type": "const",
+                "value": 1539405464952433730379965091241121945390234013181285600258640943654628986322
+            },
+            "contracts.interfaces.IRouter.IRouter.Return": {
                 "cairo_type": "()",
                 "type": "type_definition"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.SIZEOF_LOCALS": {
+            "contracts.interfaces.IRouter.IRouter.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 0
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.alloc": {
+            "contracts.interfaces.IRouter.IRouter.SWAPERC20FORANYNFTS_SELECTOR": {
+                "type": "const",
+                "value": 130085903217001008906717061636053882787625628390298078978574901292763092454
+            },
+            "contracts.interfaces.IRouter.IRouter.SWAPERC20FORSPECIFICNFTS_SELECTOR": {
+                "type": "const",
+                "value": 1383313315786857762790677298306716706232446399145967697775845043911532187731
+            },
+            "contracts.interfaces.IRouter.IRouter.SWAPNFTSFORANYNFTSTHROUGHERC20_SELECTOR": {
+                "type": "const",
+                "value": 1071243039901080778156907515151934297500284111619864042505519199291007480685
+            },
+            "contracts.interfaces.IRouter.IRouter.SWAPNFTSFORSPECIFICNFTSTHROUGHERC20_SELECTOR": {
+                "type": "const",
+                "value": 677021702451108842015739871499968527225375832993405369576649552955474648230
+            },
+            "contracts.interfaces.IRouter.IRouter.SWAPNFTSFORTOKEN_SELECTOR": {
+                "type": "const",
+                "value": 658010138678026254161286648853075014404503826752977081326721395526521544756
+            },
+            "contracts.interfaces.IRouter.IRouter.alloc": {
                 "destination": "starkware.cairo.common.alloc.alloc",
                 "type": "alias"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.call_contract": {
+            "contracts.interfaces.IRouter.IRouter.call_contract": {
                 "destination": "starkware.starknet.common.syscalls.call_contract",
                 "type": "alias"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.library_call": {
+            "contracts.interfaces.IRouter.IRouter.library_call": {
                 "destination": "starkware.starknet.common.syscalls.library_call",
                 "type": "alias"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.memcpy": {
+            "contracts.interfaces.IRouter.IRouter.memcpy": {
                 "destination": "starkware.cairo.common.memcpy.memcpy",
                 "type": "alias"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From": {
                 "decorators": [],
                 "pc": 1268,
                 "type": "function"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.Args": {
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.Args",
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.Args": {
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.Args",
                 "members": {
                     "_assetRecipient": {
                         "cairo_type": "felt",
@@ -27348,8 +27388,8 @@
                 "size": 7,
                 "type": "struct"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.ImplicitArgs": {
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.ImplicitArgs",
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.ImplicitArgs": {
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.ImplicitArgs",
                 "members": {
                     "range_check_ptr": {
                         "cairo_type": "felt",
@@ -27363,17 +27403,17 @@
                 "size": 2,
                 "type": "struct"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.Return": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.Return": {
                 "cairo_type": "()",
                 "type": "type_definition"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.SIZEOF_LOCALS": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 1
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.__calldata_ptr": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.__calldata_ptr": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.__calldata_ptr",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.__calldata_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27426,9 +27466,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.__calldata_tmp": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.__calldata_tmp": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.__calldata_tmp",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.__calldata_tmp",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27441,9 +27481,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.__temp70": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.__temp70": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.__temp70",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.__temp70",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27456,9 +27496,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From._assetRecipient": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From._assetRecipient": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From._assetRecipient",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From._assetRecipient",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27471,9 +27511,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From._pairVariant": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From._pairVariant": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From._pairVariant",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From._pairVariant",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27486,9 +27526,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From._token": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From._token": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From._token",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From._token",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27501,9 +27541,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.amount": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.amount": {
                 "cairo_type": "starkware.cairo.common.uint256.Uint256",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.amount",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.amount",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27516,9 +27556,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.calldata_ptr_start": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.calldata_ptr_start": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.calldata_ptr_start",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.calldata_ptr_start",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27539,9 +27579,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.contract_address": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.contract_address": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.contract_address",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.contract_address",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27554,9 +27594,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.range_check_ptr": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.range_check_ptr": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.range_check_ptr",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.range_check_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27569,9 +27609,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.retdata": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.retdata": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.retdata",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.retdata",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27584,9 +27624,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.retdata_size": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.retdata_size": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.retdata_size",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.retdata_size",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27599,9 +27639,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.routerCaller": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.routerCaller": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.routerCaller",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.routerCaller",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27614,9 +27654,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.syscall_ptr": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.syscall_ptr": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferERC20From.syscall_ptr",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferERC20From.syscall_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27637,13 +27677,13 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom": {
                 "decorators": [],
                 "pc": 1244,
                 "type": "function"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.Args": {
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.Args",
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.Args": {
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.Args",
                 "members": {
                     "_from": {
                         "cairo_type": "felt",
@@ -27673,8 +27713,8 @@
                 "size": 7,
                 "type": "struct"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.ImplicitArgs": {
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.ImplicitArgs",
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.ImplicitArgs": {
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.ImplicitArgs",
                 "members": {
                     "range_check_ptr": {
                         "cairo_type": "felt",
@@ -27688,17 +27728,17 @@
                 "size": 2,
                 "type": "struct"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.Return": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.Return": {
                 "cairo_type": "()",
                 "type": "type_definition"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.SIZEOF_LOCALS": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 1
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.__calldata_ptr": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.__calldata_ptr": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.__calldata_ptr",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.__calldata_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27751,9 +27791,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.__calldata_tmp": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.__calldata_tmp": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.__calldata_tmp",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.__calldata_tmp",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27766,9 +27806,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.__temp69": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.__temp69": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.__temp69",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.__temp69",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27781,9 +27821,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom._from": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom._from": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom._from",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom._from",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27796,9 +27836,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.calldata_ptr_start": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.calldata_ptr_start": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.calldata_ptr_start",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.calldata_ptr_start",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27819,9 +27859,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.contract_address": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.contract_address": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.contract_address",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.contract_address",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27834,9 +27874,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.id": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.id": {
                 "cairo_type": "starkware.cairo.common.uint256.Uint256",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.id",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.id",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27849,9 +27889,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.nft": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.nft": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.nft",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.nft",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27864,9 +27904,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.range_check_ptr": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.range_check_ptr": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.range_check_ptr",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.range_check_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27879,9 +27919,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.retdata": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.retdata": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.retdata",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.retdata",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27894,9 +27934,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.retdata_size": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.retdata_size": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.retdata_size",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.retdata_size",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27909,9 +27949,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.syscall_ptr": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.syscall_ptr": {
                 "cairo_type": "felt*",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.syscall_ptr",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.syscall_ptr",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27932,9 +27972,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.to": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.to": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.to",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.to",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27947,9 +27987,9 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.variant": {
+            "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.variant": {
                 "cairo_type": "felt",
-                "full_name": "contracts.interfaces.INFTRouter.INFTRouter.pairTransferNFTFrom.variant",
+                "full_name": "contracts.interfaces.IRouter.IRouter.pairTransferNFTFrom.variant",
                 "references": [
                     {
                         "ap_tracking_data": {
@@ -27962,7 +28002,39 @@
                 ],
                 "type": "reference"
             },
-            "contracts.interfaces.INFTRouter.Uint256": {
+            "contracts.interfaces.IRouter.NFTsForAnyNFTsTrade": {
+                "destination": "contracts.router.structs.NFTsForAnyNFTsTrade",
+                "type": "alias"
+            },
+            "contracts.interfaces.IRouter.NFTsForSpecificNFTsTrade": {
+                "destination": "contracts.router.structs.NFTsForSpecificNFTsTrade",
+                "type": "alias"
+            },
+            "contracts.interfaces.IRouter.PairSwapAny": {
+                "destination": "contracts.router.structs.PairSwapAny",
+                "type": "alias"
+            },
+            "contracts.interfaces.IRouter.PairSwapSpecific": {
+                "destination": "contracts.router.structs.PairSwapSpecific",
+                "type": "alias"
+            },
+            "contracts.interfaces.IRouter.RobustPairNFTsForTokenAndTokenForNFTsTrade": {
+                "destination": "contracts.router.structs.RobustPairNFTsForTokenAndTokenForNFTsTrade",
+                "type": "alias"
+            },
+            "contracts.interfaces.IRouter.RobustPairSwapAny": {
+                "destination": "contracts.router.structs.RobustPairSwapAny",
+                "type": "alias"
+            },
+            "contracts.interfaces.IRouter.RobustPairSwapSpecific": {
+                "destination": "contracts.router.structs.RobustPairSwapSpecific",
+                "type": "alias"
+            },
+            "contracts.interfaces.IRouter.RobustPairSwapSpecificForToken": {
+                "destination": "contracts.router.structs.RobustPairSwapSpecificForToken",
+                "type": "alias"
+            },
+            "contracts.interfaces.IRouter.Uint256": {
                 "destination": "starkware.cairo.common.uint256.Uint256",
                 "type": "alias"
             },
@@ -37630,8 +37702,8 @@
                 "destination": "contracts.interfaces.INFTPairFactory.INFTPairFactory",
                 "type": "alias"
             },
-            "contracts.pairs.NFTPairERC20.library.INFTRouter": {
-                "destination": "contracts.interfaces.INFTRouter.INFTRouter",
+            "contracts.pairs.NFTPairERC20.library.IRouter": {
+                "destination": "contracts.interfaces.IRouter.IRouter",
                 "type": "alias"
             },
             "contracts.pairs.NFTPairERC20.library.MAX_FEE": {
@@ -58480,6 +58552,174 @@
             },
             "contracts.pairs.NFTPairMissingEnumerableERC20.library.uint256_eq": {
                 "destination": "starkware.cairo.common.uint256.uint256_eq",
+                "type": "alias"
+            },
+            "contracts.router.structs.NFTsForAnyNFTsTrade": {
+                "full_name": "contracts.router.structs.NFTsForAnyNFTsTrade",
+                "members": {
+                    "nftToTokenTrades": {
+                        "cairo_type": "contracts.router.structs.PairSwapSpecific*",
+                        "offset": 1
+                    },
+                    "nftToTokenTrades_len": {
+                        "cairo_type": "felt",
+                        "offset": 0
+                    },
+                    "tokenToNFTTrades": {
+                        "cairo_type": "contracts.router.structs.PairSwapAny*",
+                        "offset": 3
+                    },
+                    "tokenToNFTTrades_len": {
+                        "cairo_type": "felt",
+                        "offset": 2
+                    }
+                },
+                "size": 4,
+                "type": "struct"
+            },
+            "contracts.router.structs.NFTsForSpecificNFTsTrade": {
+                "full_name": "contracts.router.structs.NFTsForSpecificNFTsTrade",
+                "members": {
+                    "nftToTokenTrades": {
+                        "cairo_type": "contracts.router.structs.PairSwapSpecific*",
+                        "offset": 1
+                    },
+                    "nftToTokenTrades_len": {
+                        "cairo_type": "felt",
+                        "offset": 0
+                    },
+                    "tokenToNFTTrades": {
+                        "cairo_type": "contracts.router.structs.PairSwapSpecific*",
+                        "offset": 3
+                    },
+                    "tokenToNFTTrades_len": {
+                        "cairo_type": "felt",
+                        "offset": 2
+                    }
+                },
+                "size": 4,
+                "type": "struct"
+            },
+            "contracts.router.structs.PairSwapAny": {
+                "full_name": "contracts.router.structs.PairSwapAny",
+                "members": {
+                    "numItems": {
+                        "cairo_type": "starkware.cairo.common.uint256.Uint256",
+                        "offset": 1
+                    },
+                    "pair": {
+                        "cairo_type": "felt",
+                        "offset": 0
+                    }
+                },
+                "size": 3,
+                "type": "struct"
+            },
+            "contracts.router.structs.PairSwapSpecific": {
+                "full_name": "contracts.router.structs.PairSwapSpecific",
+                "members": {
+                    "nftIds": {
+                        "cairo_type": "starkware.cairo.common.uint256.Uint256*",
+                        "offset": 2
+                    },
+                    "nftIds_len": {
+                        "cairo_type": "felt",
+                        "offset": 1
+                    },
+                    "pair": {
+                        "cairo_type": "felt",
+                        "offset": 0
+                    }
+                },
+                "size": 3,
+                "type": "struct"
+            },
+            "contracts.router.structs.RobustPairNFTsForTokenAndTokenForNFTsTrade": {
+                "full_name": "contracts.router.structs.RobustPairNFTsForTokenAndTokenForNFTsTrade",
+                "members": {
+                    "deadline": {
+                        "cairo_type": "felt",
+                        "offset": 8
+                    },
+                    "inputAmount": {
+                        "cairo_type": "starkware.cairo.common.uint256.Uint256",
+                        "offset": 4
+                    },
+                    "nftRecipient": {
+                        "cairo_type": "felt",
+                        "offset": 7
+                    },
+                    "nftToTokenTrades": {
+                        "cairo_type": "contracts.router.structs.RobustPairSwapSpecificForToken*",
+                        "offset": 3
+                    },
+                    "nftToTokenTrades_len": {
+                        "cairo_type": "felt",
+                        "offset": 2
+                    },
+                    "tokenRecipient": {
+                        "cairo_type": "felt",
+                        "offset": 6
+                    },
+                    "tokenToNFTTrades": {
+                        "cairo_type": "contracts.router.structs.RobustPairSwapSpecific*",
+                        "offset": 1
+                    },
+                    "tokenToNFTTrades_len": {
+                        "cairo_type": "felt",
+                        "offset": 0
+                    }
+                },
+                "size": 9,
+                "type": "struct"
+            },
+            "contracts.router.structs.RobustPairSwapAny": {
+                "full_name": "contracts.router.structs.RobustPairSwapAny",
+                "members": {
+                    "maxCost": {
+                        "cairo_type": "starkware.cairo.common.uint256.Uint256",
+                        "offset": 3
+                    },
+                    "swapInfo": {
+                        "cairo_type": "contracts.router.structs.PairSwapAny",
+                        "offset": 0
+                    }
+                },
+                "size": 5,
+                "type": "struct"
+            },
+            "contracts.router.structs.RobustPairSwapSpecific": {
+                "full_name": "contracts.router.structs.RobustPairSwapSpecific",
+                "members": {
+                    "maxCost": {
+                        "cairo_type": "starkware.cairo.common.uint256.Uint256",
+                        "offset": 3
+                    },
+                    "swapInfo": {
+                        "cairo_type": "contracts.router.structs.PairSwapSpecific",
+                        "offset": 0
+                    }
+                },
+                "size": 5,
+                "type": "struct"
+            },
+            "contracts.router.structs.RobustPairSwapSpecificForToken": {
+                "full_name": "contracts.router.structs.RobustPairSwapSpecificForToken",
+                "members": {
+                    "minOutput": {
+                        "cairo_type": "starkware.cairo.common.uint256.Uint256",
+                        "offset": 3
+                    },
+                    "swapInfo": {
+                        "cairo_type": "contracts.router.structs.PairSwapSpecific",
+                        "offset": 0
+                    }
+                },
+                "size": 5,
+                "type": "struct"
+            },
+            "contracts.router.structs.Uint256": {
+                "destination": "starkware.cairo.common.uint256.Uint256",
                 "type": "alias"
             },
             "starkware.cairo.common.alloc.alloc": {

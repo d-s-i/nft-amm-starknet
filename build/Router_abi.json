@@ -7,18 +7,13 @@
                 "type": "felt"
             },
             {
-                "name": "numItems_len",
-                "offset": 1,
-                "type": "felt"
-            },
-            {
                 "name": "numItems",
-                "offset": 2,
+                "offset": 1,
                 "type": "Uint256"
             }
         ],
         "name": "PairSwapAny",
-        "size": 4,
+        "size": 3,
         "type": "struct"
     },
     {
@@ -47,12 +42,12 @@
             },
             {
                 "name": "maxCost",
-                "offset": 4,
+                "offset": 3,
                 "type": "Uint256"
             }
         ],
         "name": "RobustPairSwapAny",
-        "size": 6,
+        "size": 5,
         "type": "struct"
     },
     {

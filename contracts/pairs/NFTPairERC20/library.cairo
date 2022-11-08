@@ -14,7 +14,7 @@ from starkware.cairo.common.uint256 import (
     assert_uint256_eq
 )
 
-from contracts.interfaces.INFTRouter import (INFTRouter)
+from contracts.interfaces.IRouter import (IRouter)
 from contracts.interfaces.bonding_curves.ICurve import (ICurve)
 from contracts.interfaces.INFTPairFactory import (INFTPairFactory)
 from contracts.interfaces.tokens.IERC20 import (IERC20)
@@ -604,9 +604,13 @@ namespace NFTPairERC20 {
         let (_assetRecipient) = getAssetRecipient();
 
         if(isRouter == TRUE) {
-            let (routerAllowed) = INFTPairFactory.routerStatus(_factory, routerCaller);
+            let (routerAddr) = get_caller_address();
+            let (routerStatus) = INFTPairFactory.getRouterStatus(
+                contract_address=_factory, 
+                routerAddress=routerAddr
+            );
             with_attr error_message("_takeNFTsFromSender - Router Not Allowed") {
-                assert routerAllowed = 1;
+                assert routerStatus.allowed = TRUE;
             }
             let (_pairVariant) = pairVariant.read();
 
@@ -616,14 +620,14 @@ namespace NFTPairERC20 {
                 let (beforeBalance) = IERC721.balanceOf(_nftAddress, _assetRecipient);
                 if(startIndex == nftIds_len) {
                     return ();
-                }                  
-                INFTRouter.pairTransferNFTFrom(
-                    routerCaller,
-                    _nftAddress,
-                    routerCaller,
-                    _assetRecipient,
-                    [nftIds],
-                    _pairVariant
+                }
+         
+                IRouter.pairTransferNFTFrom(
+                    contract_address=routerAddr,
+                    nftAddress=_nftAddress,
+                    _from=routerCaller,
+                    to=_assetRecipient,
+                    id=[nftIds]
                 );
                 let (afterBalance) = IERC721.balanceOf(_nftAddress, _assetRecipient);
                 let (expectedAfterBalance, expectedAfterBalanceCarry) = uint256_add(beforeBalance, Uint256(low=1, high=0));
@@ -639,21 +643,20 @@ namespace NFTPairERC20 {
                     _nftAddress,
                     startIndex + 1,
                     nftIds_len,
-                    nftIds + 1,
+                    nftIds + Uint256.SIZE,
                     _factory,
                     isRouter,
                     routerCaller
                 );
 
             } else {
-                INFTRouter.pairTransferNFTFrom(
-                    routerCaller,
-                    _nftAddress,
-                    routerCaller,
-                    _assetRecipient,
-                    [nftIds],
-                    _pairVariant
-                );
+                IRouter.pairTransferNFTFrom(
+                    contract_address=routerAddr,
+                    nftAddress=_nftAddress,
+                    _from=routerCaller,
+                    to=_assetRecipient,
+                    id=[nftIds]
+                );                
                 let (owner) = IERC721.ownerOf(_nftAddress, [nftIds]);
                 with_attr error_mesage("_takeNFTsFromSender - NFT not transferred") {
                     assert owner = _assetRecipient;
@@ -710,24 +713,25 @@ namespace NFTPairERC20 {
         let (amount) = uint256_sub(inputAmount, protocolFee);
 
         if(isRouter == TRUE) {
-            let (routerAllowed) = INFTPairFactory.routerStatus(
-                _factory,
-                routerCaller
+            let (routerAddr) = get_caller_address();
+            let (routerStatus) = INFTPairFactory.getRouterStatus(
+                contract_address=_factory,
+                routerAddress=routerAddr
             );
             with_attr error_message("_pullTokenInputAndPayProtocolFee - Router not allowed") {
-                assert_not_zero(routerCaller);
+                assert routerStatus.allowed = TRUE;
             }
             let (beforeBalance) = IERC20.balanceOf(
                 _token,
                 _assetRecipient
             );
-            INFTRouter.pairTransferERC20From(
-                routerCaller,
-                _token,
-                routerCaller,
-                _assetRecipient,
-                amount,
-                _pairVariant
+
+            IRouter.pairTransferERC20From(
+                contract_address=routerAddr,
+                tokenAddress=_token,
+                from_=routerCaller,
+                to=_assetRecipient,
+                amount=amount
             );
 
             let (currentBalance) = IERC20.balanceOf(
@@ -741,13 +745,12 @@ namespace NFTPairERC20 {
                 uint256_eq(transferedAmount, supposedAmount);
             }
 
-            INFTRouter.pairTransferERC20From(
-                routerCaller,
-                _token,
-                routerCaller,
-                _factory,
-                protocolFee,
-                _pairVariant
+            IRouter.pairTransferERC20From(
+                contract_address=routerAddr,
+                tokenAddress=_token,
+                from_=routerCaller,
+                to=_assetRecipient,
+                amount=protocolFee
             );
             tempvar range_check_ptr = range_check_ptr;
             tempvar syscall_ptr = syscall_ptr;
@@ -816,7 +819,9 @@ namespace NFTPairERC20 {
         _revertIfError(error);
 
         let (input_is_lower) = uint256_le(inputAmount, maxExpectedTokenInput);
-        assert_not_zero(input_is_lower);
+        with_attr error_mesage("NFTPairERC20::_calculateBuyInfoAndUpdatePoolParams - Swap exceed max expected input") {
+            assert_not_zero(input_is_lower);
+        }
 
         // if(currentSpotPrice != newSpotPrice) {
         //     spotPrice.write(newSpotPrice);
@@ -932,7 +937,8 @@ namespace NFTPairERC20 {
     }
     
     func _revertIfError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(error: felt) {
-        let (isError) = uint256_lt(Uint256(low=0, high=0), Uint256(low=error, high=0));
+        // equivalent to error > 1
+        let (isError) = uint256_lt(Uint256(low=1, high=0), Uint256(low=error, high=0));
         if(isError == TRUE) {
             with_attr error_message(
                 "NFTPair - There was an error with the bonding curve (code: {error})"

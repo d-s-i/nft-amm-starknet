@@ -133,7 +133,7 @@ func setup_rescueTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_ch
         erc721Addr=newERC721Addr,
         start=tokenId.low - 1,
         nftIds_len=tokenId.low,
-        nftIds=nftIds,
+        nftIds_ptr=nftIds,
         mintTo=accountAddr,
         contractOwner=accountAddr
     );
@@ -744,15 +744,16 @@ func test_withdrawFees{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
         protocolFeeMultiplier=Uint256(low=protocolFeeMultiplier, high=0)
     );
 
-    TokenStandard.swapTokenForAnyNFTs(
-        senderAddr=accountAddr,
-        pairAddr=pairAddr,
+    %{stop_prank_pair = start_prank(ids.accountAddr, ids.pairAddr)%}
+    INFTPair.swapTokenForAnyNFTs(
+        contract_address=pairAddr,
         numNFTs=Uint256(low=numItems, high=0),
         maxExpectedTokenInput=inputAmount,
         nftRecipient=accountAddr,
         isRouter=FALSE,
         routerCaller=0
     );
+    %{stop_prank_pair()%}
 
     TokenStandard.withdrawProtocolFees(factoryAddr, erc20Addr, accountAddr);
 
