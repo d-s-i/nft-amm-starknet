@@ -44,7 +44,7 @@ from tests.utils.Deployments import (
 
 from tests.mixins.UsingEnumerable import (TokenImplementation)
 from tests.mixins.UsingERC20 import (TokenStandard)
-const curveId = CurveId.Linear;
+from tests.mixins.UsingLinearCurve import (Curve)
 
 // 1.1 ether
 const delta = 11*10**17;
