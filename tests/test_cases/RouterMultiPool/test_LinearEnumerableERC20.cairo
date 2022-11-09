@@ -323,7 +323,6 @@ func test_swap5NFTsForToken{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, rang
         end=swapList_len,
         totalOutputAmount= Uint256(low=0, high=0)
     );
-    %{print(f"test - totalOutputAmount: {ids.totalOutputAmount.low + ids.totalOutputAmount.high}")%}
 
     let (startBalance) = IERC721.balanceOf(
         contract_address=erc721Addr,

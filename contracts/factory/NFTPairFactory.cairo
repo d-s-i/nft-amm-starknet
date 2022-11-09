@@ -205,7 +205,6 @@ func deployPairEnumerableERC20{
         _pairVariant=PairVariant.ENUMERABLE_ERC20,
         _erc20Address=_erc20Address
     );
-
     _transferInitialLiquidity(
         pairAddress=_pairAddress,
         erc20Address=_erc20Address,
@@ -214,6 +213,7 @@ func deployPairEnumerableERC20{
         nftIds=_initialNFTIds,
         initialERC20Balance=initialERC20Balance
     );
+
 
     NewPair.emit(_pairAddress);
 
@@ -425,9 +425,12 @@ func _transferInitialNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_
     nftAddress: felt,
     tokenIds: Uint256*
 ) {
+    alloc_locals;
     if(start == end) {
         return ();
     }
+    local id: Uint256 = [tokenIds];
+    let (fromBalance) = IERC721.balanceOf(nftAddress, from_);
     IERC721.safeTransferFrom(nftAddress, from_, to, [tokenIds], 0, cast(new (0,), felt*)); 
     return _transferInitialNFTs(start + 1, end, from_, to, nftAddress, tokenIds + 2);
 }

@@ -99,8 +99,6 @@ func setERC721Allowance{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_ch
     return ();
 }
 
-
-
 func _mintERC20{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     erc20Addr: felt,
     amount: Uint256,

@@ -22,7 +22,7 @@ from contracts.router.structs import (
     RobustPairNFTsForTokenAndTokenForNFTsTrade
 )
 
-from tests.utils.library import (_mintERC721, _mintERC20)
+from tests.utils.library import (_mintERC721, _mintERC20, displayIds)
 
 namespace TokenStandard {
     func getBalance{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
@@ -50,32 +50,32 @@ namespace TokenStandard {
     func setupPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         accountAddr: felt,
         factoryAddr: felt,
+        routerAddr: felt,
         erc20Addr: felt,
         erc721Addr: felt,
         bondingCurveAddr: felt,
         poolType: felt,
         initialNFTIds_len: felt,
+        initialNFTIds: Uint256*,
         initialERC20Balance: Uint256,
         spotPrice: Uint256,
         delta: Uint256
     ) -> (pairAddress: felt) {
         alloc_locals;
 
-        tempvar MAX_UINT_256 = Uint256(low=MAX_UINT_128, high=MAX_UINT_128);
-
         %{
             stop_prank_factory = start_prank(ids.accountAddr, ids.factoryAddr)
 
             # Set allowances on factory for tokens
             store(ids.erc20Addr, "ERC20_allowances", [ids.MAX_UINT_128, ids.MAX_UINT_128], [ids.accountAddr, ids.factoryAddr])
+            store(ids.erc20Addr, "ERC20_allowances", [ids.MAX_UINT_128, ids.MAX_UINT_128], [ids.accountAddr, ids.routerAddr])
             store(ids.erc721Addr, "ERC721_operator_approvals", [1], [ids.accountAddr, ids.factoryAddr])
+            store(ids.erc721Addr, "ERC721_operator_approvals", [1], [ids.accountAddr, ids.routerAddr])
         %}
-        let (nftIds: Uint256*) = alloc();
         let (amountToMint, amontToMintHigh) = uint256_mul(initialERC20Balance, Uint256(low=10, high=0));
-        _mintERC721(erc721Addr, 0, initialNFTIds_len, nftIds, accountAddr, accountAddr);
         _mintERC20(erc20Addr, amountToMint, accountAddr, accountAddr);
         
-        // displayIds(nftIds, 0, initialNFTIds_len);
+        // displayIds(initialNFTIds, 0, initialNFTIds_len);
 
         %{stop_prank_erc721 = start_prank(ids.accountAddr, ids.erc721Addr)%}
         let (pairAddress) = INFTPairFactory.createPairERC20(
@@ -89,7 +89,7 @@ namespace TokenStandard {
             _fee=0,
             _spotPrice=spotPrice,
             _initialNFTIds_len=initialNFTIds_len,
-            _initialNFTIds=nftIds,
+            _initialNFTIds=initialNFTIds,
             initialERC20Balance=initialERC20Balance
         );
 

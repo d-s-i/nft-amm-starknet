@@ -23,7 +23,7 @@ from contracts.router.structs import (
     RobustPairNFTsForTokenAndTokenForNFTsTrade
 )
 
-from contracts.mocks.libraries.library_account import (Account, AccountCallArray)
+from contracts.mocks.libraries.library_account import (Account)
 
 from tests.utils.library import (
     setBondingCurveAllowed, 
@@ -56,19 +56,25 @@ from tests.test_cases.RouterSinglePool.params import (
     protocolFeeMultiplier,
     numInitialNFTs
 )
-
 @external
 func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
     alloc_locals;
 
-    // let (accountAddr) = deployAccount(0);
     let (accountAddr) = get_contract_address();
     %{
         context.accountAddr = ids.accountAddr
         print(f"accountAddr: {ids.accountAddr} (hex: {hex(ids.accountAddr)})")
     %}
+    let (erc721Addr) = TokenImplementation.setup721(accountAddr);
+    %{
+        context.erc721Addr = ids.erc721Addr
+        print(f"erc721Addr: {ids.erc721Addr} (hex: {hex(ids.erc721Addr)})")
+    %}
     let (bondingCurveAddr) = Curve.setupCurve();
-    %{context.bondingCurveAddr = ids.bondingCurveAddr%}
+    %{
+        context.bondingCurveAddr = ids.bondingCurveAddr
+        print(f"erc721Addr: {ids.bondingCurveAddr} (hex: {hex(ids.bondingCurveAddr)})")
+    %}
     let (factoryAddr) = deployFactory(
         protocolFeeMultiplier=Uint256(low=protocolFeeMultiplier, high=0), 
         ownerAddress=accountAddr
@@ -77,18 +83,14 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         context.factoryAddr = ids.factoryAddr
         print(f"factoryAddr: {ids.factoryAddr} (hex: {hex(ids.factoryAddr)})")
     %}
-    setBondingCurveAllowed(bondingCurveAddr, factoryAddr, accountAddr);
     let (erc20Addr, _, erc1155Addr) = deployTokens(
         erc20Decimals=18,
         erc20InitialSupply=Uint256(low=1000*10**18, high=0),
         owner=accountAddr
     );
-    let (erc721Addr) = TokenImplementation.setup721(accountAddr);
     %{
         context.erc20Addr = ids.erc20Addr
         print(f"erc20Addr: {ids.erc20Addr} (hex: {hex(ids.erc20Addr)})")
-        context.erc721Addr = ids.erc721Addr
-        print(f"erc721Addr: {ids.erc721Addr} (hex: {hex(ids.erc721Addr)})")
         context.erc1155Addr = ids.erc1155Addr
         print(f"erc1155Addr: {ids.erc1155Addr} (hex: {hex(ids.erc1155Addr)})")
 
@@ -98,6 +100,7 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         context.routerAddr = ids.routerAddr
         print(f"routerAddr {context.routerAddr} (hex: {hex(context.routerAddr)})")
     %}
+    setBondingCurveAllowed(bondingCurveAddr, factoryAddr, accountAddr);
     setRouterAllowed(
         factoryAddr=factoryAddr,
         factoryOwnerAddr=accountAddr,
@@ -112,18 +115,35 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
     setERC721Allowance(
         erc721Addr=erc721Addr,
         spender=accountAddr,
+        operator=factoryAddr
+    );
+    setERC721Allowance(
+        erc721Addr=erc721Addr,
+        spender=accountAddr,
         operator=routerAddr
+    );
+
+    let (nftIds: Uint256*) = alloc();
+    _mintERC721(
+        erc721Addr=erc721Addr,
+        start=0,
+        nftIds_len=numInitialNFTs,
+        nftIds_ptr=nftIds,
+        mintTo=accountAddr,
+        contractOwner=accountAddr
     );
 
     let (delta) = Curve.modifyDelta(Uint256(low=0, high=0));
     let (pairAddr) = TokenStandard.setupPair(
         accountAddr=accountAddr,
         factoryAddr=factoryAddr,
+        routerAddr=routerAddr,  
         erc20Addr=erc20Addr,
         erc721Addr=erc721Addr,
         bondingCurveAddr=bondingCurveAddr,
         poolType=PoolType.TRADE,
         initialNFTIds_len=numInitialNFTs,
+        initialNFTIds=nftIds,
         initialERC20Balance=Uint256(low=10*10**18, high=0),
         spotPrice=Uint256(low=10**18, high=0),
         delta=delta

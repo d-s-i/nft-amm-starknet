@@ -58,7 +58,7 @@ from tests.test_cases.RouterMultiPool.params import (
 // Setup
 // 
 
-from tests.mixins.UsingEnumerable import (TokenImplementation)
+from tests.mixins.UsingMissingEnumerable import (TokenImplementation)
 from tests.mixins.UsingERC20 import (TokenStandard)
 from tests.mixins.UsingLinearCurve import (Curve)
 
@@ -323,7 +323,6 @@ func test_swap5NFTsForToken{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, rang
         end=swapList_len,
         totalOutputAmount= Uint256(low=0, high=0)
     );
-    %{print(f"test - totalOutputAmount: {ids.totalOutputAmount.low + ids.totalOutputAmount.high}")%}
 
     let (startBalance) = IERC721.balanceOf(
         contract_address=erc721Addr,

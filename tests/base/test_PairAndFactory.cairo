@@ -24,8 +24,11 @@ from contracts.interfaces.tokens.IERC721Enumerable import (IERC721Enumerable)
 from contracts.interfaces.tokens.IERC20 import (IERC20)
 from contracts.interfaces.tokens.IERC1155 import (IERC1155)
 
+from contracts.mocks.libraries.library_account import (Account)
+
 from tests.utils.library import (
     setBondingCurveAllowed, 
+    setERC721Allowance,
     _mintERC721,
     setERC20Allowance,
     displayIds
@@ -46,24 +49,33 @@ from tests.mixins.UsingEnumerable import (TokenImplementation)
 from tests.mixins.UsingERC20 import (TokenStandard)
 from tests.mixins.UsingLinearCurve import (Curve)
 
-// 1.1 ether
-const delta = 11*10**17;
-// 1 ether
-const spotPrice = 10**18;
-// 10 ether
-const tokenAmount = 10*10**18;
-const numItems = 2;
-const protocolFeeMultiplier = 3*10**15;
+from tests.test_cases.PairAndFactory.params import (
+    spotPrice,
+    delta,
+    tokenAmount,
+    numItems,
+    protocolFeeMultiplier
+)
 
 @external
 func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
-    let (accountAddr) = deployAccount(0);
+    alloc_locals;
+
+    let (accountAddr) = get_contract_address();
     %{
         context.accountAddr = ids.accountAddr
         print(f"accountAddr: {ids.accountAddr} (hex: {hex(ids.accountAddr)})")
+    %}    
+    let (bondingCurveAddr) = Curve.setupCurve();
+    %{
+        context.bondingCurveAddr = ids.bondingCurveAddr
+        print(f"factoryAddr: {ids.bondingCurveAddr} (hex: {hex(ids.bondingCurveAddr)})")
     %}
-    let (bondingCurveAddr) = deployCurve(curveId);
-    %{context.bondingCurveAddr = ids.bondingCurveAddr%}
+    let (erc721Addr) = TokenImplementation.setup721(accountAddr);
+    %{
+        context.erc721Addr = ids.erc721Addr
+        print(f"erc721Addr: {ids.erc721Addr} (hex: {hex(ids.erc721Addr)})")
+    %}
     let (factoryAddr) = deployFactory(
         protocolFeeMultiplier=Uint256(low=protocolFeeMultiplier, high=0), 
         ownerAddress=accountAddr
@@ -71,31 +83,45 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
     %{
         context.factoryAddr = ids.factoryAddr
         print(f"factoryAddr: {ids.factoryAddr} (hex: {hex(ids.factoryAddr)})")
-    %}
+    %}        
     setBondingCurveAllowed(bondingCurveAddr, factoryAddr, accountAddr);
+    setERC721Allowance(
+        erc721Addr=erc721Addr,
+        spender=accountAddr,
+        operator=factoryAddr
+    );
+    let numInitialNFTs = 2;
+    let (nftIds: Uint256*) = alloc();
+    _mintERC721(
+        erc721Addr=erc721Addr,
+        start=0,
+        nftIds_len=numInitialNFTs,
+        nftIds_ptr=nftIds,
+        mintTo=accountAddr,
+        contractOwner=accountAddr
+    );    
     let (erc20Addr, _, erc1155Addr) = deployTokens(
         erc20Decimals=18,
         erc20InitialSupply=Uint256(low=1000*10**18, high=0),
         owner=accountAddr
     );
-    let (erc721Addr) = TokenImplementation.setup721(accountAddr);
     %{
         context.erc20Addr = ids.erc20Addr
         print(f"erc20Addr: {ids.erc20Addr} (hex: {hex(ids.erc20Addr)})")
-        context.erc721Addr = ids.erc721Addr
-        print(f"erc721Addr: {ids.erc721Addr} (hex: {hex(ids.erc721Addr)})")
         context.erc1155Addr = ids.erc1155Addr
         print(f"erc1155Addr: {ids.erc1155Addr} (hex: {hex(ids.erc1155Addr)})")
 
-    %}
+    %}  
     let (pairAddr) = TokenStandard.setupPair(
         accountAddr=accountAddr,
         factoryAddr=factoryAddr,
+        routerAddr=0,
         erc20Addr=erc20Addr,
         erc721Addr=erc721Addr,
         bondingCurveAddr=bondingCurveAddr,
         poolType=PoolType.TRADE,
         initialNFTIds_len=numItems,
+        initialNFTIds=nftIds,
         initialERC20Balance=Uint256(low=tokenAmount, high=0),
         spotPrice=Uint256(low=spotPrice, high=0),
         delta=Uint256(low=delta, high=0)
@@ -104,62 +130,7 @@ func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: 
         context.pairAddr = ids.pairAddr
         print(f"pairAddr: {ids.pairAddr} (hex: {hex(ids.pairAddr)})")
     %}
-    return ();
-}
-
-@external
-func setup_rescueTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
-    alloc_locals;
-
-    local accountAddr;
-    local pairAddr;
-    %{
-        ids.accountAddr = context.accountAddr
-        ids.pairAddr = context.pairAddr
-    %}
-    let (newERC20Addr, newERC721Addr, _) = deployTokens(18, Uint256(low=1000, high=0), accountAddr);
-    %{
-        context.newERC20Addr = ids.newERC20Addr
-        context.newERC721Addr = ids.newERC721Addr
-    %}
-    local tokenId: Uint256 = Uint256(low=18, high=0);
-    local erc20Amount: Uint256 = Uint256(low=10, high=0);
-    %{
-        context.tokenId = ids.tokenId
-        context.erc20Amount = ids.erc20Amount
-    %}
-    let (nftIds: Uint256*) = alloc();
-    _mintERC721(
-        erc721Addr=newERC721Addr,
-        start=tokenId.low - 1,
-        nftIds_len=tokenId.low,
-        nftIds_ptr=nftIds,
-        mintTo=accountAddr,
-        contractOwner=accountAddr
-    );
-
-    %{
-        stop_prank_erc721 = start_prank(ids.accountAddr, ids.newERC721Addr)
-        stop_prank_erc20 = start_prank(ids.accountAddr, ids.newERC20Addr)
-    %}
-    IERC721.transferFrom(
-        newERC721Addr,
-        accountAddr,
-        pairAddr,
-        tokenId
-    );
-    IERC20.approve(newERC20Addr, accountAddr, Uint256(low=MAX_UINT_128, high=MAX_UINT_128));
-    IERC20.transferFrom(
-        newERC20Addr,
-        accountAddr,
-        pairAddr,
-        erc20Amount
-    );
-    %{
-        stop_prank_erc721()
-        stop_prank_erc20()
-    %}
-
+  
     return ();
 }
 
@@ -188,27 +159,24 @@ func test_rescueTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
     alloc_locals;
 
     local pairAddr;
-    local newERC20Addr;
-    local newERC721Addr;
-    local tokenId: Uint256;
-    local erc20Amount: Uint256;
+    local erc20Addr;
+    local erc721Addr;
+    local tokenId: Uint256 = Uint256(low=1, high=0);
     %{
         ids.pairAddr = context.pairAddr
-        ids.newERC20Addr = context.newERC20Addr
-        print(f"newERC20Addr: {context.newERC20Addr}")
-        ids.newERC721Addr = context.newERC721Addr
-        print(f"newERC721Addr: {context.newERC721Addr}")
+        ids.erc20Addr = context.erc20Addr
+        print(f"erc20Addr: {context.erc20Addr}")
+        ids.erc721Addr = context.erc721Addr
+        print(f"erc721Addr: {context.erc721Addr}")
 
-        ids.tokenId.low, ids.tokenId.high = [context.tokenId.low, context.tokenId.high]
-        ids.erc20Amount.low, ids.erc20Amount.high = [context.erc20Amount.low, context.erc20Amount.high]
     %}
 
     let (initialERC20Balance) = IERC20.balanceOf(
-        contract_address=newERC20Addr,
+        contract_address=erc20Addr,
         owner=pairAddr
     );
     let (initialERC721Balance) = IERC721.balanceOf(
-        contract_address=newERC721Addr,
+        contract_address=erc721Addr,
         owner=pairAddr   
     );
     let tokenIdsToWithdraw_len = 1;
@@ -218,23 +186,23 @@ func test_rescueTokens{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
     %{stop_pair_prank = start_prank(context.accountAddr, context.pairAddr)%}
     INFTPair.withdrawERC20(
         contract_address=pairAddr,
-        erc20Address=newERC20Addr,
+        erc20Address=erc20Addr,
         amount=erc20AmountToWithraw
     );
     INFTPair.withdrawERC721(
         contract_address=pairAddr,
-        _nftAddress=newERC721Addr,
+        _nftAddress=erc721Addr,
         tokenIds_len=tokenIdsToWithdraw_len,
         tokenIds=tokenIdsToWithdraw
     );
     %{stop_pair_prank()%}
 
     let (finalERC20Balance) = IERC20.balanceOf(
-        contract_address=newERC20Addr,
+        contract_address=erc20Addr,
         owner=pairAddr
     );
     let (finalERC721Balance) = IERC721.balanceOf(
-        contract_address=newERC721Addr,
+        contract_address=erc721Addr,
         owner=pairAddr
     );
 
@@ -790,4 +758,11 @@ func test_changeFeeMultiplier{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, ra
     assert protocolFeeMultiplier = newProtocolFeeMultiplier;
 
     return ();
+}
+
+@view
+func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
+    interfaceId: felt
+) -> (success: felt) {
+    return Account.supports_interface(interfaceId);
 }

@@ -1,7 +1,8 @@
 %lang starknet
 
 // Changed deadline from uint256 to felt
-// Can't pass arrays of struct so have to pass all members separately and merge them into the array of struct
+// Can't pass arrays of struct so have to pass all members separately and merge them 
+// into the array of struct after
 
 from starkware.cairo.common.alloc import (alloc)
 from starkware.cairo.common.cairo_builtins import (HashBuiltin)
@@ -812,7 +813,7 @@ func robustSwapERC20ForAnyNFTs_loop{syscall_ptr: felt*, pedersen_ptr: HashBuilti
         nftRecipient=nftRecipient,
         index=index + 1,
         caller=caller
-    );    
+    );
 }
 
 func robustSwapERC20ForSpecificNFTs_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
