@@ -46,11 +46,13 @@ func _mintERC721{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     mintTo: felt,
     contractOwner: felt
 ) {
+    alloc_locals;
+
     if(start == nftIds_len) {
         return ();
     }
     
-    let id = Uint256(low=start + 1, high=0);
+    local id: Uint256 = Uint256(low=start + 1, high=0);
     assert [nftIds_ptr] = id;
 
     %{stop_prank_erc721 = start_prank(ids.contractOwner, ids.erc721Addr)%}
@@ -129,4 +131,33 @@ func displayIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     %}
 
     return displayIds(nftIds + Uint256.SIZE, start + 1, end);
+}
+
+func displayIdsAndOwners{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+    nftIds: Uint256*,
+    nftAddress: felt,
+    start: felt, 
+    end: felt
+) {
+    alloc_locals;
+
+    if(start == end) {
+        return ();
+    }
+
+    local currentId: Uint256 = [nftIds];
+    let (idOwner) = IERC721.ownerOf(
+        contract_address=nftAddress,
+        tokenId=currentId
+    );
+    %{
+        print(f"displayIdsAndOwners - id[{ids.start}]: {ids.currentId.low + ids.currentId.high} (owner: {ids.idOwner})")
+    %}
+
+    return displayIdsAndOwners(
+        nftIds + Uint256.SIZE, 
+        nftAddress, 
+        start + 1, 
+        end
+    );
 }

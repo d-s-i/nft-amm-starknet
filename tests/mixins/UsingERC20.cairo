@@ -333,44 +333,31 @@ namespace TokenStandard {
     }
 
     func robustSwapTokenForSpecificNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-        callerAddr: felt,
         routerAddr: felt,
         swapList_len: felt,
-        // swapList: RobustPairSwapSpecific*,
-        // swapInfos: PairSwapSpecific*,
-        // PairSwapSpecific.pairs*
         pairs_len: felt,
         pairs: felt*,
-        // PairSwapSpecific.nftIds_len*
         nftIds_len_len: felt,
         nftIds_len: felt*,    
-        // PairSwapSpecific.nftIds
         nftIds_ptrs_len: felt,
         nftIds_ptrs: Uint256*,
         maxCosts_len: felt,
         maxCosts: Uint256*,
-
         inputAmount: Uint256,
         nftRecipient: felt,
-        deadline: felt        
+        deadline: felt
     ) -> (remainingValue: Uint256) {
         let (remainingValue) = IRouter.robustSwapERC20ForSpecificNFTs(
             contract_address=routerAddr,
             swapList_len=swapList_len,
-            // swapList: RobustPairSwapSpecific*,
-            // swapInfos: PairSwapSpecific*,
-            // PairSwapSpecific.pairs*
             pairs_len=pairs_len,
             pairs=pairs,
-            // PairSwapSpecific.nftIds_len*
             nftIds_len_len=nftIds_len_len,
             nftIds_len=nftIds_len,    
-            // PairSwapSpecific.nftIds
             nftIds_ptrs_len=nftIds_ptrs_len,
             nftIds_ptrs=nftIds_ptrs,
             maxCosts_len=maxCosts_len,
             maxCosts=maxCosts,
-
             inputAmount=inputAmount,
             nftRecipient=nftRecipient,
             deadline=deadline
