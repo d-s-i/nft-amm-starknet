@@ -402,7 +402,7 @@ namespace TokenStandard {
         nftRecipient: felt,
         deadline: felt  
     ) -> (remainingValue: Uint256) {
-        let (remainingValue) = IRouter.robustSwapERC20ForSpecificNFTs(
+        let (remainingValue, outputAmount) = IRouter.robustSwapERC20ForSpecificNFTsAndNFTsToToken(
             contract_address=routerAddr,
             // params: RobustPairNFTsForTokenAndTokenForNFTsTrade
             tokenToNFTTrades_len=tokenToNFTTrades_len,

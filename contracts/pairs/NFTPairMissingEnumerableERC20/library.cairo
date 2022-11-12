@@ -1,3 +1,6 @@
+// PROBLEM: If someone do IERC721.transferFrom() to transfer one of his NFT to the pair, the idSet is not updated
+// and the pair might not be tradable fully because onERC721Received is not called by `transferFrom`
+
 %lang starknet
 
 from starkware.cairo.common.alloc import (alloc)
@@ -272,7 +275,6 @@ namespace NFTPairMissingEnumerableERC20 {
         max: felt
     ) {
         alloc_locals;
-
         if(startIndex == max) {
             with_attr error_message("NFTPairMissingEnumerable::_removeNFTInEnumeration - Can't remove NFT from enumeration") {
                 assert 1 = 2;

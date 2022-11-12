@@ -927,13 +927,6 @@ func robustSwapNFTsForToken_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*,
     local minO: Uint256 = [swapList].minOutput;
     let (pairOutputOk) = uint256_le([swapList].minOutput, pairOutput);
     if(pairOutputOk == TRUE) {
-        let (erc721Addr) = INFTPair.getNFTAddress([swapList].swapInfo.pair);
-        displayIdsAndOwners(
-            [swapList].swapInfo.nftIds, 
-            erc721Addr, 
-            0,
-            [swapList].swapInfo.nftIds_len
-        );
         let (outputAmountSwap) = INFTPair.swapNFTsForToken(
             contract_address=[swapList].swapInfo.pair,
             nftIds_len=[swapList].swapInfo.nftIds_len,
@@ -973,11 +966,10 @@ func tokenToNFTTrades_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range
     caller: felt
 ) -> (remainingValue: Uint256) {
     alloc_locals;
-
     if(index == params.tokenToNFTTrades_len) {
         return (remainingValue=params.inputAmount);
     }
-    
+
     let tokenToNFTTrades_ptr = params.tokenToNFTTrades;
     let (swapListTokenSize) = getRobustPairNFTsForTokenAndTokenForNFTsTradeSize(params);
     let arrIndex = index * swapListTokenSize;
@@ -985,10 +977,10 @@ func tokenToNFTTrades_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range
     let (numNFTs) = FeltUint.feltToUint256(currentTokenToNFTTrades.swapInfo.nftIds_len);
     let (
         error,
-        newSpotPrice,
-        newDelta,
+        _,
+        _,
         pairCost,
-        protocolFee
+        _
     ) = INFTPair.getBuyNFTQuote(
         contract_address=currentTokenToNFTTrades.swapInfo.pair,
         numNFTs=numNFTs
@@ -1041,22 +1033,20 @@ func nftToTokenTrades_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range
     caller: felt
 ) -> (outputAmount: Uint256) {
     alloc_locals;
-
     if(index == params.nftToTokenTrades_len) {
         return (outputAmount=outputAmount);
     }
 
     let nftToTokenTrades_ptr = params.nftToTokenTrades;
-    // let arrIndex = index * nftToTokenTrades_ptr.SIZE;
-    let (swapListSize) = getRobustPairNFTsForTokenAndTokenForNFTsTradeSize(params);
-    let currentNftToTokenTrades = [nftToTokenTrades_ptr + swapListSize];
+    let (swapListSize) = getPairSwapSpecificStructSize([nftToTokenTrades_ptr].swapInfo.nftIds_len);
+    let currentNftToTokenTrades = [nftToTokenTrades_ptr + (index * (swapListSize + Uint256.SIZE))];
     let (numNFTs) = FeltUint.feltToUint256(currentNftToTokenTrades.swapInfo.nftIds_len);
     let (
         error,
-        newSpotPrice,
-        newDelta,
+        _,
+        _,
         pairOutput,
-        protocolFee
+        _
     ) = INFTPair.getSellNFTQuote(
         contract_address=currentNftToTokenTrades.swapInfo.pair,
         numNFTs=numNFTs
@@ -1071,7 +1061,7 @@ func nftToTokenTrades_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range
         );
     }
 
-    let (pairOutputOk) = uint256_lt(currentNftToTokenTrades.minOutput, pairOutput);
+    let (pairOutputOk) = uint256_le(currentNftToTokenTrades.minOutput, pairOutput);
     if(pairOutputOk == TRUE) {
         let (outputAmountSwap) = INFTPair.swapNFTsForToken(
             contract_address=currentNftToTokenTrades.swapInfo.pair,
@@ -1248,59 +1238,6 @@ func toRobustPairSwapSpecificArr{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*,
     );
 }
 
-// func toRobustPairSwapSpecificForTokenArr{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-//     index: felt,
-//     end: felt,
-//     robustPairSwapArr: RobustPairSwapSpecificForToken*,
-//     pairs_len: felt,
-//     pairs: felt*,
-//     nftIds_len_len: felt,
-//     nftIds_len: felt*,    
-//     nftIds_ptrs_len: felt,
-//     nftIds_ptrs: Uint256*,
-//     minOutputs: Uint256*,
-// ) {
-//     alloc_locals;
-
-//     if(index == end) {
-//         return ();
-//     }
-
-//     let (swapInfo: PairSwapSpecific*) = alloc();
-//     // There is only 1 swapList.PairSwapSpecific per RobustPairSwapSpecific struct
-//     toPairSwapSpecificArr(
-//         swapList_len=1,
-//         swapList=swapInfo,
-//         index=0,
-//         pairs_len=1,
-//         pairs=pairs,
-//         nftIds_len_len=1,
-//         nftIds_len=nftIds_len,    
-//         nftIds_ptrs_len=nftIds_ptrs_len,
-//         nftIds_ptrs=nftIds_ptrs
-//     );
-//     // creating a PairSwapSpecific* pointer but RobustPairSwapSpecific asks a simpler pointer
-//     // so asserting it to only the first pointer value
-//     assert [robustPairSwapArr] = RobustPairSwapSpecificForToken(
-//         swapInfo=[swapInfo],
-//         minOutput=[minOutputs]
-//     );
-
-//     let (swapListSize) = getPairSwapSpecificStructSize([nftIds_len]);
-//     return toRobustPairSwapSpecificForTokenArr(
-//         index=index + 1,
-//         end=end,
-//         robustPairSwapArr=robustPairSwapArr + swapListSize + Uint256.SIZE,
-//         pairs_len=pairs_len,
-//         pairs=pairs + 1,
-//         nftIds_len_len=nftIds_len_len,
-//         nftIds_len=nftIds_len + 1,
-//         nftIds_ptrs_len=nftIds_ptrs_len,
-//         nftIds_ptrs=nftIds_ptrs + ([nftIds_len] * Uint256.SIZE),
-//         minOutputs=minOutputs + Uint256.SIZE
-//     );
-// }
-
 func toRobustPairSwapSpecificForTokenArr{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     index: felt,
     end: felt,
@@ -1434,14 +1371,14 @@ func getRobustPairNFTsForTokenAndTokenForNFTsTradeSize{syscall_ptr: felt*, peder
 ) -> (size: felt){
     alloc_locals;
 
-    let (tokenToNFTTRadesSize) = getRobustpairSwapSpecificSize_loop(
+    let (tokenToNFTTRadesSize) = getRobustPairSwapSpecificSize_loop(
         swapList=swapList.tokenToNFTTrades,
         start=0,
         end=swapList.tokenToNFTTrades_len,
         sizeCount=0
     );
 
-    let (nftToTokenTradesSize) = getRobustpairSwapSpecificSizeForToken_loop(
+    let (nftToTokenTradesSize) = getRobustPairSwapSpecificSizeForToken_loop(
         swapList=swapList.nftToTokenTrades,
         start=0,
         end=swapList.nftToTokenTrades_len,
@@ -1453,7 +1390,7 @@ func getRobustPairNFTsForTokenAndTokenForNFTsTradeSize{syscall_ptr: felt*, peder
    return (size=1 + tokenToNFTTRadesSize + 1 + nftToTokenTradesSize + Uint256.SIZE + 1 + 1 + 1);
 }
 
-func getRobustpairSwapSpecificSizeForToken_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+func getRobustPairSwapSpecificSizeForToken_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     swapList: RobustPairSwapSpecificForToken*,
     start: felt,
     end: felt,
@@ -1466,7 +1403,7 @@ func getRobustpairSwapSpecificSizeForToken_loop{syscall_ptr: felt*, pedersen_ptr
     let (arrSize) = getRobustpairSwapSpecificForTokenSize([swapList]);
     let newSizeCount = sizeCount + arrSize;
 
-    return getRobustpairSwapSpecificSizeForToken_loop(
+    return getRobustPairSwapSpecificSizeForToken_loop(
         swapList=swapList + arrSize,
         start=start + 1,
         end=end,
@@ -1474,7 +1411,7 @@ func getRobustpairSwapSpecificSizeForToken_loop{syscall_ptr: felt*, pedersen_ptr
     );
 }
 
-func getRobustpairSwapSpecificSize_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
+func getRobustPairSwapSpecificSize_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     swapList: RobustPairSwapSpecific*,
     start: felt,
     end: felt,
@@ -1487,7 +1424,7 @@ func getRobustpairSwapSpecificSize_loop{syscall_ptr: felt*, pedersen_ptr: HashBu
     let (arrSize) = getRobustpairSwapSpecificSize([swapList]);
     let newSizeCount = sizeCount + arrSize;
 
-    return getRobustpairSwapSpecificSize_loop(
+    return getRobustPairSwapSpecificSize_loop(
         swapList=swapList + arrSize,
         start=start + 1,
         end=end,

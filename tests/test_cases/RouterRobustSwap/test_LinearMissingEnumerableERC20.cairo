@@ -54,11 +54,11 @@ from tests.utils.Deployments import (
 // Setup
 // 
 
-from tests.mixins.UsingEnumerable import (TokenImplementation)
+from tests.mixins.UsingMissingEnumerable import (TokenImplementation)
 from tests.mixins.UsingERC20 import (TokenStandard)
 from tests.mixins.UsingLinearCurve import (Curve)
 
-from tests.test_cases.RouterRobustSwap.params import (protocolFeeMultiplier)
+from tests.test_cases.RouterSinglePool.params import (protocolFeeMultiplier)
 
 @external
 func __setup__{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
@@ -751,7 +751,7 @@ func mintAndTransferToPair{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range
     %{stop_prank_erc721()%}    
 
     // transfer to pair
-    IERC721.SafeTransferFrom(
+    IERC721.safeTransferFrom(
         contract_address=erc721Addr,
         from_=mintTo,
         to=pairAddr,
