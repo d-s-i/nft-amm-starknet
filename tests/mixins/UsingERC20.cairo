@@ -40,10 +40,9 @@ namespace TokenStandard {
         amount: Uint256
     ) {
 
-        %{
-            stop_prank_erc20 = start_prank(ids.from_, ids.erc20Addr)
-        %}
+        %{stop_prank_erc20 = start_prank(ids.from_, ids.erc20Addr)%}
         IERC20.transferFrom(erc20Addr, from_, to, amount);
+        %{stop_prank_erc20()%}
         return ();
     }
 

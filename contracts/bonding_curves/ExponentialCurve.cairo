@@ -16,9 +16,10 @@ from contracts.bonding_curves.FixedPointMathLib import (FixedPointMathLib)
 from contracts.bonding_curves.CurveErrorCodes import (Error)
 from contracts.constants.library import (MAX_UINT_128)
 
-// 1 gwei
+// minimum price to prevent numerical issues (1 gwei)
 const MIN_PRICE = 1000000000;
 
+// @dev - See {ICurve::validateDelta}
 @external
 func validateDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     delta: Uint256
@@ -28,6 +29,7 @@ func validateDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
     return (success=greaterThanWAD);
 }
 
+// @dev - See {ICurve::validateSpotPrice}
 @external
 func validateSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     newSpotPrice: Uint256
@@ -37,6 +39,7 @@ func validateSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
     return (success=isPositive);
 }
 
+// @dev - See {ICurve::getBuyInfo}
 @view
 func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     spotPrice: Uint256,
@@ -52,10 +55,10 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     protocolFee: Uint256
 ) {
     alloc_locals;
+
+    let (WAD) = FixedPointMathLib.WAD();
     // NOTE: we assume delta is > 1, as checked by validateDelta()
     // We only calculate changes for buying 1 or more NFTs
-    let (WAD) = FixedPointMathLib.WAD();
-
     let (numItemsZero) = uint256_eq(numItems, Uint256(low=0, high=0));
     if(numItemsZero == TRUE) {
         return (
@@ -129,6 +132,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     );
 }
 
+// @dev - See {ICurve::getSellInfo}
 @view
 func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     spotPrice: Uint256,
@@ -145,10 +149,10 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
 ) {
 
     alloc_locals;
+
+    let (WAD) = FixedPointMathLib.WAD();
     // NOTE: we assume delta is > 1, as checked by validateDelta()
     // We only calculate changes for buying 1 or more NFTs
-    let (WAD) = FixedPointMathLib.WAD();
-
     let (numItemsZero) = uint256_eq(numItems, Uint256(low=0, high=0));
     if(numItemsZero == TRUE) {
         return (
@@ -162,31 +166,38 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
 
     let (invDelta) = FixedPointMathLib.fdiv(WAD, delta, WAD);
     let (invDeltaPowN) = FixedPointMathLib.fpow(invDelta, numItems, WAD);
-
+    // For an exponential curve, the spot price is divided by delta for each item sold
+    // safe to convert newSpotPrice directly into uint128 since we know newSpotPrice <= spotPrice
+    // and spotPrice <= type(uint128).max
     let (temp_newSpotPrice1) = FixedPointMathLib.fmul(spotPrice, invDeltaPowN, WAD);
     let (newSpotPrice) = _adjustSpotPriceToMin(temp_newSpotPrice1);
 
     let (val) = uint256_sub(WAD, invDeltaPowN);
     let (val2) = uint256_sub(WAD, invDelta);
     let (val3) = FixedPointMathLib.fdiv(val, val2, WAD);
+    // If the user sells n items, then the total revenue is equal to:
+    // spotPrice + ((1 / delta) * spotPrice) + ((1 / delta)^2 * spotPrice) + ... ((1 / delta)^(numItems - 1) * spotPrice)
+    // This is equal to spotPrice * (1 - (1 / delta^n)) / (1 - (1 / delta))
     let (temp_outputValue1) = FixedPointMathLib.fmul(
         spotPrice,
         val3,
         WAD
     );
 
-    // // Account for the protocol fee, a flat percentage of the sell amount
+    // Account for the protocol fee, a flat percentage of the sell amount
     let (protocolFee) = FixedPointMathLib.fmul(
         temp_outputValue1, 
         protocolFeeMultiplier, 
         WAD
     );
 
-    // // Account for the trade fee, only for Trade pools
+    // Account for the trade fee, only for Trade pools
+    // Formula outputValue = outputValue - (outputValue fmul feeMultiplier)
     let (feeMultiplierUint) = FeltUint.feltToUint256(feeMultiplier);
     let (val4) = FixedPointMathLib.fmul(temp_outputValue1, feeMultiplierUint, WAD);
     let (temp_outputValue2) = uint256_sub(temp_outputValue1, val4);
 
+    // Remove the protocol fee from the output amount
     let (outputValue) = uint256_sub(temp_outputValue2, protocolFee);
 
     // Keep delta the same

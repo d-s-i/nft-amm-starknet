@@ -151,7 +151,7 @@ func displayIdsAndOwners{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
         tokenId=currentId
     );
     %{
-        print(f"displayIdsAndOwners - id[{ids.start}]: {ids.currentId.low + ids.currentId.high} (owner: {ids.idOwner})")
+        print(f"displayIdsAndOwners - id[{ids.start}]: Uint256(low={ids.currentId.low}, high={ids.currentId.high}) (owner: {ids.idOwner})")
     %}
 
     return displayIdsAndOwners(

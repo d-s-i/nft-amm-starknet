@@ -51,4 +51,8 @@ namespace Curve {
         }
         return (_spotPrice=spotPrice);
     }
+    func getParamsForPartialFillTest{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (spotPrice: Uint256, delta: Uint256) {
+        // Return 1 eth as spot price and 10% as the delta scaling
+        return (spotPrice=Uint256(low=10**18, high=0), delta=Uint256(low=11*10**17, high=0));
+    }
 }

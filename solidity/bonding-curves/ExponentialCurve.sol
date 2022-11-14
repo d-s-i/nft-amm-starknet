@@ -148,7 +148,6 @@ contract ExponentialCurve is ICurve, CurveErrorCodes {
         )
     {
         // NOTE: we assume delta is > 1, as checked by validateDelta()
-
         // We only calculate changes for buying 1 or more NFTs
         if (numItems == 0) {
             return (Error.INVALID_NUMITEMS, 0, 0, 0, 0);

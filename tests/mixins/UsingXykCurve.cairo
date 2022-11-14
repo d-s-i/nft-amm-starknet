@@ -33,4 +33,7 @@ namespace Curve {
         // 0.01 ether
         return (_spotPrice=Uint256(low=10000000000000000, high=0));
     }
+    func getParamsForPartialFillTest{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (spotPrice: Uint256, delta: Uint256) {
+        return (spotPrice=Uint256(low=10**16, high=0), delta=Uint256(low=11, high=0));
+    }
 }

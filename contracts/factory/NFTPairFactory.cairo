@@ -214,7 +214,6 @@ func deployPairEnumerableERC20{
         initialERC20Balance=initialERC20Balance
     );
 
-
     NewPair.emit(_pairAddress);
 
     return (pairAddress=_pairAddress);

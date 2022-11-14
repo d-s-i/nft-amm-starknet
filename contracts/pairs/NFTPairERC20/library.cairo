@@ -1,3 +1,6 @@
+// Changes:
+// - Verify owner == address(0) in parent contract 
+
 %lang starknet
 
 from starkware.cairo.common.cairo_builtins import (HashBuiltin)
@@ -27,7 +30,7 @@ from contracts.constants.structs import (PoolType)
 from contracts.libraries.ERC1155Holder import (ERC1155Holder)
 from contracts.libraries.felt_uint import (FeltUint)
 
-
+// 90%, must <= 1 - MAX_PROTOCOL_FEE (set in LSSVMPairFactory)
 const MAX_FEE = 9*10**17;
 
 @storage_var
@@ -54,20 +57,32 @@ func erc20Address() -> (res: felt) {
 func nftAddress() -> (address: felt) {
 }
 
+// The current price of the NFT
+// @dev This is generally used to mean the immediate sell price for the next marginal NFT.
+// However, this should NOT be assumed, as future bonding curves may use spotPrice in different ways.
+// Use getBuyNFTQuote and getSellNFTQuote for accurate pricing info.
 @storage_var
 func spotPrice() -> (res: Uint256) {
 }
 
+// The parameter for the pair's bonding curve.
+// Units and meaning are bonding curve dependent.
 @storage_var
 func delta() -> (res: Uint256) {
 }
 
+// The spread between buy and sell prices, set to be a multiplier we apply to the buy price
+// Fee is only relevant for TRADE pools
+// Units are in base 1e18
 // is uint256 in ICurve.getBuyInfo but uint96 in the LSSVMPair constructor
 // Choosed Uint96/felt beause MAX_FEE (which is a const) can be stored in a felt
 @storage_var
 func fee() -> (res: felt) {
 }
 
+
+// If set to 0, NFTs/tokens sent by traders during trades will be sent to the pair.
+// Otherwise, assets will be sent to the set address. Not available for TRADE pools.
 @storage_var
 func assetRecipient() -> (res: felt) {
 }
@@ -100,6 +115,11 @@ func AssetRecipientChange(newRecipient: felt) {
 }
 
 namespace NFTPairERC20 {
+    // @notice Called during pair creation to set initial parameters
+    // @dev Only called once by factory to initialize.
+    // We verify this by making sure that the current owner is address(0). 
+    // The Ownable library we use disallows setting the owner to be address(0), so this condition
+    // should only be valid before the first initialize call. 
     func initializer{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
         factoryAddr: felt,
         bondingCurveAddr: felt,
@@ -189,7 +209,6 @@ namespace NFTPairERC20 {
         _sendTokenOutput(tokenRecipient, outputAmount);
 
         _payProtocolFeeFromPair(_factory, protocolFee);
-
         _takeNFTsFromSender(
             _nftAddress=_nftAddress,
             startIndex=0,
@@ -689,7 +708,7 @@ namespace NFTPairERC20 {
                 _nftAddress,
                 startIndex + 1,
                 nftIds_len,
-                nftIds + 1,
+                nftIds + Uint256.SIZE,
                 _factory,
                 isRouter,
                 routerCaller
@@ -823,14 +842,6 @@ namespace NFTPairERC20 {
             assert_not_zero(input_is_lower);
         }
 
-        // if(currentSpotPrice != newSpotPrice) {
-        //     spotPrice.write(newSpotPrice);
-        //     SpotPriceUpdate.emit(newSpotPrice);
-        // }
-        // if(currentDelta != newDelta) {
-        //     delta.write(newDelta);
-        //     DeltaUpdate(newDelta);
-        // }
         spotPrice.write(newSpotPrice);
         SpotPriceUpdate.emit(newSpotPrice);
         
@@ -871,7 +882,7 @@ namespace NFTPairERC20 {
         _revertIfError(error);
 
         with_attr error_message("_calculateSellInfoAndUpdatePoolParams - Out too little tokens") {
-            let (isLower) = uint256_lt(minExpectedTokenOutput, outputAmount);
+            let (isLower) = uint256_le(minExpectedTokenOutput, outputAmount);
             assert isLower = TRUE;
         }
 

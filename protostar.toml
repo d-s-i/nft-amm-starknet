@@ -1,27 +1,24 @@
-["protostar.config"]
-protostar_version = "0.6.0"
+[project]
+protostar-version = "0.7.0"
+lib-path = "lib"
 
-["protostar.project"]
-libs_path = "lib"
-
-["profile.testnet.protostar.deploy"]
-network="testnet"
-
-["protostar.contracts"]
+[contracts]
 FixedPointMathLib = ["contracts/bonding_curves/FixedPointMathLib.cairo"]
 CurveErrorCodes = ["contracts/bonding_curves/CurveErrorCodes.cairo"]
 ExponentialCurve = ["contracts/bonding_curves/ExponentialCurve.cairo"]
 LinearCurve = ["contracts/bonding_curves/LinearCurve.cairo"]
 XykCurve = ["contracts/bonding_curves/XykCurve.cairo"]
-
 NFTPairFactory = ["contracts/factory/NFTPairFactory.cairo"]
 Router = ["contracts/router/Router.cairo"]
-NFTPairMissingEnumerableERC20 = ["contracts//NFTPairMissingEnumerableERC20.cairo"]
+NFTPairMissingEnumerableERC20 = ["contracts/pairs/NFTPairMissingEnumerableERC20.cairo"]
 NFTPairMissingEnumerableERC20Lib = ["contracts/pairs/NFTPairMissingEnumerableERC20/library.cairo"]
-NFTPairEnumerableERC20 = ["contracts//NFTPairEnumerableERC20.cairo"]
+NFTPairEnumerableERC20 = ["contracts/pairs/NFTPairEnumerableERC20.cairo"]
 NFTPairEnumerableERC20Lib = ["contracts/pairs/NFTPairEnumerableERC20/library.cairo"]
 ERC1155Holder = ["contracts/libraries/ERC1155Holder.cairo"]
 ERC1155Receiver = ["contracts/libraries/ERC1155Receiver.cairo"]
 felt_uint = ["contracts/libraries/felt_uint.cairo"]
 Ownable = ["contracts/openzeppelin/Ownable.cairo"]
 ReentrancyGuard = ["contracts/openzeppelin/ReentrancyGuard.cairo"]
+
+[profile.testnet.deploy]
+network = "testnet"

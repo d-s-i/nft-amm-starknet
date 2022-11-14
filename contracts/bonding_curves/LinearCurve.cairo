@@ -19,6 +19,7 @@ from contracts.bonding_curves.FixedPointMathLib import (FixedPointMathLib)
 from contracts.libraries.felt_uint import (FeltUint)
 from contracts.constants.library import (MAX_UINT_128)
 
+// @dev see {ICurve::validateDelta}
 @external
 func validateDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     delta: Uint256
@@ -26,6 +27,7 @@ func validateDelta{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
     return (success=TRUE);
 }
 
+// @dev see {ICurve::validateSpotPrice}
 @external
 func validateSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     delta: Uint256
@@ -33,6 +35,7 @@ func validateSpotPrice{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_che
     return (success=TRUE);
 }
 
+// @dev see {ICurve::getBuyInfo}
 @view
 func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     spotPrice: Uint256,
@@ -57,6 +60,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
         return _returnErrorInput(Error.INVALID_NUMITEMS);
     }
 
+    // For a linear curve, the spot price increases by delta for each item bought
     let (deltaPerNumItemsLow, deltaPerNumItemsHigh) = uint256_mul(delta, numItems);
     // if 0 < delta == true -> delta > 0 -> overflow
     let (deltaPerNumItemsOverflow) = uint256_lt(Uint256(low=0, high=0), deltaPerNumItemsHigh);
@@ -106,6 +110,7 @@ func getBuyInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     
 }
 
+// @dev see {ICurve::getSellInfo}
 @view
 func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     spotPrice: Uint256,
@@ -130,6 +135,7 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
         return _returnErrorOutput(Error.INVALID_NUMITEMS);
     }
 
+    // We first calculate the change in spot price after selling all of the items
     let (totalPriceDecrease, totalPriceDecreaseHigh) = uint256_mul(delta, numItems);
     // if 0 < priceDecrease == true -> priceDecrease > 0 -> overflow
     let (priceDecreaseOverflow) = uint256_lt(Uint256(low=0, high=0), totalPriceDecreaseHigh);
@@ -171,8 +177,10 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
         protocolFee
     );
     
-} 
+}
 
+// @dev Calculate
+// inputValue = numItems * buySpotPrice + (numItems * (numItems - 1) * delta) / 2;
 func _calcTempInputValue{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     numItems: Uint256,
     buySpotPrice: Uint256,
@@ -197,6 +205,8 @@ func _calcTempInputValue{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
     return (inputValue=res);
 }
 
+// @dev - Calculate 
+// outputValue = numItems * spotPrice - (numItems * (numItems - 1) * delta) / 2;
 func _calcTempOutputValue{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
     numItems: Uint256,
     spotPrice: Uint256,

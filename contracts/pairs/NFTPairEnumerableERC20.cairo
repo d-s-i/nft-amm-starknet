@@ -136,7 +136,7 @@ func swapTokenForAnyNFTs{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_c
     //     nftRecipient=nftRecipient, 
     //     startIndex=Uint256(low=0, high=0), 
     //     numNFTs=numNFTs
-    // );    
+    // );
 
     SwapNFTOutPair.emit();
 
@@ -319,7 +319,7 @@ func swapNFTsForToken{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_chec
 ) -> (outputAmount: Uint256) {
 
     ReentrancyGuard._start();
-
+    let (erc721Addr) = NFTPairERC20.getNFTAddress();
     let (outputAmount) = NFTPairERC20.swapNFTsForToken(
         nftIds_len,
         nftIds,

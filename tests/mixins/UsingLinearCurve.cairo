@@ -32,4 +32,7 @@ namespace Curve {
     ) -> (_spotPrice: Uint256) {
         return (_spotPrice=spotPrice);
     }
+    func getParamsForPartialFillTest{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() -> (spotPrice: Uint256, delta: Uint256) {
+        return (spotPrice=Uint256(low=10**18, high=0), delta=Uint256(low=10**17, high=0));
+    }
 }
