@@ -552,6 +552,7 @@ namespace NFTPairERC20 {
         if(outputExist == TRUE) {
             let (token) = erc20Address.read();
             let (thisAddress) = get_contract_address();
+            let (balance) = IERC20.balanceOf(token, thisAddress);
             IERC20.transferFrom(token, thisAddress, tokenRecipient, outputAmount);
             tempvar range_check_ptr = range_check_ptr;
             tempvar syscall_ptr = syscall_ptr;
@@ -577,8 +578,8 @@ namespace NFTPairERC20 {
 
             let (protocolFeeGtBalance) = uint256_lt(pairTokenBalance, protocolFee);
             if(protocolFeeGtBalance == TRUE) {
-                let (balanceExist) = uint256_lt(Uint256(low=0, high=0), pairTokenBalance);
-                if(balanceExist == TRUE) {
+                let (protocolFeeStillExist) = uint256_lt(Uint256(low=0, high=0), pairTokenBalance);
+                if(protocolFeeStillExist == TRUE) {
                     IERC20.transferFrom(token, thisAddress, _factory, pairTokenBalance); // transfer pairBalance
                     tempvar range_check_ptr = range_check_ptr;
                     tempvar syscall_ptr = syscall_ptr;
@@ -590,16 +591,49 @@ namespace NFTPairERC20 {
                 }
                 tempvar range_check_ptr = range_check_ptr;
                 tempvar syscall_ptr = syscall_ptr;
-                tempvar pedersen_ptr = pedersen_ptr;                
+                tempvar pedersen_ptr = pedersen_ptr;
             } else {
-                IERC20.transferFrom(token, thisAddress, _factory, protocolFee); // transfer protocolFee
+                let (protocolFeeStillExist) = uint256_lt(Uint256(low=0, high=0), pairTokenBalance);
+                if(protocolFeeStillExist == TRUE) {
+                    IERC20.transferFrom(token, thisAddress, _factory, protocolFee); // transfer pairBalance
+                    tempvar range_check_ptr = range_check_ptr;
+                    tempvar syscall_ptr = syscall_ptr;
+                    tempvar pedersen_ptr = pedersen_ptr;
+                } else {
+                    tempvar range_check_ptr = range_check_ptr;
+                    tempvar syscall_ptr = syscall_ptr;
+                    tempvar pedersen_ptr = pedersen_ptr;
+                }
                 tempvar range_check_ptr = range_check_ptr;
                 tempvar syscall_ptr = syscall_ptr;
-                tempvar pedersen_ptr = pedersen_ptr;                
+                tempvar pedersen_ptr = pedersen_ptr;
             }
-            tempvar range_check_ptr = range_check_ptr;
-            tempvar syscall_ptr = syscall_ptr;
-            tempvar pedersen_ptr = pedersen_ptr;
+
+            // let (protocolFeeGtBalance) = uint256_lt(pairTokenBalance, protocolFee);
+            // if(protocolFeeGtBalance == TRUE) {
+            //     let (balanceExist) = uint256_lt(Uint256(low=0, high=0), pairTokenBalance);
+            //     if(balanceExist == TRUE) {
+            //         IERC20.transferFrom(token, thisAddress, _factory, pairTokenBalance); // transfer pairBalance
+            //         tempvar range_check_ptr = range_check_ptr;
+            //         tempvar syscall_ptr = syscall_ptr;
+            //         tempvar pedersen_ptr = pedersen_ptr;
+            //     } else {
+            //         tempvar range_check_ptr = range_check_ptr;
+            //         tempvar syscall_ptr = syscall_ptr;
+            //         tempvar pedersen_ptr = pedersen_ptr;
+            //     }
+            //     tempvar range_check_ptr = range_check_ptr;
+            //     tempvar syscall_ptr = syscall_ptr;
+            //     tempvar pedersen_ptr = pedersen_ptr;                
+            // } else {
+            //     IERC20.transferFrom(token, thisAddress, _factory, protocolFee); // transfer protocolFee
+            //     tempvar range_check_ptr = range_check_ptr;
+            //     tempvar syscall_ptr = syscall_ptr;
+            //     tempvar pedersen_ptr = pedersen_ptr;                
+            // }
+            // tempvar range_check_ptr = range_check_ptr;
+            // tempvar syscall_ptr = syscall_ptr;
+            // tempvar pedersen_ptr = pedersen_ptr;
         } else {
             tempvar range_check_ptr = range_check_ptr;
             tempvar syscall_ptr = syscall_ptr;

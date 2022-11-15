@@ -417,3 +417,10 @@ func test_bondingCurveBuySellNoProfit{syscall_ptr: felt*, pedersen_ptr: HashBuil
 
     return ();
 }
+
+@view
+func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
+    interfaceId: felt
+) -> (success: felt) {
+    return Account.supports_interface(interfaceId);
+}

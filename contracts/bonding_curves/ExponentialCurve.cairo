@@ -173,6 +173,7 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     let (newSpotPrice) = _adjustSpotPriceToMin(temp_newSpotPrice1);
 
     let (val) = uint256_sub(WAD, invDeltaPowN);
+    // %{print("getSellIngo calculating val2")%}
     let (val2) = uint256_sub(WAD, invDelta);
     let (val3) = FixedPointMathLib.fdiv(val, val2, WAD);
     // If the user sells n items, then the total revenue is equal to:

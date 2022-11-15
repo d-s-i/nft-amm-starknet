@@ -989,15 +989,15 @@
             "0x480a80037fff8000",
             "0x1104800180018000",
             "0x800000000000010fffffffffffffffffffffffffffffffffffffffffffffe80",
-            "0x480a80067fff8000",
-            "0x480a80077fff8000",
-            "0x1104800180018000",
-            "0x800000000000010fffffffffffffffffffffffffffffffffffffffffffffe4b",
             "0x48127ffd7fff8000",
             "0x480a80047fff8000",
             "0x480a80057fff8000",
             "0x48127ffb7fff8000",
             "0x48127ffb7fff8000",
+            "0x1104800180018000",
+            "0x800000000000010fffffffffffffffffffffffffffffffffffffffffffffe48",
+            "0x480a80067fff8000",
+            "0x480a80077fff8000",
             "0x1104800180018000",
             "0x800000000000010fffffffffffffffffffffffffffffffffffffffffffffe44",
             "0x48127ffd7fff8000",
@@ -1891,27 +1891,12 @@
                 "type": "struct"
             },
             "__main__._calcOutputValueWithoutFee.Return": {
-                "cairo_type": "(inputValueWithoutFee: starkware.cairo.common.uint256.Uint256)",
+                "cairo_type": "(outputValueWithoutFee: starkware.cairo.common.uint256.Uint256)",
                 "type": "type_definition"
             },
             "__main__._calcOutputValueWithoutFee.SIZEOF_LOCALS": {
                 "type": "const",
                 "value": 2
-            },
-            "__main__._calcOutputValueWithoutFee.inputValueWithoutFee": {
-                "cairo_type": "starkware.cairo.common.uint256.Uint256",
-                "full_name": "__main__._calcOutputValueWithoutFee.inputValueWithoutFee",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 55,
-                            "offset": 0
-                        },
-                        "pc": 942,
-                        "value": "[cast(ap + (-4), starkware.cairo.common.uint256.Uint256*)]"
-                    }
-                ],
-                "type": "reference"
             },
             "__main__._calcOutputValueWithoutFee.left": {
                 "cairo_type": "starkware.cairo.common.uint256.Uint256",
@@ -1977,6 +1962,21 @@
                         },
                         "pc": 909,
                         "value": "[cast(fp + (-8), starkware.cairo.common.uint256.Uint256*)]"
+                    }
+                ],
+                "type": "reference"
+            },
+            "__main__._calcOutputValueWithoutFee.outputValueWithoutFee": {
+                "cairo_type": "starkware.cairo.common.uint256.Uint256",
+                "full_name": "__main__._calcOutputValueWithoutFee.outputValueWithoutFee",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 55,
+                            "offset": 0
+                        },
+                        "pc": 942,
+                        "value": "[cast(ap + (-4), starkware.cairo.common.uint256.Uint256*)]"
                     }
                 ],
                 "type": "reference"
@@ -3410,21 +3410,6 @@
                 ],
                 "type": "reference"
             },
-            "__main__.getSellInfo.feeSubstraction": {
-                "cairo_type": "starkware.cairo.common.uint256.Uint256",
-                "full_name": "__main__.getSellInfo.feeSubstraction",
-                "references": [
-                    {
-                        "ap_tracking_data": {
-                            "group": 46,
-                            "offset": 72
-                        },
-                        "pc": 792,
-                        "value": "[cast(ap + (-2), starkware.cairo.common.uint256.Uint256*)]"
-                    }
-                ],
-                "type": "reference"
-            },
             "__main__.getSellInfo.isNoItem": {
                 "cairo_type": "felt",
                 "full_name": "__main__.getSellInfo.isNoItem",
@@ -3765,9 +3750,9 @@
                     {
                         "ap_tracking_data": {
                             "group": 46,
-                            "offset": 72
+                            "offset": 75
                         },
-                        "pc": 779,
+                        "pc": 782,
                         "value": "[cast(ap + (-3), felt*)]"
                     },
                     {
@@ -3853,9 +3838,9 @@
                     {
                         "ap_tracking_data": {
                             "group": 46,
-                            "offset": 72
+                            "offset": 75
                         },
-                        "pc": 792,
+                        "pc": 795,
                         "value": "[cast(ap + (-3), felt*)]"
                     },
                     {
@@ -3896,6 +3881,21 @@
                         },
                         "pc": 715,
                         "value": "[cast(fp + (-11), starkware.cairo.common.uint256.Uint256*)]"
+                    }
+                ],
+                "type": "reference"
+            },
+            "__main__.getSellInfo.substraction": {
+                "cairo_type": "starkware.cairo.common.uint256.Uint256",
+                "full_name": "__main__.getSellInfo.substraction",
+                "references": [
+                    {
+                        "ap_tracking_data": {
+                            "group": 46,
+                            "offset": 75
+                        },
+                        "pc": 795,
+                        "value": "[cast(ap + (-2), starkware.cairo.common.uint256.Uint256*)]"
                     }
                 ],
                 "type": "reference"
@@ -14411,17 +14411,17 @@
                 {
                     "ap_tracking_data": {
                         "group": 46,
-                        "offset": 72
+                        "offset": 75
                     },
-                    "pc": 792,
+                    "pc": 795,
                     "value": "[cast(ap + (-3), felt*)]"
                 },
                 {
                     "ap_tracking_data": {
                         "group": 46,
-                        "offset": 72
+                        "offset": 75
                     },
-                    "pc": 792,
+                    "pc": 795,
                     "value": "[cast(ap + (-2), starkware.cairo.common.uint256.Uint256*)]"
                 },
                 {

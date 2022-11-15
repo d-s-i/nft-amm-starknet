@@ -37,8 +37,7 @@ from tests.utils.library import (
     setERC20Allowance,
     setERC721Allowance,
     _mintERC721,
-    displayIds,
-    displayIdsAndOwners
+    displayIds
 )
 
 from tests.utils.Deployments import (

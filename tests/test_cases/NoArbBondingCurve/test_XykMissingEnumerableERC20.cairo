@@ -65,9 +65,9 @@ from tests.test_cases.RouterMultiPool.params import (
 // Setup
 // 
 
-from tests.mixins.UsingEnumerable import (TokenImplementation)
+from tests.mixins.UsingMissingEnumerable import (TokenImplementation)
 from tests.mixins.UsingERC20 import (TokenStandard)
-from tests.mixins.UsingLinearCurve import (Curve)
+from tests.mixins.UsingXykCurve import (Curve)
 
 @storage_var
 func spotPrice() -> (res: Uint256) {
@@ -416,4 +416,11 @@ func test_bondingCurveBuySellNoProfit{syscall_ptr: felt*, pedersen_ptr: HashBuil
     assert_uint256_le(endBalance, startBalance);
 
     return ();
+}
+
+@view
+func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
+    interfaceId: felt
+) -> (success: felt) {
+    return Account.supports_interface(interfaceId);
 }

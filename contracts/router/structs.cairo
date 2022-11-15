@@ -294,37 +294,19 @@ func packNFTIds{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr:
     allNFTIds: Uint256*,
     start: felt
 ) {
-    // if(start == nftIdsForPair_len) {
-    //     return ();
-    // }
-
-    return packNFTIds_loop(
-        start=start,
-        max=nftIdsForPair_len,
-        nftIdsArr=nftIdsForPair,
-        allNFTIds=allNFTIds
-    );
-
-}
-
-func packNFTIds_loop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(
-    start: felt,
-    max: felt,
-    nftIdsArr: Uint256*,
-    allNFTIds: Uint256*
-) {
-    if(start == max) {
+    if(start == nftIdsForPair_len) {
         return ();
     }
 
-    assert [nftIdsArr] = [allNFTIds];
+    assert [nftIdsForPair] = [allNFTIds];
 
-    return packNFTIds_loop(
-        start=start + 1,
-        max=max,
-        nftIdsArr=nftIdsArr + Uint256.SIZE,
-        allNFTIds=allNFTIds + Uint256.SIZE
+    return packNFTIds(
+        nftIdsForPair_len=nftIdsForPair_len,
+        nftIdsForPair=nftIdsForPair + Uint256.SIZE,
+        allNFTIds=allNFTIds + Uint256.SIZE,
+        start=start + 1
     );
+
 }
 
 func getPairSwapSpecificStructSize{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(

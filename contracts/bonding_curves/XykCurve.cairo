@@ -129,8 +129,10 @@ func getSellInfo{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     let (feeMultiplierUint) = FeltUint.feltToUint256(feeMultiplier);
     let (fee) = FixedPointMathLib.fmul(outputValueWithoutFee, feeMultiplierUint, WAD);
 
-    let (feeSubstraction) = uint256_sub(fee, protocolFee);
-    let (outputValue) = uint256_sub(outputValueWithoutFee, feeSubstraction);
+    // let (feeSubstraction) = uint256_sub(fee, protocolFee);
+    // let (outputValue) = uint256_sub(outputValueWithoutFee, feeSubstraction);
+    let (substraction) = uint256_sub(outputValueWithoutFee, fee);
+    let (outputValue) = uint256_sub(substraction, protocolFee);
 
     // set the new virtual reserves
     let (newSpotPrice) = uint256_sub(spotPrice, outputValueWithoutFee);
@@ -165,15 +167,15 @@ func _calcOutputValueWithoutFee{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, 
     numItems: Uint256,
     tokenBalance: Uint256,
     nftBalance: Uint256
-) -> (inputValueWithoutFee: Uint256) {
+) -> (outputValueWithoutFee: Uint256) {
     alloc_locals;
     let (left, leftHigh) = uint256_mul(numItems, tokenBalance);
     assert_uint256_eq(leftHigh, Uint256(low=0, high=0));
     let (right, rightCarry) = uint256_add(nftBalance, numItems);
 
-    let (inputValueWithoutFee, remainder) = uint256_unsigned_div_rem(left, right);
+    let (outputValueWithoutFee, remainder) = uint256_unsigned_div_rem(left, right);
 
-    return (inputValueWithoutFee=inputValueWithoutFee);
+    return (outputValueWithoutFee=outputValueWithoutFee);
 }
 
 func _returnInputError{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}(

@@ -171,7 +171,39 @@
         "L1_HANDLER": []
     },
     "program": {
-        "attributes": [],
+        "attributes": [
+            {
+                "accessible_scopes": [
+                    "contracts.bonding_curves.FixedPointMathLib",
+                    "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib",
+                    "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop"
+                ],
+                "end_pc": 668,
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 37,
+                        "offset": 233
+                    },
+                    "reference_ids": {
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.__temp72": 310,
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.baseUnit": 303,
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.baseUnitHalf": 304,
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.n": 301,
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.n_LteZero": 309,
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.pedersen_ptr": 306,
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.range_check_ptr": 311,
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.syscall_ptr": 305,
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.x": 300,
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.xx": 312,
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.xxOverflow": 313,
+                        "contracts.bonding_curves.FixedPointMathLib.FixedPointMathLib.fpow_loop.z": 302
+                    }
+                },
+                "name": "error_message",
+                "start_pc": 664,
+                "value": "FixedPointMathLib::fpow_loop x**2 overflow"
+            }
+        ],
         "builtins": [
             "pedersen",
             "range_check"

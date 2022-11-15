@@ -67,7 +67,7 @@ from tests.test_cases.RouterMultiPool.params import (
 
 from tests.mixins.UsingEnumerable import (TokenImplementation)
 from tests.mixins.UsingERC20 import (TokenStandard)
-from tests.mixins.UsingLinearCurve import (Curve)
+from tests.mixins.UsingXykCurve import (Curve)
 
 @storage_var
 func spotPrice() -> (res: Uint256) {
@@ -416,4 +416,143 @@ func test_bondingCurveBuySellNoProfit{syscall_ptr: felt*, pedersen_ptr: HashBuil
     assert_uint256_le(endBalance, startBalance);
 
     return ();
+}
+
+
+// @external
+// func test_bondingCurveBuySellNoProfitErr{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr: felt}() {
+//     alloc_locals;
+
+//     local accountAddr;
+//     local factoryAddr;
+//     local bondingCurveAddr;
+//     local erc721Addr;
+//     local erc20Addr;
+//     %{
+//         ids.accountAddr = context.accountAddr
+//         ids.factoryAddr = context.factoryAddr
+//         ids.bondingCurveAddr = context.bondingCurveAddr
+//         ids.erc721Addr = context.erc721Addr
+//         ids.erc20Addr = context.erc20Addr
+//     %}
+
+//     let _spotPrice = 0;
+//     let _delta = 0;
+//     let _numItems = 1;
+
+//     let (_spotPriceUint) = FeltUint.feltToUint256(_spotPrice);
+//     let (_deltaUint) = FeltUint.feltToUint256(_delta);
+//     let (modifiedSpotPrice) = Curve.modifySpotPrice(_spotPriceUint);
+//     let (delta) = Curve.modifyDelta(_deltaUint);
+
+//     let (_, numItems) = uint256_unsigned_div_rem(Uint256(low=_numItems, high=0), Uint256(low=3, high=0));
+//     %{print(f"numItems: Uint256({ids.numItems.low}, {ids.numItems.high})")%}
+//     let (numItemsEqZero) = uint256_eq(numItems, Uint256(low=0, high=0));
+
+//     if(numItemsEqZero == TRUE) {
+//         return ();
+//     }
+    
+//     let (nftIds: Uint256*) = alloc();
+//     _mintERC721(
+//         erc721Addr=erc721Addr,
+//         start=0,
+//         nftIds_len=numItems.low,
+//         nftIds_ptr=nftIds,
+//         mintTo=accountAddr,
+//         contractOwner=accountAddr
+//     );
+//     let (pairAddr) = TokenStandard.setupPair(
+//         accountAddr=accountAddr,
+//         factoryAddr=factoryAddr,
+//         routerAddr=0,
+//         erc20Addr=erc20Addr,
+//         erc721Addr=erc721Addr,
+//         bondingCurveAddr=bondingCurveAddr,
+//         poolType=PoolType.TRADE,
+//         initialNFTIds_len=numItems.low,
+//         initialNFTIds=nftIds,
+//         initialERC20Balance=Uint256(low=0, high=0),
+//         spotPrice=modifiedSpotPrice,
+//         delta=delta
+//     );
+//     setERC721Allowance(
+//         erc721Addr=erc721Addr,
+//         spender=accountAddr,
+//         operator=pairAddr
+//     );
+
+//     let (
+//         error,
+//         newSpotPriceBuy,
+//         newDeltaBuy,
+//         inputAmount,
+//         protocolFee
+//     ) = ICurve.getBuyInfo(
+//         contract_address=bondingCurveAddr,
+//         spotPrice=modifiedSpotPrice,
+//         delta=delta,
+//         numItems=numItems,
+//         feeMultiplier=0,
+//         protocolFeeMultiplier=Uint256(low=protocolFeeMultiplier, high=0)
+//     );
+//     setERC20Allowance(
+//         erc20Addr=erc20Addr,
+//         spender=accountAddr,
+//         operator=pairAddr,
+//         allowance=Uint256(low=MAX_UINT_128, high=MAX_UINT_128)
+//     );
+//     let (startBalance) = TokenStandard.getBalance(
+//         erc20Addr=erc20Addr,
+//         account=accountAddr
+//     );
+//     INFTPair.swapTokenForAnyNFTs(
+//         contract_address=pairAddr,
+//         numNFTs=numItems,
+//         maxExpectedTokenInput=inputAmount,
+//         nftRecipient=accountAddr,
+//         isRouter=FALSE,
+//         routerCaller=0
+//     );
+
+//     let (
+//         error,
+//         newSpotPriceSell,
+//         newDeltaSell,
+//         outputAmount,
+//         protocolFee
+//     ) = ICurve.getSellInfo(
+//         contract_address=bondingCurveAddr,
+//         spotPrice=newSpotPriceBuy,
+//         delta=newDeltaBuy,
+//         numItems=numItems,
+//         feeMultiplier=0,
+//         protocolFeeMultiplier=Uint256(low=protocolFeeMultiplier, high=0)
+//     );
+//     INFTPair.swapNFTsForToken(
+//         contract_address=pairAddr,
+//         // assume numItems < 2**128 - 1 (enforced by strategy)
+//         nftIds_len=numItems.low,
+//         nftIds=nftIds,
+//         minExpectedTokenOutput=Uint256(low=0, high=0),
+//         tokenRecipient=accountAddr,
+//         isRouter=FALSE,
+//         routerCaller=0
+//     );
+
+//     let (endBalance) = TokenStandard.getBalance(
+//         erc20Addr=erc20Addr,
+//         account=accountAddr
+//     );
+
+//     assert_uint256_le(endBalance, startBalance);
+
+//     return ();
+// }
+
+@view
+func supportsInterface{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
+    interfaceId: felt
+) -> (success: felt) {
+    return Account.supports_interface(interfaceId);
 }

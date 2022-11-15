@@ -136,8 +136,10 @@ namespace FixedPointMathLib {
 
         // store x squared
         let (xx, xxOverflow) = uint256_mul(x, x);
-        assert xxOverflow.low = 0;
-        assert xxOverflow.high = 0;
+        with_attr error_message("FixedPointMathLib::fpow_loop x**2 overflow") {
+            assert xxOverflow.low = 0;
+            assert xxOverflow.high = 0;
+        }
 
         // Round to the nearest number
         let (xxRound, xSquaredRoundCarry) = uint256_add(xx, baseUnitHalf);
@@ -213,7 +215,6 @@ namespace FixedPointMathLib {
         return (res=RAD);
     }
 }
-
 
 //////////////////////////////
 // Original Solidity Contract

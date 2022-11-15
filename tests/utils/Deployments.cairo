@@ -60,8 +60,8 @@ func deployFactory{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_p
 
     local factoryAddr;
     %{ 
-        NFTPairEnumerableERC20ClassHash = declare("./contracts/NFTPairEnumerableERC20.cairo").class_hash
-        NFTPairMissingEnumerableERC20ClassHash = declare("./contracts/NFTPairMissingEnumerableERC20.cairo").class_hash
+        NFTPairEnumerableERC20ClassHash = declare("./contracts/pairs/NFTPairEnumerableERC20.cairo").class_hash
+        NFTPairMissingEnumerableERC20ClassHash = declare("./contracts/pairs/NFTPairMissingEnumerableERC20.cairo").class_hash
 
         ids.factoryAddr = deploy_contract(
             "./contracts/factory/NFTPairFactory.cairo", 
